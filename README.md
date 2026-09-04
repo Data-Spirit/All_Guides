@@ -4,9 +4,6 @@
 <p align="center">
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/License-CC--BY--4.0-informational.svg"></a>
 <a href="./README.md"><img src="https://img.shields.io/badge/Documentation-GNU%2FLinux-informational.svg"></a>
-</p>
-
-<p align="center">
 <a href="./README.md"><img src="https://img.shields.io/github/directory-file-count/Data-Spirit/Tutorials-and-Tips?color=informational&label=Docs%20%2F%20Tutos&type=dir"></a>
 <a href="./README.md"><img src="https://img.shields.io/badge/Documentation-GNU%2FLinux-informational.svg"></a>
 </p>
