@@ -48,7 +48,16 @@ Descriptif à completer
 ## Glossaire des documentations présentes sur ce Repo GitHub.
 
 <!-- LISTE MY PROJECT -->
-- Liste :  
+- Liste :
+
+  - <details><summary>Guide FR : Wand-Enhancer</summary>
+       <blockquote>
+       Guide decrivant comment compiler Wand-Enhancer.exe soit-même.
+       </blockquote>
+    
+       [🌐 Guide : Wand-Enhancer_FR ↗️](https://data-spirit.github.io/All_Guides/1-windows/wand/Guide%20-%20Creer%20WandEnhancer_exe_FR.html)
+    </details>
+  
   - <details><summary>VirtualBox + SecureBoot</summary>
        <blockquote>
        Tutorial decrivant comment installer VirtualBox avec le SecureBoot activé.
@@ -64,4 +73,9 @@ Descriptif à completer
        
        [Lien](https://URL.com)
     </details>
+
+
+
+
+
 
