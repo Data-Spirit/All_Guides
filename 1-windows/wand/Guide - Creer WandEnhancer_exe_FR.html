@@ -1,0 +1,1516 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>WandEnhancer — Guide complet de compilation</title>
+<style>
+:root{
+  --bg:#0a0d12;--surface:#111821;--surface-2:#151e29;--surface-3:#1b2633;
+  --text:#e8eef5;--muted:#9eabb9;--border:#2b3847;--border-soft:#212c39;
+  --accent:#6cb6ff;--accent-soft:rgba(108,182,255,.14);
+  --accent-2:#89d185;--accent-2-soft:rgba(137,209,133,.14);
+  --warn:#e7b84b;--warn-soft:rgba(231,184,75,.14);
+  --danger:#f07d7d;--danger-soft:rgba(240,125,125,.14);
+  --info:#7ec8e3;--info-soft:rgba(126,200,227,.12);
+  --code-bg:#0a1016;--code-bg-2:#090d12;--code-border:#293645;--code-text:#dce7f2;
+  --shadow:0 14px 35px rgba(0,0,0,.24);--shadow-lg:0 22px 50px rgba(0,0,0,.32);
+  --radius:16px;--radius-sm:11px;--max:1080px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+::selection{background:rgba(108,182,255,.28);color:#fff}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:99px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:#2a3646}
+body{
+  margin:0;background:
+  radial-gradient(circle at 12% 8%,rgba(108,182,255,.10),transparent 32%),
+  radial-gradient(circle at 90% 12%,rgba(137,209,133,.07),transparent 30%),
+  radial-gradient(circle at 50% 100%,rgba(108,182,255,.04),transparent 40%),
+  var(--bg);
+  color:var(--text);font:16px/1.72 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:var(--accent);text-decoration:none;transition:color .15s var(--ease)}
+a:hover{text-decoration:underline;color:#8ec8ff}
+a:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:2px solid var(--accent);outline-offset:3px;border-radius:4px
+}
+main{width:min(var(--max),calc(100% - 32px));margin:0 auto;padding:34px 0 70px}
+
+/* -------- barre de progression de lecture -------- */
+.progress-rail{position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:rgba(255,255,255,.03)}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  box-shadow:0 0 10px rgba(108,182,255,.55);transition:width .08s linear}
+
+.hero,.card,.step,.toc,.callout,.result,.source-card,.mini-nav{
+  background:rgba(17,24,33,.94);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.hero{padding:40px 34px 32px;position:relative;overflow:hidden;
+  animation:rise .5s var(--ease) both}
+.hero:before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(108,182,255,.10),transparent 44%,rgba(137,209,133,.06));
+  pointer-events:none;
+}
+.hero:after{
+  content:"";position:absolute;top:-40%;right:-10%;width:60%;height:180%;
+  background:radial-gradient(circle,rgba(108,182,255,.10),transparent 65%);
+  pointer-events:none;
+}
+.hero > *{position:relative}
+.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--accent);font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.eyebrow:before,.eyebrow:after{content:"";flex:0 0 22px;height:1px;background:linear-gradient(90deg,transparent,var(--border));opacity:.8}
+.eyebrow:after{background:linear-gradient(90deg,var(--border),transparent)}
+h1{font-size:clamp(2rem,4vw,3.15rem);line-height:1.1;text-align:center;margin:14px 0 12px;
+  letter-spacing:-.01em;
+  background:linear-gradient(180deg,var(--text),#c9d6e3 130%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 code{color:var(--accent);background:rgba(108,182,255,.10);-webkit-text-fill-color:var(--accent)}
+/* Filet de sécurité : sans support de background-clip:text, "color:transparent" rendrait
+   le titre invisible. On repasse alors sur une couleur pleine et lisible. */
+@supports not (background-clip:text){
+  h1{background:none;color:var(--text)}
+  h1 code{-webkit-text-fill-color:var(--accent);color:var(--accent)}
+}
+.hero-sub{text-align:center;color:var(--muted);max-width:760px;margin:0 auto 22px;font-size:1.04rem}
+.badges{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin:20px 0 4px}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;border:1px solid var(--border);
+  background:var(--surface-2);font-size:.85rem;transition:transform .18s var(--ease),border-color .18s var(--ease),background .18s var(--ease)}
+.badge:hover{transform:translateY(-2px);border-color:rgba(108,182,255,.4);background:var(--surface-3)}
+.quickpath{
+  margin:26px auto 0;max-width:900px;padding:16px 18px;border:1px solid var(--border);background:rgba(8,12,17,.7);
+  border-radius:12px;text-align:center;font-family:Consolas,ui-monospace,monospace;font-size:.92rem;
+  letter-spacing:.01em;position:relative;overflow:hidden
+}
+.quickpath:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(108,182,255,.06),transparent);
+  animation:sheen 6s ease-in-out infinite}
+
+nav.toc{margin:24px 0;padding:18px 20px;transition:box-shadow .2s var(--ease)}
+nav.toc summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+nav.toc summary::-webkit-details-marker{display:none}
+nav.toc summary:before{content:"▸";display:inline-block;color:var(--accent);transition:transform .2s var(--ease);font-size:.85em}
+nav.toc[open] summary:before{transform:rotate(90deg)}
+nav.toc ul{margin:15px 0 0;padding-left:4px;list-style:none;display:flex;flex-direction:column;gap:2px}
+nav.toc li{margin:0}
+nav.toc a{
+  display:block;padding:7px 10px 7px 14px;border-radius:8px;color:var(--text);
+  border-left:2px solid transparent;
+  /* Uniquement des propriétés qui ne déclenchent ni reflow ni recalcul de colonnes (compositing seul) */
+  transition:background-color .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease)
+}
+nav.toc a:hover{background:var(--surface-2);color:var(--accent);text-decoration:none}
+nav.toc a.active{background:var(--accent-soft);color:var(--accent);font-weight:700;border-left-color:var(--accent)}
+
+h2{
+  margin:50px 0 18px;font-size:1.65rem;line-height:1.25;padding-bottom:12px;border-bottom:1px solid var(--border);
+  scroll-margin-top:18px;position:relative
+}
+h2:first-of-type{margin-top:36px}
+h3{margin:26px 0 9px;font-size:1.18rem;scroll-margin-top:18px}
+p{margin:9px 0 13px}
+.small{font-size:.9rem;color:var(--muted)}
+
+.step{padding:23px 24px;margin:18px 0;transition:border-color .2s var(--ease),box-shadow .2s var(--ease);position:relative}
+.step:hover{border-color:rgba(108,182,255,.3);box-shadow:var(--shadow-lg)}
+.step-head{display:flex;align-items:flex-start;gap:14px}
+.step-num{
+  flex:0 0 38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(150deg,rgba(108,182,255,.18),rgba(108,182,255,.06));
+  border:1px solid rgba(108,182,255,.34);color:var(--accent);font-weight:900
+}
+.step h3{margin:1px 0 0}
+.label{
+  display:inline-flex;align-items:center;gap:6px;font-size:.73rem;text-transform:uppercase;letter-spacing:.09em;
+  font-weight:850;margin:19px 0 7px;color:var(--muted)
+}
+.label:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.7}
+
+.callout{padding:17px 19px;margin:18px 0;border-left:4px solid var(--info);background:linear-gradient(90deg,var(--info-soft),transparent 55%);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;transition:transform .15s var(--ease)}
+.callout.ok{border-left-color:var(--accent-2);background:linear-gradient(90deg,var(--accent-2-soft),transparent 55%)}
+.callout.warn{border-left-color:var(--warn);background:linear-gradient(90deg,var(--warn-soft),transparent 55%)}
+.callout.danger{border-left-color:var(--danger);background:linear-gradient(90deg,var(--danger-soft),transparent 55%)}
+.callout strong{display:block;margin-bottom:5px;letter-spacing:.01em}
+.callout p:last-child{margin-bottom:0}
+
+.result{padding:16px 18px;margin-top:17px;border-left:4px solid var(--accent-2);background:linear-gradient(90deg,rgba(21,35,29,.85),rgba(21,35,29,.5));
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0}
+
+code{
+  font-family:Consolas,ui-monospace,monospace;background:var(--code-bg);border:1px solid var(--code-border);
+  padding:2px 6px;border-radius:6px;font-size:.93em;color:var(--code-text)
+}
+pre{
+  white-space:pre-wrap;overflow:auto;background:var(--code-bg-2);border:1px solid var(--code-border);border-radius:12px;
+  padding:16px 18px;font:14px/1.55 Consolas,ui-monospace,monospace;color:var(--code-text);margin:13px 0;
+  position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.02)
+}
+
+/* Bouton "copier" injecté par script sur chaque bloc de code */
+.copy-btn{
+  position:absolute;top:9px;right:9px;font:12px system-ui,-apple-system,sans-serif;
+  padding:4px 9px;border-radius:7px;border:1px solid var(--border);background:var(--surface-2);
+  color:var(--muted);cursor:pointer;opacity:.7;transition:opacity .15s var(--ease),color .15s var(--ease),border-color .15s var(--ease)
+}
+.copy-btn:hover,.copy-btn:focus-visible{opacity:1;color:var(--accent);border-color:rgba(108,182,255,.4)}
+.copy-btn.copied{color:var(--accent-2);border-color:rgba(137,209,133,.4)}
+.copy-btn.copy-failed{color:var(--danger);border-color:rgba(240,125,125,.4)}
+
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{padding:20px;transition:border-color .2s var(--ease),transform .2s var(--ease)}
+.card:hover{border-color:rgba(108,182,255,.28)}
+
+details{
+  background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:13px 16px;margin:15px 0;
+  transition:border-color .2s var(--ease)
+}
+details[open]{border-color:rgba(108,182,255,.28)}
+details summary{cursor:pointer;font-weight:750;list-style:none;display:flex;align-items:center;gap:8px}
+details summary::-webkit-details-marker{display:none}
+details summary:before{content:"＋";display:inline-grid;place-items:center;width:20px;height:20px;flex:0 0 20px;
+  border-radius:6px;background:var(--surface-2);color:var(--accent);font-size:.85em;transition:transform .2s var(--ease)}
+details[open] summary:before{content:"－"}
+
+table{width:100%;border-collapse:collapse;margin:13px 0 17px;border-radius:var(--radius-sm);overflow:hidden}
+th,td{border:1px solid var(--border-soft);padding:12px 13px;text-align:left;vertical-align:top}
+th{background:var(--surface-3);font-size:.88rem;letter-spacing:.02em}
+tbody tr:hover td{background:rgba(108,182,255,.045)}
+
+.checklist{display:grid;gap:6px}
+.checklist div{padding:9px 11px;border-bottom:1px dashed #2b3540;transition:background .15s var(--ease);border-radius:6px}
+.checklist div:hover{background:rgba(108,182,255,.05)}
+
+.source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.source-card{padding:18px;transition:transform .18s var(--ease),border-color .18s var(--ease)}
+.source-card:hover{transform:translateY(-3px);border-color:rgba(108,182,255,.32)}
+.source-card .tag{font-size:.74rem;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);font-weight:800}
+
+.mini-nav{text-align:right;padding:9px 13px;margin-top:16px;box-shadow:none;background:transparent}
+.mini-nav a{display:inline-flex;padding:6px 10px;border-radius:8px;transition:background .15s var(--ease)}
+.mini-nav a:hover{background:var(--surface-2);text-decoration:none}
+
+footer{margin-top:44px;padding-top:22px;border-top:1px solid var(--border);color:var(--muted);font-size:.88rem}
+
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sheen{0%,100%{transform:translateX(-30%)}50%{transform:translateX(30%)}}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
+@media (max-width:760px){
+  main{width:min(100% - 20px,var(--max));padding-top:14px}
+  .hero{padding:28px 20px 24px}
+  .two-col,.source-grid{grid-template-columns:1fr}
+}
+@media print{
+  .progress-rail,.mini-nav,.copy-btn{display:none}
+  body{background:#fff;color:#111}
+  .hero,.card,.step,.toc,.callout,.result,.source-card{box-shadow:none;border-color:#ccc}
+  h1{background:none;color:#111}
+  h1 code{-webkit-text-fill-color:#111;color:#111}
+}
+</style>
+</head>
+
+<body>
+<div class="progress-rail" aria-hidden="true"><div class="progress-fill" id="readProgress"></div></div>
+<main id="top">
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow">Guide hors ligne · WandEnhancer</div>
+  <h1>WandEnhancer — Créer son propre <code>WandEnhancer.exe</code></h1>
+  <p class="hero-sub">
+    Procédure complète pour partir du dépôt officiel, créer son fork, synchroniser le code,
+    lancer la compilation avec GitHub Actions et récupérer l’exécutable produit par son propre workflow.
+  </p>
+
+  <div class="badges">
+    <span class="badge">📦 Build depuis son propre fork</span>
+    <span class="badge">⚙️ GitHub Actions</span>
+    <span class="badge">🛡️ Provenance vérifiable</span>
+  </div>
+
+  <div class="quickpath">
+    Dépôt officiel → Fork → Sync fork → Actions → Build executable → Run workflow → Success
+    → Summary → Artifacts → ZIP → <strong>WandEnhancer.exe</strong>
+  </div>
+</header>
+
+<!-- SOMMAIRE -->
+<nav class="toc">
+  <details open>
+    <summary><b>📑 Sommaire</b></summary>
+    <ul>
+      <li><a href="#sec-1">📌 1 — Sources officielles et précautions</a></li>
+      <li><a href="#sec-2">🧭 2 — Ce que nous allons faire</a></li>
+      <li><a href="#sec-3">🧰 3 — Prérequis</a></li>
+      <li><a href="#sec-4">🚀 4 — Créer son propre WandEnhancer.exe</a></li>
+      <li><a href="#sec-5">🔄 5 — Mettre à jour Wand et reconstruire WandEnhancer</a></li>
+      <li><a href="#sec-6">▶️ 6 — Première utilisation et précautions</a></li>
+      <li><a href="#sec-7">🧠 7 — Utilisation avancée</a></li>
+      <li><a href="#sec-8">🛠️ 8 — Compilation locale avancée</a></li>
+      <li><a href="#sec-9">🧩 9 — Dépannage</a></li>
+      <li><a href="#sec-10">✅ 10 — Checklist finale</a></li>
+      <li><a href="#sec-11">🔗 11 — Sources et documentation</a></li>
+    </ul>
+  </details>
+</nav>
+
+<!-- SECTION 1 -->
+<a id="sec-1"></a>
+<h2>📌 1 — Sources officielles et précautions</h2>
+
+<div class="callout danger">
+  <strong>⚠️ Point de sécurité essentiel</strong>
+  <p>
+    Le projet officiel indique qu’il ne publie pas de tutoriels YouTube officiels ni de binaires
+    précompilés à télécharger. Les Releases officielles servent aux notes de version et ne fournissent
+    pas de fichier <code>.exe</code>. Pour cette raison, ce guide utilise le dépôt officiel et fait produire
+    l’exécutable par ton propre fork et ton propre workflow GitHub Actions.
+  </p>
+</div>
+
+<div class="source-grid">
+  <article class="source-card">
+    <div class="tag">Dépôt principal</div>
+    <h3><a href="https://github.com/k1tbyte/Wand-Enhancer" target="_blank" rel="noopener noreferrer">k1tbyte/Wand-Enhancer</a></h3>
+    <p>Point de départ du guide et source officielle du code de WandEnhancer.</p>
+  </article>
+  <article class="source-card">
+    <div class="tag">Documentation du projet</div>
+    <h3><a href="https://github.com/k1tbyte/Wand-Enhancer/blob/master/README.md" target="_blank" rel="noopener noreferrer">README.md</a></h3>
+    <p>Décrit la méthode officielle de build, le Remote Web Panel, les scripts et la compilation locale.</p>
+  </article>
+  <article class="source-card">
+    <div class="tag">Historique</div>
+    <h3><a href="https://github.com/k1tbyte/Wand-Enhancer/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">CHANGELOG.md</a></h3>
+    <p>Source de référence pour les corrections et les changements pouvant nécessiter une reconstruction.</p>
+  </article>
+  <article class="source-card">
+    <div class="tag">Workflows</div>
+    <h3><a href="https://github.com/k1tbyte/Wand-Enhancer/actions/workflows/build.yml" target="_blank" rel="noopener noreferrer">Build executable</a></h3>
+    <p>Workflow GitHub utilisé pour fabriquer l’Artifact contenant l’exécutable.</p>
+  </article>
+</div>
+
+<p class="small">
+  Les liens ci-dessus nécessitent Internet. Le parcours principal, lui, reste décrit dans ce fichier.
+</p>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 2 -->
+<a id="sec-2"></a>
+<h2>🧭 2 — Ce que nous allons faire</h2>
+
+<p>
+  L’idée est simple : au lieu de chercher un <code>.exe</code> ailleurs, tu pars du code du projet officiel
+  et tu demandes à GitHub de construire l’exécutable à partir de ton propre fork.
+</p>
+
+<pre>┌──────────────────────────────┐
+│ Dépôt officiel               │
+│ k1tbyte/Wand-Enhancer        │
+└──────────────┬───────────────┘
+               │ fork
+               ▼
+┌──────────────────────────────┐
+│ Ton compte GitHub            │
+│ TON_COMPTE/Wand-Enhancer     │
+└──────────────┬───────────────┘
+               │ synchroniser
+               ▼
+┌──────────────────────────────┐
+│ Actions → Build executable   │
+└──────────────┬───────────────┘
+               │ build
+               ▼
+┌──────────────────────────────┐
+│ Run terminé avec succès      │
+└──────────────┬───────────────┘
+               │ Summary
+               ▼
+┌──────────────────────────────┐
+│ Artifacts → Download         │
+└──────────────┬───────────────┘
+               │ extraire
+               ▼
+        WandEnhancer.exe</pre>
+
+<div class="callout">
+  <strong>💡 Pourquoi le fork ?</strong>
+  <p>
+    Un fork est ta propre copie GitHub du dépôt. Il permet de lancer le workflow depuis un dépôt
+    que tu contrôles, tout en gardant un lien avec le dépôt source pour pouvoir le synchroniser ensuite.
+  </p>
+</div>
+
+<div class="callout ok">
+  <strong>✅ Pourquoi synchroniser avant le build ?</strong>
+  <p>
+    Le projet recommande de synchroniser le fork avant chaque compilation afin qu’il contienne les
+    derniers correctifs présents dans le dépôt officiel. Si ton fork est en retard, ton build reproduira
+    le code de cette ancienne version de ton fork, pas les corrections ajoutées depuis.
+  </p>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 3 -->
+<a id="sec-3"></a>
+<h2>🧰 3 — Prérequis</h2>
+
+<table>
+  <tr><th>Élément</th><th>Pour quoi faire ?</th></tr>
+  <tr>
+    <td><b>Un compte GitHub</b></td>
+    <td>Créer ton fork et lancer le workflow de compilation.</td>
+  </tr>
+  <tr>
+    <td><b>Une connexion Internet</b></td>
+    <td>Accéder à GitHub, synchroniser le fork et récupérer l’Artifact.</td>
+  </tr>
+  <tr>
+    <td><b>Wand installé</b></td>
+    <td>Nécessaire lorsque tu souhaiteras utiliser WandEnhancer avec ton installation de Wand.</td>
+  </tr>
+  <tr>
+    <td><b>Visual Studio / CMake / Node.js / pnpm</b></td>
+    <td><b>Pas nécessaires</b> pour la méthode principale : la compilation est effectuée sur le runner Windows de GitHub Actions.</td>
+  </tr>
+</table>
+
+<div class="callout warn">
+  <strong>⚠️ Distinction importante</strong>
+  <p>
+    Ce guide principal ne te demande pas de préparer un environnement de développement local.
+    Toute cette partie est prise en charge par le workflow GitHub. Les outils nécessaires uniquement
+    à une compilation locale sont décrits plus loin dans <a href="#sec-8">Compilation locale avancée</a>.
+  </p>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 4 -->
+<a id="sec-4"></a>
+<h2>🚀 4 — Créer son propre <code>WandEnhancer.exe</code></h2>
+
+<div class="callout ok">
+  <strong>🎯 Objectif de cette section</strong>
+  <p>
+    À la fin de ces étapes, tu dois avoir téléchargé un ZIP provenant du workflow de ton propre fork
+    et contenant <code>WandEnhancer.exe</code>.
+  </p>
+</div>
+
+<!-- Step 1 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">1</div>
+    <div><h3>Ouvrir le dépôt officiel</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Ouvre le dépôt officiel :
+    <a href="https://github.com/k1tbyte/Wand-Enhancer" target="_blank" rel="noopener noreferrer">github.com/k1tbyte/Wand-Enhancer</a>.
+  </p>
+
+  <div class="label">À VÉRIFIER</div>
+  <p>
+    La page doit indiquer <code>k1tbyte / Wand-Enhancer</code>. C’est cette page qui sert de référence pour
+    notre procédure ; ne commence pas depuis un miroir, une archive ou un lien vers un exécutable tiers.
+  </p>
+
+  <pre>https://github.com/k1tbyte/Wand-Enhancer</pre>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <p>Tu es bien sur le dépôt public officiel du projet WandEnhancer.</p>
+  </div>
+</section>
+
+<!-- Step 2 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">2</div>
+    <div><h3>Créer ton Fork</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Depuis la page du dépôt, utilise le bouton <b>Fork</b>, situé en haut à droite de l’interface GitHub.
+  </p>
+
+  <div class="label">CE QUE GITHUB TE DEMANDE</div>
+  <p>
+    L’écran de création du fork permet notamment de choisir le propriétaire du nouveau dépôt et,
+    par défaut, conserve le nom <code>Wand-Enhancer</code>. GitHub peut également proposer une description
+    et l’option <b>Copy the DEFAULT branch only</b>.
+  </p>
+
+  <pre>Fork
+└── Owner
+    └── Ton compte GitHub
+└── Repository name
+    └── Wand-Enhancer
+└── Create fork</pre>
+
+  <div class="callout">
+    <strong>💡 Que faut-il choisir ?</strong>
+    <p>
+      Pour ce guide, ton fork doit être créé sous ton compte GitHub et garder le nom
+      <code>Wand-Enhancer</code>, sauf raison particulière de faire autrement.
+      L’option de copie de la branche par défaut concerne les autres branches ; le parcours
+      de ce guide utilise la branche par défaut du dépôt.
+    </p>
+  </div>
+
+  <div class="label">POURQUOI CETTE ÉTAPE ?</div>
+  <p>
+    Le workflow va être exécuté depuis <b>ton</b> dépôt. Ton fork devient donc le point de départ
+    concret de la compilation, tout en restant synchronisable avec le dépôt officiel.
+  </p>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <pre>https://github.com/TON_COMPTE/Wand-Enhancer</pre>
+    <p>
+      Le nom exact de ton compte remplace <code>TON_COMPTE</code>. La page doit être présentée comme un fork
+      du dépôt officiel.
+    </p>
+  </div>
+</section>
+
+<!-- Step 3 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">3</div>
+    <div><h3>Synchroniser le Fork</h3></div>
+  </div>
+
+  <div class="label">POURQUOI CETTE ÉTAPE EST IMPORTANTE</div>
+  <p>
+    Ton fork est une copie du dépôt officiel faite à un instant donné. Le projet WandEnhancer recommande
+    d’utiliser <b>Sync fork</b> avant chaque build afin de récupérer les changements plus récents du dépôt source.
+  </p>
+
+  <p>
+    Cette étape est particulièrement importante si tu avais déjà créé ton fork auparavant :
+    il peut contenir une version plus ancienne du code alors que le dépôt officiel a reçu des corrections.
+  </p>
+
+  <div class="label">ACTION</div>
+  <p>
+    Depuis la page principale de ton fork, repère le menu <b>Sync fork</b>.
+    GitHub affiche ce menu au-dessus de la liste des fichiers lorsqu’une synchronisation est pertinente.
+  </p>
+
+  <pre>Ton fork
+└── Sync fork
+    └── Update branch</pre>
+
+  <p>
+    Ouvre <b>Sync fork</b>, examine les informations affichées par GitHub sur les commits provenant du dépôt
+    source, puis utilise <b>Update branch</b>.
+  </p>
+
+  <div class="callout warn">
+    <strong>⚠️ Ne confonds pas “mon fork existe” et “mon fork est à jour”</strong>
+    <p>
+      Le simple fait de posséder un fork ne garantit pas qu’il contient les dernières corrections.
+      C’est précisément la raison pour laquelle cette synchronisation fait partie du parcours avant chaque build.
+    </p>
+  </div>
+
+  <div class="callout ok">
+    <strong>✅ Et si GitHub indique que le fork est déjà à jour ?</strong>
+    <p>
+      Rien à mettre à jour : tu peux poursuivre vers <b>Actions</b>.
+    </p>
+  </div>
+
+  <div class="result">
+    <strong>Cas important — le fork était en retard</strong>
+    <p>
+      Après <b>Update branch</b>, ton fork contient les changements disponibles dans le dépôt officiel.
+      Comme le but du guide est de produire un nouvel EXE correspondant à ce code, c’est <b>à partir de cette
+      version synchronisée</b> que tu dois ensuite lancer le build.
+    </p>
+  </div>
+</section>
+
+<!-- Step 4 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">4</div>
+    <div><h3>Ouvrir GitHub Actions</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Dans <b>ton fork</b>, ouvre l’onglet <b>Actions</b>.
+  </p>
+
+  <pre>TON_COMPTE/Wand-Enhancer
+├── Code
+├── Issues
+├── Pull requests
+└── Actions   ← ouvrir ici</pre>
+
+  <div class="callout warn">
+    <strong>⚠️ Attention au dépôt ouvert</strong>
+    <p>
+      Vérifie que tu es bien dans <code>TON_COMPTE/Wand-Enhancer</code> et non revenu sur
+      <code>k1tbyte/Wand-Enhancer</code>. Le build que nous voulons lancer doit appartenir à ton fork.
+    </p>
+  </div>
+
+  <div class="label">SI GITHUB TE DEMANDE D’AUTORISER LES WORKFLOWS</div>
+  <p>
+    Il est possible que GitHub te présente un écran demandant d’activer ou d’autoriser les workflows de ce fork.
+    Lis l’avertissement affiché et active les workflows pour ton dépôt si GitHub te le demande.
+  </p>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <p>
+      Une page <b>Actions</b> s’ouvre et une liste de workflows est visible dans la colonne de gauche.
+    </p>
+  </div>
+</section>
+
+<!-- Step 5 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">5</div>
+    <div><h3>Sélectionner « Build executable »</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Dans la liste des workflows, sélectionne <b>Build executable</b>.
+  </p>
+
+  <pre>Actions
+└── Build executable   ← sélectionner</pre>
+
+  <div class="label">CE QUE CELA SIGNIFIE</div>
+  <p>
+    Tu viens de choisir le workflow spécifiquement prévu par le projet pour construire l’exécutable.
+    Il ne s’agit pas d’une commande que tu dois écrire toi-même : GitHub va exécuter les instructions déjà
+    définies dans le fichier du workflow du dépôt.
+  </p>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <p>
+      La page du workflow <b>Build executable</b> affiche un bouton <b>Run workflow</b> lorsqu’il est possible
+      de lancer manuellement cette compilation.
+    </p>
+  </div>
+</section>
+
+<!-- Step 6 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">6</div>
+    <div><h3>Lancer le workflow</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Clique sur <b>Run workflow</b>.
+  </p>
+
+  <pre>Build executable
+└── Run workflow
+    ├── Branch
+    └── Run workflow   ← confirmer</pre>
+
+  <div class="label">QUELLE BRANCHE CHOISIR ?</div>
+  <p>
+    Pour le parcours standard, conserve la branche proposée par défaut.
+    Le point important est que cette branche corresponde à celle que tu viens de synchroniser à l’étape précédente.
+  </p>
+
+  <div class="callout">
+    <strong>💡 Pourquoi ne pas changer de branche ?</strong>
+    <p>
+      Le workflow doit construire précisément le code que tu viens de préparer. Choisir une autre branche
+      alors que tu pensais construire la version synchronisée pourrait te faire compiler un contenu différent.
+    </p>
+  </div>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <p>
+      Une nouvelle exécution apparaît dans la liste des runs. GitHub attribue un identifiant à cette exécution
+      et commence les étapes de compilation.
+    </p>
+  </div>
+</section>
+
+<!-- Step 7 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">7</div>
+    <div><h3>Suivre et attendre la fin du Build</h3></div>
+  </div>
+
+  <p>
+    Ouvre le run que tu viens de lancer et observe son avancement. Le workflow utilise un runner
+    <code>windows-latest</code> et prépare lui-même les outils nécessaires au build.
+  </p>
+
+  <div class="label">CE QUE FAIT LE WORKFLOW</div>
+  <p>
+    Le fichier <code>.github/workflows/build.yml</code> du projet indique notamment qu’il :
+  </p>
+
+  <pre>1. récupère le contenu du dépôt
+2. prépare pnpm 10.17.0
+3. prépare Node.js 22
+4. lance ./build.ps1 -Configuration Release
+5. charge l’exécutable comme Artifact</pre>
+
+  <p>
+    Le script de build effectue ensuite plusieurs opérations internes : installation des dépendances du web panel,
+    compilation du web panel, configuration et compilation du composant natif, vérification de ses dépendances runtime,
+    restauration des packages NuGet et compilation de la solution.
+  </p>
+
+  <div class="label">RÉSULTAT À ATTENDRE</div>
+  <p>
+    Le run doit se terminer avec un statut de réussite, généralement affiché en vert, et ses étapes doivent être
+    considérées comme réussies.
+  </p>
+
+  <div class="callout danger">
+    <strong>🛑 Si le Build échoue</strong>
+    <p>
+      N’ignore pas l’échec et ne le remplace pas par le téléchargement d’un EXE trouvé ailleurs.
+      Ouvre le run, repère l’étape qui a échoué et consulte son journal pour déterminer l’origine du problème.
+      Le dépôt officiel et son historique sont les premières sources à consulter.
+    </p>
+  </div>
+</section>
+
+<!-- Step 8 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">8</div>
+    <div><h3>Ouvrir le Run terminé</h3></div>
+  </div>
+
+  <p>
+    Une fois la compilation terminée avec succès, clique sur le run correspondant à ton build.
+    Tu arrives sur la page récapitulative de cette exécution.
+  </p>
+
+  <pre>Actions
+└── Build executable
+    └── Run terminé
+        └── Summary   ← page récapitulative</pre>
+
+  <div class="callout">
+    <strong>💡 Ne cherche pas l’EXE dans le code source</strong>
+    <p>
+      Le workflow ne modifie pas ton dépôt pour y déposer directement le binaire. Il transmet l’exécutable produit
+      au système d’Artifacts de GitHub, afin que tu puisses le télécharger depuis le run terminé.
+    </p>
+  </div>
+</section>
+
+<!-- Step 9 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">9</div>
+    <div><h3>Dans « Summary », trouver « Artifacts »</h3></div>
+  </div>
+
+  <p>
+    Sur la page du run terminé, reste dans <b>Summary</b>.
+    C’est ici que GitHub présente les Artifacts produits par cette exécution.
+  </p>
+
+  <pre>Run terminé
+└── Summary
+    └── Artifacts
+        └── WandEnhancer-unsigned</pre>
+
+  <div class="callout ok">
+    <strong>✅ C’est ici que se trouve le résultat</strong>
+    <p>
+      Le workflow actuel du projet publie un Artifact nommé <code>WandEnhancer-unsigned</code>.
+      Le nom peut évoluer dans une future version du projet ; si c’est le cas, cherche l’Artifact associé
+      au workflow <b>Build executable</b>.
+    </p>
+  </div>
+</section>
+
+<!-- Step 10 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">10</div>
+    <div><h3>Télécharger l’Artifact</h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Dans la section <b>Artifacts</b>, sélectionne l’Artifact du build, actuellement nommé
+    <code>WandEnhancer-unsigned</code>.
+  </p>
+
+  <p>
+    GitHub télécharge alors une archive contenant le fichier produit par le workflow.
+  </p>
+
+  <div class="result">
+    <strong>Résultat attendu</strong>
+    <p>
+      Tu obtiens un fichier ZIP correspondant à l’Artifact du run.
+    </p>
+  </div>
+
+  <div class="callout">
+    <strong>🧾 Traçabilité</strong>
+    <p>
+      Conserve éventuellement le ZIP et/ou le lien du run. Ils permettent de retrouver l’exécution précise
+      qui a produit ton fichier si tu dois vérifier ultérieurement la provenance du build.
+    </p>
+  </div>
+</section>
+
+<!-- Step 11 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">11</div>
+    <div><h3>Extraire le ZIP et récupérer <code>WandEnhancer.exe</code></h3></div>
+  </div>
+
+  <div class="label">ACTION</div>
+  <p>
+    Décompresse le ZIP dans un dossier dédié. Par exemple :
+  </p>
+
+  <pre>C:\Tools\WandEnhancer\</pre>
+
+  <p>
+    Le workflow actuel sélectionne explicitement le fichier :
+  </p>
+
+  <pre>WandEnhancer/bin/Release/WandEnhancer.exe</pre>
+
+  <p>
+    Après extraction de l’Artifact, tu dois retrouver <code>WandEnhancer.exe</code>.
+  </p>
+
+  <div class="result">
+    <strong>🎉 Objectif atteint</strong>
+    <p>
+      Tu as maintenant un <code>WandEnhancer.exe</code> produit à partir du code de ton fork
+      par ton propre workflow GitHub Actions.
+    </p>
+  </div>
+</section>
+
+<!-- Step 12 -->
+<section class="step">
+  <div class="step-head">
+    <div class="step-num">12</div>
+    <div><h3>Comprendre l’avertissement Windows éventuel</h3></div>
+  </div>
+
+  <p>
+    Le README officiel indique que l’Artifact du workflow est <b>unsigned</b> et qu’un exécutable peu répandu
+    peut provoquer une alerte de Windows Defender ou SmartScreen.
+  </p>
+
+  <div class="callout warn">
+    <strong>⚠️ Une alerte n’est pas une preuve de sécurité ou d’insécurité à elle seule</strong>
+    <p>
+      La vérification importante est la provenance : dépôt officiel → ton fork → ton workflow → Artifact de ton run.
+      Ne désactive pas globalement les protections de Windows simplement pour faire disparaître un avertissement.
+    </p>
+  </div>
+</section>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 5 -->
+<a id="sec-5"></a>
+<h2>🔄 5 — Mettre à jour Wand et reconstruire WandEnhancer</h2>
+
+<p>
+  WandEnhancer modifie localement certains éléments de l’installation de Wand. Or Wand continue lui-même d’évoluer.
+  Une mise à jour de Wand peut donc nécessiter une nouvelle version de WandEnhancer pour rester compatible.
+</p>
+
+<div class="callout ok">
+  <strong>✅ La règle pratique</strong>
+  <p>
+    Lorsque Wand reçoit une nouvelle version, vérifie le dépôt officiel de WandEnhancer et son CHANGELOG.
+    Si le projet a publié des correctifs ou une nouvelle version destinée à cette évolution, synchronise ton fork
+    puis reconstruis ton EXE en reprenant la procédure à partir de l’étape <a href="#step-sync">Synchroniser le Fork</a>.
+  </p>
+</div>
+
+<h3 id="step-sync">🔁 Procédure de reconstruction après une mise à jour de Wand</h3>
+
+<pre>Mise à jour de Wand
+       ↓
+Vérifier README / CHANGELOG de WandEnhancer
+       ↓
+Le projet contient-il des changements/correctifs pertinents ?
+       ↓
+   Oui / à vérifier
+       ↓
+Synchroniser le fork
+       ↓
+Relancer Build executable
+       ↓
+Récupérer le nouvel Artifact
+       ↓
+Utiliser le nouvel EXE</pre>
+
+<div class="callout">
+  <strong>💡 Pourquoi le CHANGELOG est utile ici ?</strong>
+  <p>
+    Le projet documente régulièrement des corrections provoquées par les évolutions de Wand.
+    Par exemple, son historique récent mentionne des correctifs du Remote Web Panel pour des builds de Wand
+    plus récents et d’autres ajustements de compatibilité. Le CHANGELOG est donc une source utile pour savoir
+    si une reconstruction est pertinente.
+  </p>
+</div>
+
+<div class="callout warn">
+  <strong>⚠️ Ne reconstruis pas depuis un ancien fork sans le synchroniser</strong>
+  <p>
+    Si ton fork est ancien, tu risques de reconstruire une version dépassée de WandEnhancer alors que le dépôt
+    officiel contient déjà les correctifs nécessaires.
+  </p>
+</div>
+
+<div class="card">
+  <h3>📡 Suivre les nouvelles Releases</h3>
+  <p>
+    Le README recommande de suivre les Releases GitHub via <b>Watch → Custom → Releases</b>.
+    Comme le projet ne fournit plus de binaire officiel à télécharger, cette surveillance sert surtout
+    à savoir quand il est pertinent de resynchroniser ton fork et de relancer le build.
+  </p>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 6 -->
+<a id="sec-6"></a>
+<h2>▶️ 6 — Première utilisation et précautions</h2>
+
+<div class="callout warn">
+  <strong>⚠️ Avant de modifier Wand</strong>
+  <p>
+    Ferme complètement Wand avant les manipulations qui le demandent, vérifie qu’aucun processus pertinent
+    ne reste actif, et conserve une sauvegarde des fichiers importants. Lis les options proposées par
+    WandEnhancer avant d’appliquer un patch.
+  </p>
+</div>
+
+<h3>📁 Organisation simple recommandée</h3>
+
+<pre>C:\Tools\
+└── WandEnhancer\
+    └── WandEnhancer.exe</pre>
+
+<p>
+  Cette organisation n’est pas imposée par le workflow : elle sert simplement à garder l’EXE construit
+  dans un emplacement identifiable et à séparer le binaire obtenu des autres fichiers téléchargés.
+</p>
+
+<div class="callout danger">
+  <strong>🛡️ À propos des exécutables tiers</strong>
+  <p>
+    Le projet ne prend pas en charge les builds distribués par des tiers. Un exécutable trouvé sur une vidéo,
+    un miroir, une archive ou une pièce jointe inconnue doit être considéré comme non vérifié.
+    La méthode décrite dans ce guide vise précisément à te permettre de produire ton propre binaire.
+  </p>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 7 -->
+<a id="sec-7"></a>
+<h2>🧠 7 — Utilisation avancée</h2>
+
+<p>
+  Cette partie n’est pas nécessaire pour fabriquer l’EXE. Elle rassemble les fonctions et notions utiles
+  lorsque tu souhaites aller plus loin dans l’utilisation de WandEnhancer.
+</p>
+
+<!-- Remote Panel -->
+<details>
+  <summary><b>📱 Remote Web Panel</b></summary>
+
+  <p>
+    WandEnhancer inclut un Remote Web Panel permettant de contrôler certaines fonctions depuis un téléphone
+    ou un autre appareil compatible.
+  </p>
+
+  <h3>Connexion de base</h3>
+  <pre>PC avec WandEnhancer
+      │
+      │ même réseau local
+      ▼
+Téléphone
+      │
+      └── scanner le QR code affiché par Connect</pre>
+
+  <p>
+    Le README indique de placer le PC et le téléphone sur le <b>même réseau Wi-Fi</b>, puis de passer sur
+    le bouton <b>Connect</b> dans la barre supérieure de WandEnhancer et de scanner le QR code affiché.
+  </p>
+
+  <h3>🌐 Réseau et dépannage</h3>
+
+  <table>
+    <tr><th>Problème</th><th>À vérifier</th></tr>
+    <tr>
+      <td>La page ne charge pas</td>
+      <td>PC et téléphone sur le même réseau, isolation client/AP du routeur, pare-feu Windows et port TCP <code>3223</code>.</td>
+    </tr>
+    <tr>
+      <td>Le réseau Windows est en Public</td>
+      <td>Le README indique qu’un réseau configuré en Private peut être nécessaire pour certains scénarios locaux.</td>
+    </tr>
+    <tr>
+      <td>Accès depuis un autre réseau</td>
+      <td>Utiliser un VPN comme Tailscale ou un outil comparable plutôt que d’exposer directement le port sur Internet.</td>
+    </tr>
+  </table>
+
+  <div class="callout danger">
+    <strong>🚫 Ne pas exposer directement le port 3223 à Internet</strong>
+    <p>
+      Le panneau utilise HTTP sur le port <code>3223</code> et n’a pas de code d’appairage.
+      Le README précise qu’une personne pouvant atteindre ce port peut voir le panneau et contrôler
+      le trainer actif. Utilise donc uniquement un LAN/VPN de confiance et n’effectue pas de redirection
+      directe du port vers Internet.
+    </p>
+  </div>
+
+  <p class="small">
+    Le protocole du panneau n’inclut pas le bearer token Wand ni les champs liés au chemin d’installation,
+    selon la documentation actuelle du projet.
+  </p>
+</details>
+
+<!-- Scripts -->
+<details>
+  <summary><b>🧩 Scripts JavaScript personnalisés</b></summary>
+
+  <p>
+    Le projet permet d’injecter des scripts JavaScript personnalisés dans le renderer de Wand au moment du patch.
+    Cette fonction réutilise la même injection renderer que le Remote Web Panel et nécessite donc que le patch
+    Remote Web Panel soit activé.
+  </p>
+
+  <h3>Deux méthodes documentées</h3>
+
+  <pre>Option A — depuis le dialogue de patch
+└── Ajouter un ou plusieurs fichiers .js
+
+Option B — depuis le dossier voisin de l’EXE
+C:\Tools\WandEnhancer\
+├── WandEnhancer.exe
+└── renderer-scripts\
+    ├── script1.js
+    └── script2.js</pre>
+
+  <p>
+    Ensuite, applique le patch comme d’habitude : les scripts sont intégrés au client et exécutés dans
+    la fenêtre de Wand.
+  </p>
+
+  <h3>⚙️ Comportement documenté</h3>
+
+  <table>
+    <tr><th>Point</th><th>Comportement</th></tr>
+    <tr><td>Environnement</td><td>Le script s’exécute dans le renderer de Wand avec accès au DOM et à <code>require</code>.</td></tr>
+    <tr><td>Erreurs</td><td>Un script qui lève une erreur est journalisé et n’est pas censé faire planter Wand.</td></tr>
+    <tr><td>Répétition</td><td>Un script peut s’exécuter plusieurs fois pendant un lancement ; les opérations uniques doivent donc être protégées.</td></tr>
+    <tr><td>API helper</td><td><code>WandEnhancer.log(...)</code>, <code>WandEnhancer.remoteUrl</code> et <code>WandEnhancer.apiVersion</code> sont disponibles.</td></tr>
+  </table>
+
+  <h3>Exemple minimal fourni par le projet</h3>
+
+  <pre>if (!globalThis.__helloScriptInstalled) {
+  globalThis.__helloScriptInstalled = true;
+
+  WandEnhancer.log("Hello from my custom script!", WandEnhancer.remoteUrl);
+  new MutationObserver(() => {
+    const dialog = document.querySelector("ux-dialog:not([data-seen])");
+    if (dialog) {
+      dialog.setAttribute("data-seen", "1");
+      WandEnhancer.log("A dialog opened.");
+    }
+  }).observe(document.documentElement, { childList: true, subtree: true });
+}</pre>
+
+  <div class="callout danger">
+    <strong>🛡️ Niveau de privilèges</strong>
+    <p>
+      Le projet indique que ces scripts s’exécutent avec les mêmes privilèges que le client Wand.
+      N’ajoute donc que des scripts dont tu connais la provenance et dont tu comprends le comportement.
+    </p>
+  </div>
+</details>
+
+<!-- Architecture -->
+<details>
+  <summary><b>🏗️ Comprendre l’architecture</b></summary>
+
+  <p>
+    Wand est une application Electron. Le projet WandEnhancer travaille notamment autour des ressources
+    de l’application et de son archive ASAR afin d’appliquer localement ses modifications.
+  </p>
+
+  <pre>Wand
+├── application
+└── resources
+    └── app.asar
+        ├── JavaScript
+        ├── services
+        ├── store
+        └── UI</pre>
+
+  <p>
+    Le dépôt contient entre autres un composant .NET/WPF, AsarSharp, un composant natif lié au contournement
+    des fuses ASAR et le code du Remote Web Panel. Cette vue d’ensemble sert surtout à comprendre ce que
+    le build assemble ; elle n’est pas nécessaire pour suivre le parcours GitHub Actions.
+  </p>
+</details>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 8 -->
+<a id="sec-8"></a>
+<h2>🛠️ 8 — Compilation locale avancée</h2>
+
+<div class="callout">
+  <strong>ℹ️ Alternative au workflow GitHub Actions</strong>
+  <p>
+    Cette méthode est <b>optionnelle</b>. Elle sert lorsque tu veux compiler le projet directement sur ton PC,
+    plutôt que de laisser GitHub Actions effectuer le build sur un runner Windows.
+    Pour simplement obtenir un EXE, la méthode principale de ce guide reste plus simple.
+  </p>
+</div>
+
+<h3>🧰 Environnement requis</h3>
+
+<table>
+  <tr><th>Composant</th><th>Rôle</th></tr>
+  <tr><td><code>CMake</code></td><td>Configuration et compilation du composant natif.</td></tr>
+  <tr><td><code>Node.js</code> + <code>pnpm</code></td><td>Installation des dépendances et build du web panel.</td></tr>
+  <tr><td><b>Visual Studio 2022</b> ou <b>Build Tools for Visual Studio 2022</b></td><td>Fournit MSBuild et l’environnement de compilation requis.</td></tr>
+  <tr><td>Workload <b>Desktop development with C++</b></td><td>Composants C++ nécessaires au build natif.</td></tr>
+  <tr><td>.NET Framework 4.8 desktop build tools / targeting pack</td><td>Éléments .NET nécessaires à la solution.</td></tr>
+</table>
+
+<h3>📁 Obtenir le code source</h3>
+
+<p>
+  Le README demande de cloner le dépôt. Pour une compilation locale cohérente avec le principe de ce guide,
+  tu peux travailler depuis ton fork synchronisé plutôt que depuis un ancien clone non mis à jour.
+</p>
+
+<pre>TON_COMPTE/
+└── Wand-Enhancer/
+    ├── build.cmd
+    ├── build.ps1
+    ├── Wand-Enhancer.sln
+    ├── WandEnhancer/
+    ├── AsarSharp/
+    ├── web-panel/
+    └── ...</pre>
+
+<h3>▶️ Lancer le build</h3>
+
+<p>
+  Le point d’entrée documenté est <code>build.cmd</code>, depuis une invite de commandes ou PowerShell,
+  dans le dossier racine du dépôt.
+</p>
+
+<pre>cd C:\Chemin\Vers\Wand-Enhancer
+build.cmd</pre>
+
+<p>
+  Le fichier <code>build.cmd</code> appelle <code>build.ps1</code>. Le script PowerShell actuel arrête le build
+  lorsqu’une commande nécessaire est absente et vérifie notamment la présence de <code>cmake</code>,
+  <code>pnpm</code>, Visual Studio/MSBuild et <code>dumpbin</code>.
+</p>
+
+<pre>build.cmd
+   │
+   ▼
+build.ps1
+   ├── vérifier cmake / pnpm / Visual Studio / MSBuild / dumpbin
+   ├── pnpm install --frozen-lockfile
+   ├── pnpm run build
+   ├── CMake configure
+   ├── CMake build
+   ├── vérifier les dépendances de version.dll
+   ├── MSBuild Restore
+   └── MSBuild Build</pre>
+
+<div class="callout warn">
+  <strong>⚠️ Une erreur « Required command not found in PATH »</strong>
+  <p>
+    Le script actuel utilise le PATH pour résoudre notamment <code>cmake</code> et <code>pnpm</code>.
+    Il résout également Visual Studio/MSBuild avec <code>vswhere</code>. Une erreur indiquant qu’une commande
+    nécessaire est introuvable signifie généralement que l’outil correspondant n’est pas installé ou n’est pas
+    accessible depuis l’environnement courant.
+  </p>
+</div>
+
+<details>
+  <summary><b>🔍 Pourquoi la compilation locale est plus complexe ?</b></summary>
+  <p>
+    GitHub Actions masque une grande partie de la préparation en installant les outils demandés par le workflow
+    sur son runner. En local, c’est toi qui dois fournir cet environnement et t’assurer que toutes les commandes
+    nécessaires sont disponibles. C’est la raison pour laquelle cette méthode est classée « avancée » ici.
+  </p>
+</details>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 9 -->
+<a id="sec-9"></a>
+<h2>🧩 9 — Dépannage</h2>
+
+<table>
+  <tr><th>Symptôme</th><th>Vérifications prioritaires</th></tr>
+  <tr>
+    <td><b>Je ne trouve pas l’Artifact</b></td>
+    <td>
+      Vérifie que le run est terminé, ouvre la page du run puis <b>Summary</b> et cherche <b>Artifacts</b>.
+      Le workflow actuel produit un Artifact nommé <code>WandEnhancer-unsigned</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Le build est rouge</b></td>
+    <td>
+      Ouvre le run et identifie l’étape en échec. Lis son journal avant de relancer inutilement le build.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Je suis revenu sur le dépôt officiel</b></td>
+    <td>
+      Vérifie l’URL et le propriétaire : le build doit être lancé depuis <code>TON_COMPTE/Wand-Enhancer</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Le fork n’était pas à jour</b></td>
+    <td>
+      Utilise <b>Sync fork → Update branch</b>, puis relance un nouveau build depuis cette version synchronisée.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Windows affiche une alerte</b></td>
+    <td>
+      Vérifie la chaîne de provenance complète : dépôt officiel → fork personnel → workflow → Artifact.
+      Le README indique que l’Artifact est unsigned et peu répandu.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Le Remote Web Panel ne répond pas</b></td>
+    <td>
+      Vérifie le même LAN, l’isolation du Wi-Fi, le pare-feu Windows, le port TCP <code>3223</code> et
+      le profil réseau Windows.
+    </td>
+  </tr>
+  <tr>
+    <td><b>Une fonction casse après une mise à jour de Wand</b></td>
+    <td>
+      Vérifie le CHANGELOG de WandEnhancer, synchronise ton fork et reconstruis l’EXE avec la version actuelle du dépôt.
+    </td>
+  </tr>
+  <tr>
+    <td><b>La compilation locale dit que cmake/pnpm/MSBuild est introuvable</b></td>
+    <td>
+      Vérifie l’installation de l’outil concerné et son accessibilité depuis le PATH / l’environnement
+      de développement requis par le script.
+    </td>
+  </tr>
+</table>
+
+<div class="callout">
+  <strong>📚 Quand le problème n’est pas couvert ici</strong>
+  <p>
+    Commence par le README et le CHANGELOG officiels. Pour un échec GitHub Actions, le journal du run
+    reste généralement la première information concrète à examiner.
+  </p>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 10 -->
+<a id="sec-10"></a>
+<h2>✅ 10 — Checklist finale</h2>
+
+<div class="card checklist">
+  <div>☐ Le dépôt ouvert est bien <code>k1tbyte/Wand-Enhancer</code>.</div>
+  <div>☐ Mon fork personnel a été créé sous mon compte GitHub.</div>
+  <div>☐ Je suis bien revenu dans <code>TON_COMPTE/Wand-Enhancer</code>.</div>
+  <div>☐ J’ai utilisé <b>Sync fork → Update branch</b> ou vérifié que le fork était déjà à jour.</div>
+  <div>☐ J’ai ouvert <b>Actions</b> dans mon fork.</div>
+  <div>☐ Les workflows ont été activés si GitHub me l’a demandé.</div>
+  <div>☐ J’ai sélectionné <b>Build executable</b>.</div>
+  <div>☐ J’ai lancé <b>Run workflow</b> sur la branche voulue.</div>
+  <div>☐ Le run s’est terminé avec succès.</div>
+  <div>☐ J’ai ouvert le run terminé puis <b>Summary</b>.</div>
+  <div>☐ J’ai trouvé l’Artifact correspondant au build.</div>
+  <div>☐ J’ai téléchargé et extrait le ZIP.</div>
+  <div>☐ J’ai obtenu <code>WandEnhancer.exe</code>.</div>
+  <div>☐ J’ai conservé la référence du run / commit si j’ai besoin de traçabilité.</div>
+  <div>☐ Je vérifierai le dépôt et le CHANGELOG après une mise à jour de Wand.</div>
+  <div>☐ Je n’exposerai pas directement le port <code>3223</code> sur Internet.</div>
+  <div>☐ Je n’ajouterai des scripts JavaScript qu’après en avoir vérifié la provenance et le contenu.</div>
+</div>
+
+<p class="mini-nav"><a href="#top">⬆️</a></p>
+
+<!-- SECTION 11 -->
+<a id="sec-11"></a>
+<h2>🔗 11 — Sources et documentation</h2>
+
+<div class="source-grid">
+  <article class="source-card">
+    <div class="tag">Projet</div>
+    <p><a href="https://github.com/k1tbyte/Wand-Enhancer" target="_blank" rel="noopener noreferrer">Dépôt officiel WandEnhancer</a></p>
+    <p class="small">Code source, structure du dépôt et informations générales du projet.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">Projet</div>
+    <p><a href="https://github.com/k1tbyte/Wand-Enhancer/blob/master/README.md" target="_blank" rel="noopener noreferrer">README.md</a></p>
+    <p class="small">Procédure officielle de build, Remote Web Panel, scripts et compilation locale.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">Projet</div>
+    <p><a href="https://github.com/k1tbyte/Wand-Enhancer/blob/master/CHANGELOG.md" target="_blank" rel="noopener noreferrer">CHANGELOG.md</a></p>
+    <p class="small">Historique des changements et correctifs.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">Projet</div>
+    <p><a href="https://raw.githubusercontent.com/k1tbyte/Wand-Enhancer/master/.github/workflows/build.yml" target="_blank" rel="noopener noreferrer">build.yml</a></p>
+    <p class="small">Workflow qui définit le build GitHub Actions et l’Artifact.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">Projet</div>
+    <p><a href="https://raw.githubusercontent.com/k1tbyte/Wand-Enhancer/master/build.ps1" target="_blank" rel="noopener noreferrer">build.ps1</a></p>
+    <p class="small">Script de compilation locale réellement exécuté par le workflow.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">GitHub</div>
+    <p><a href="https://docs.github.com/en/pull-requests/how-tos/work-with-forks/fork-a-repo" target="_blank" rel="noopener noreferrer">Fork a repository</a></p>
+    <p class="small">Documentation officielle GitHub sur la création d’un fork.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">GitHub</div>
+    <p><a href="https://docs.github.com/en/pull-requests/how-tos/work-with-forks/syncing-a-fork" target="_blank" rel="noopener noreferrer">Syncing a fork</a></p>
+    <p class="small">Documentation officielle GitHub sur <b>Sync fork → Update branch</b>.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">GitHub</div>
+    <p><a href="https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow" target="_blank" rel="noopener noreferrer">Manually running a workflow</a></p>
+    <p class="small">Documentation officielle GitHub sur l’exécution manuelle d’un workflow.</p>
+  </article>
+
+  <article class="source-card">
+    <div class="tag">GitHub</div>
+    <p><a href="https://docs.github.com/en/actions/how-tos/manage-workflow-runs/download-workflow-artifacts" target="_blank" rel="noopener noreferrer">Downloading workflow artifacts</a></p>
+    <p class="small">Documentation officielle GitHub sur la récupération des Artifacts d’un run.</p>
+  </article>
+</div>
+
+<details style="margin-top:20px">
+  <summary><b>Licence du projet WandEnhancer</b></summary>
+  <p>
+    Le dépôt officiel indique que WandEnhancer est distribué sous licence Apache-2.0.
+    Consulte le fichier <a href="https://github.com/k1tbyte/Wand-Enhancer/blob/master/LICENSE.md" target="_blank" rel="noopener noreferrer">LICENSE.md</a>
+    du dépôt pour le texte de la licence.
+  </p>
+</details>
+
+<footer>
+  Guide destiné à documenter la procédure de construction de WandEnhancer depuis ses sources officielles.
+  Les interfaces GitHub peuvent évoluer dans le temps : lorsque les intitulés changent, il faut se fier à la
+  logique expliquée dans le guide — dépôt personnel → synchronisation → workflow <b>Build executable</b> →
+  run terminé → <b>Summary</b> → Artifact — plutôt qu’à l’emplacement exact d’un bouton.
+</footer>
+
+</main>
+
+<script>
+/*
+ * Script purement cosmétique / UX pour le guide WandEnhancer.
+ * Aucune ligne ici ne lit ni ne modifie le contenu textuel du guide.
+ *
+ * Sommaire du fichier :
+ *   1. Barre de progression de lecture   (throttlée via requestAnimationFrame)
+ *   2. Surbrillance de l'entrée active du sommaire pendant le scroll
+ *   3. Bouton "Copier" sur chaque bloc de code
+ *
+ * Note de style : le script cible déjà des navigateurs récents (il utilise
+ * IntersectionObserver, Promise et l'API Clipboard), donc la syntaxe ES6+
+ * (const/let, fonctions fléchées, Array.from) est utilisée partout plutôt
+ * qu'un style ES5 qui n'apporterait aucune compatibilité supplémentaire ici.
+ */
+(() => {
+  'use strict';
+
+  /* ---------------------------------------------------------------------
+   * 1. Barre de progression de lecture
+   *    -> Le calcul (lecture de layout + écriture de style) est regroupé
+   *       en un seul passage par frame via requestAnimationFrame, au lieu
+   *       d'être exécuté à chaque événement natif de scroll (qui peut se
+   *       déclencher bien plus souvent qu'une frame et provoquer du
+   *       layout thrashing / des micro-saccades).
+   * ------------------------------------------------------------------- */
+  const progressFill = document.getElementById('readProgress');
+  let progressTicking = false;
+
+  const applyProgress = () => {
+    const docEl = document.documentElement;
+    const scrollable = docEl.scrollHeight - docEl.clientHeight;
+    const ratio = scrollable > 0 ? (docEl.scrollTop / scrollable) : 0;
+    progressFill.style.width = (ratio * 100) + '%';
+    progressTicking = false;
+  };
+
+  const onScrollProgress = () => {
+    if (progressTicking) return;
+    progressTicking = true;
+    requestAnimationFrame(applyProgress);
+  };
+
+  if (progressFill) {
+    document.addEventListener('scroll', onScrollProgress, { passive: true });
+    applyProgress();
+  }
+
+  /* ---------------------------------------------------------------------
+   * 2. Surbrillance de l'entrée active du sommaire
+   *    -> IntersectionObserver est déjà nativement throttlé par le
+   *       navigateur (pas de listener de scroll manuel ici).
+   *    -> Seules des propriétés compositées (couleur, fond, bordure) sont
+   *       animées : aucune ne déclenche de reflow ni de recalcul de
+   *       colonnes, donc pas d'effet de clignotement.
+   * ------------------------------------------------------------------- */
+  const tocLinks = Array.from(document.querySelectorAll('nav.toc a[href^="#"]'));
+
+  if ('IntersectionObserver' in window && tocLinks.length) {
+    const linkById = {};
+    const targets = [];
+
+    tocLinks.forEach((link) => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        linkById[id] = link;
+        targets.push(target);
+      }
+    });
+
+    const tocObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const activeLink = linkById[entry.target.id];
+        if (!activeLink) return;
+        tocLinks.forEach((link) => link.classList.remove('active'));
+        activeLink.classList.add('active');
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+    targets.forEach((target) => tocObserver.observe(target));
+  }
+
+  /* ---------------------------------------------------------------------
+   * 3. Bouton "Copier" sur chaque bloc de code
+   *    -> Le texte à copier est capturé AVANT l'injection du bouton dans
+   *       l'élément "pre", pour ne jamais inclure le libellé du bouton
+   *       lui-même dans le contenu copié.
+   *    -> Fallback pour les navigateurs/contextes sans Clipboard API.
+   *    -> [Fix] Le repli execCommand ne garantissait pas son succès réel :
+   *       la Promise était toujours résolue même en cas d'échec silencieux,
+   *       ce qui affichait "Copié !" alors que rien n'avait été copié.
+   *       On vérifie maintenant la valeur de retour et on rejette la
+   *       Promise en cas d'échec, pour distinguer les deux cas côté UI.
+   * ------------------------------------------------------------------- */
+  const COPY_FEEDBACK_DURATION_MS = 1400;
+
+  const copyToClipboard = (text) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    // Repli pour contextes non sécurisés / navigateurs anciens
+    const helper = document.createElement('textarea');
+    helper.value = text;
+    helper.setAttribute('readonly', '');
+    helper.style.position = 'fixed';
+    helper.style.opacity = '0';
+    document.body.appendChild(helper);
+    helper.select();
+    let succeeded = false;
+    try { succeeded = document.execCommand('copy'); } catch (err) { succeeded = false; }
+    document.body.removeChild(helper);
+    return succeeded ? Promise.resolve() : Promise.reject(new Error('execCommand copy failed'));
+  };
+
+  document.querySelectorAll('pre').forEach((pre) => {
+    const codeText = pre.textContent; // capturé avant tout ajout d'enfant
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'copy-btn';
+    button.textContent = 'Copier';
+    button.setAttribute('aria-label', 'Copier le contenu de ce bloc de code');
+    // Garantit que le changement de libellé ("Copié !"/"Échec") est bien
+    // annoncé par les lecteurs d'écran, même sans focus au moment du clic.
+    button.setAttribute('aria-live', 'polite');
+
+    const resetLabelAfterDelay = (label, cssClass) => {
+      button.textContent = label;
+      button.classList.add(cssClass);
+      setTimeout(() => {
+        button.textContent = 'Copier';
+        button.classList.remove(cssClass);
+      }, COPY_FEEDBACK_DURATION_MS);
+    };
+
+    button.addEventListener('click', () => {
+      copyToClipboard(codeText)
+        .then(() => resetLabelAfterDelay('Copié !', 'copied'))
+        .catch(() => resetLabelAfterDelay('Échec', 'copy-failed'));
+    });
+
+    pre.style.position = 'relative';
+    pre.appendChild(button);
+  });
+})();
+</script>
+
+</body>
+</html>
