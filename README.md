@@ -1,5 +1,5 @@
 <!-- Banniere -->
-<h3 align="center"><img src="https://repository-images.githubusercontent.com/627393902/b3194f4a-8cae-4bbe-94de-46e52a1d4813" alt="logo" height="500px"></h3>
+<h3 align="center"><img src="https://github.com/Data-Spirit/All_Guides/blob/main/asset/banner_01.png" alt="logo" height="500px"></h3>
 
 <!-- Slogan -->
 <p align="center"><em>All the tips for GNU/Linux systems &lt;3</em></p>
@@ -8,7 +8,7 @@
 <p align="center">
    <a alt="License: CC-BY-SA 4.0" href="./LICENSE.md"><img src="https://img.shields.io/badge/License-CC--BY--4.0-informational.svg"></a>
    <a alt="Doc GNU-Linux" href="./README.md"><img src="https://img.shields.io/badge/Documentation-GNU%2FLinux-informational.svg"></a>
-   <a alt="Doc Numbers" href="./README.md"><img src="https://img.shields.io/github/directory-file-count/Data-Spirit/Tutorials-and-Tips?color=informational&label=Docs%20%2F%20Tutos&type=dir"></a>
+   <a alt="Doc Numbers" href="./README.md"><img src="https://img.shields.io/github/directory-file-count/Data-Spirit/All_Guides?color=informational&label=Docs%20%2F%20Tutos&type=dir"></a>
 </p>
 
 <!-- TITRE -->
