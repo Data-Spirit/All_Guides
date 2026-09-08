@@ -25,26 +25,6 @@ Descriptif à completer
 
 <br>
 
-## Liens utiles :
-
-<!-- LISTE UTILE -->
-<details open><summary>Liste :</summary>
-  
-  - [Documentation Officielle GitHub](https://docs.github.com/fr/get-started)  _(fr)_
-  - [Table des Emotes GitHub](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md) _(en)_
-  - [Site qui vous aide à choisir une Licence adaptée à votre projet OpenSource](https://choosealicense.com/) _(en)_
-  - [Site pour créer les vignettes d'informations et de suivi : "shields.io"](https://shields.io/) _(en)_
-  - [Bibliothèque de Polices d'écriture](https://www.nerdfonts.com/#home) _(en)_
-  - <i>...à compléter...</i>
-
-</details>
-
-<br>
-
----
-
-<br>
-
 ## Glossaire des documentations présentes sur ce Repo GitHub.
 
 <!-- LISTE MY PROJECT -->
@@ -73,6 +53,28 @@ Descriptif à completer
        
        [Lien](https://URL.com)
     </details>
+
+<br>
+
+---
+
+<br>
+
+## Liens utiles :
+
+<!-- LISTE UTILE -->
+<details open><summary>Liste :</summary>
+  
+  - [Documentation Officielle GitHub](https://docs.github.com/fr/get-started)  _(fr)_
+  - [Table des Emotes GitHub](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md) _(en)_
+  - [Site qui vous aide à choisir une Licence adaptée à votre projet OpenSource](https://choosealicense.com/) _(en)_
+  - [Site pour créer les vignettes d'informations et de suivi : "shields.io"](https://shields.io/) _(en)_
+  - [Bibliothèque de Polices d'écriture](https://www.nerdfonts.com/#home) _(en)_
+  - <i>...à compléter...</i>
+
+</details>
+
+<br>
 
 
 
