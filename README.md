@@ -1,5 +1,5 @@
 <!-- Banniere -->
-<h3 align="center"><img src="https://github.com/Data-Spirit/All_Guides/blob/main/asset/banner_01.png" alt="logo" height="500px"></h3>
+<div align="center"><img src="https://github.com/Data-Spirit/All_Guides/blob/main/asset/banner_01.png" alt="logo" height="500px"></div>
 
 <!-- Slogan -->
 <p align="center"><em>All the tips for GNU/Linux systems &lt;3</em></p>
