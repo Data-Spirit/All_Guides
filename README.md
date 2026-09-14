@@ -35,7 +35,7 @@ Descriptif à completer
        Guide decrivant comment compiler Wand-Enhancer.exe soit-même.
        </blockquote>
     
-       [🌐 Guide : Wand-Enhancer_FR ↗️](https://data-spirit.github.io/All_Guides/1-windows/wand/Guide%20-%20Creer%20WandEnhancer_exe_FR.html)
+       [🌐 Guide : Wand-Enhancer_FR ↗️](https://data-spirit.github.io/All_Guides/guide/windows/wand/Guide%20-%20Creer%20WandEnhancer_exe_FR.html)
     </details>
   
   - <details><summary>VirtualBox + SecureBoot</summary>
@@ -43,7 +43,7 @@ Descriptif à completer
        Tutorial decrivant comment installer VirtualBox avec le SecureBoot activé.
        </blockquote>
     
-       [Lien](https://github.com/Data-Spirit/Tutorials-and-Tips/blob/main/VirtualBox%2BSecureBoot/README.md)
+       [Lien](https://github.com/Data-Spirit/All_Guides/blob/main/guide/linux/VirtualBox%2BSecureBoot/guide-VirtualBox%2BSecureBoot.md)
     </details>
 
   - <details><summary>Prompts ChapGPT</summary>
@@ -51,7 +51,7 @@ Descriptif à completer
        A completer
        </blockquote>
        
-       [Lien](https://URL.com)
+       [Lien](https://github.com/Data-Spirit/All_Guides/tree/main/prompts)
     </details>
 
 <br>
