@@ -267,6 +267,7 @@ Remove-Item (Get-PSReadLineOption).HistorySavePath -ErrorAction SilentlyContinue
 
 > [!NOTE]
 > Si tu stockes `restoreCode` et/ou `deviceSecret` dans une note de ton gestionnaire de mots de passe, garde en tête que ça devient visible par quiconque tu partagerais cet item (fonctionnalités de partage de vault). 
+>
 > Pas un problème pour un usage strictement personnel, mais à anticiper si tu envisages de partager l'item plus tard.
 
 <p align="right"><sub><a href="#top">⬆️</a></sub></p>
