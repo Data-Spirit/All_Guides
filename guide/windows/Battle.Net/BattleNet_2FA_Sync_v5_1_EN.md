@@ -9,7 +9,7 @@
 <div align="center">
 
 [![License: CC BY-NC-SA 4.0][badge_license]][url_license]
-[![Guide : BNet_2FA_Sync][badge_guide]][github_user]
+[![Guide : BNet_2FA_Sync][badge_guide]][github_repo]
 [![Proton][badge_proton]][url_proton]
 
 </div>
@@ -351,5 +351,6 @@ This guide is distributed under the [**CC BY-NC-SA 4.0**][url_license] license.
 
 <!-- GitHub links & local repo files -->
 [github_user]: https://github.com/Data-Spirit
+[github_repo]: https://github.com/Data-Spirit/All_Guides
 [github_bna_issue]: https://github.com/jleclanche/python-bna/issues/42
 [github_bliz_totp]: https://github.com/digikwal/bliz_totp
