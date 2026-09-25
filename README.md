@@ -1,83 +1,122 @@
-<!-- Banniere -->
-<div align="center"><img src="https://github.com/Data-Spirit/All_Guides/blob/main/asset/img/banner_02.webp" alt="banner" height="500px"></div>
+<!-- Version du fichier 
+> Version : 1.0
+> Dernière modification : 2026-09-25
+-->
 
-<!-- Slogan -->
-<p align="center"><em>All the tips for GNU/Linux systems &lt;3</em></p>
+<!-- BANNIERE CENTREE -->
+<div align="center">
 
-<!-- Badges -->
+![All_Guides Banner][github_banner]
+
+</div>
+
+<!-- TITRE CENTRE + Sous-Titre CENTRE -->
+<h1 align="center">All_Guides</h1>
+
 <p align="center">
-   <a alt="License: CC-BY-SA 4.0" href="./LICENSE.md"><img src="https://img.shields.io/badge/License-CC--BY--4.0-informational.svg"></a>
-   <a alt="Doc GNU-Linux" href="./README.md"><img src="https://img.shields.io/badge/Documentation-GNU%2FLinux-informational.svg"></a>
-   <a alt="Doc Numbers" href="./README.md"><img src="https://img.shields.io/github/directory-file-count/Data-Spirit/All_Guides?color=informational&label=Docs%20%2F%20Tutos&type=dir"></a>
+  <em><b>- Veritas Lux Mea -</b></em>
 </p>
 
-<!-- TITRE -->
-<h1 align="center">Documentation</h1>
+<!-- BADGES CENTRES + LIENS HYPERTEXT INCLUS -->
+<div align="center">
 
-<!-- Description -->
-<blockquote>
-Descriptif à completer
-</blockquote>
+[![License: CC BY-NC-SA 4.0][badge_license]][url_license]
+[![Docs / Tutos][badge_doccount]][github_repo]
+[![Repo][badge_repo]][github_repo]
 
-<br>
+</div>
 
----
-
-<br>
-
-## Glossaire des documentations présentes sur ce Repo GitHub.
-
-<!-- LISTE MY PROJECT -->
-- Liste :
-
-  - <details><summary>Guide FR : Wand-Enhancer</summary>
-       <blockquote>
-       Guide decrivant comment compiler Wand-Enhancer.exe soit-même.
-       </blockquote>
-    
-       [🌐 Guide : Wand-Enhancer_FR ↗️](https://data-spirit.github.io/All_Guides/guide/windows/wand/Guide%20-%20Creer%20WandEnhancer_exe_FR.html)
-    </details>
-  
-  - <details><summary>VirtualBox + SecureBoot</summary>
-       <blockquote>
-       Tutorial decrivant comment installer VirtualBox avec le SecureBoot activé.
-       </blockquote>
-    
-       [Lien](https://github.com/Data-Spirit/All_Guides/blob/main/guide/linux/VirtualBox%2BSecureBoot/guide-VirtualBox%2BSecureBoot.md)
-    </details>
-
-  - <details><summary>Prompts ChapGPT</summary>
-       <blockquote>
-       A completer
-       </blockquote>
-       
-       [Lien](https://github.com/Data-Spirit/All_Guides/tree/main/prompts)
-    </details>
-
-<br>
+> Une bibliothèque de savoir personnelle, en perpétuelle expansion : guides, tutoriels et prompts IA rassemblés en un seul endroit, pour Windows, Linux, le web et au-delà.
 
 ---
 
-<br>
+## ✨ Présentation
 
-## Liens utiles :
+> **All_Guides** est un repo pensé comme une véritable encyclopédie du savoir personnel : un seul et même endroit où compiler, réunir et collectionner un maximum de **guides et tutoriels** — pour des applications Windows/Linux, des services web, des sites internet — ainsi qu'un maximum de **prompts pour IA** et de savoir autour des prompts et des agents IA.
+>
+> Ce repo n'a pas vocation à rester figé : il grandit au fil des besoins et des découvertes. À terme, il pourra aussi accueillir des guides dédiés aux jeux vidéo.
 
-<!-- LISTE UTILE -->
-<details open><summary>Liste :</summary>
-  
-  - [Documentation Officielle GitHub](https://docs.github.com/fr/get-started)  _(fr)_
-  - [Table des Emotes GitHub](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md) _(en)_
-  - [Site qui vous aide à choisir une Licence adaptée à votre projet OpenSource](https://choosealicense.com/) _(en)_
-  - [Site pour créer les vignettes d'informations et de suivi : "shields.io"](https://shields.io/) _(en)_
-  - [Bibliothèque de Polices d'écriture](https://www.nerdfonts.com/#home) _(en)_
-  - <i>...à compléter...</i>
+---
+
+## 📚 Glossaire des guides
+
+<div align="center">
+
+| Catégorie | Guide | Description |
+|:---:|---|---|
+| 🪟 Windows | [Wand-Enhancer (FR)][guide_wand_fr] | Guide décrivant comment compiler `Wand-Enhancer.exe` soi-même. |
+| 🪟 Windows | Guide Battle.net 2FA sync [(FR)][guide_Bnet_2fa_fr] & [(EN)][guide_Bnet_2fa_en]| Guide décrivant comment synchroniser l'authenticator  `Battle.net` sur un logiciel tierce. (Proton dans ce cas) |
+| 🐧 Linux | [VirtualBox + SecureBoot][guide_virtualbox] | Tutoriel décrivant comment installer VirtualBox avec le SecureBoot activé. |
+| 🤖 IA & Prompts | [Prompts][guide_prompts] | Collection de prompts pour IA — *(à compléter)*. |
+
+</div>
+
+---
+
+## 🔗 Liens utiles
+
+<details open><summary><b>Liste :</b></summary>
+
+- [Documentation Officielle GitHub][url_github_docs] _(fr)_
+- [Table des Emotes GitHub][url_emoji_cheatsheet] _(en)_
+- [Site qui vous aide à choisir une Licence adaptée à votre projet OpenSource][url_chooselicense] _(en)_
+- [Site pour créer les vignettes d'informations et de suivi : "shields.io"][url_shieldsio] _(en)_
+- [Bibliothèque de Polices d'écriture][url_nerdfonts] _(en)_
+- _...à compléter..._
 
 </details>
 
-<br>
+---
+
+## 📁 Structure du repo
+
+```
+All_Guides/
+├── asset/img/          → Bannière et visuels du repo
+├── guide/              → Guides et tutoriels classés par OS / sujet
+│   ├── windows/
+│   └── linux/
+├── prompts/            → Prompts IA et documentation associée
+├── LICENSE.md
+└── README.md           → this file
+```
+
+---
+
+## 📜 Licence
+
+> Le contenu original de ce repo, créé par **Spirit**, est distribué sous licence [CC BY-NC-SA 4.0][url_license]. Voir [LICENSE.md][github_license] pour les termes complets.
+>
+> Les logiciels, services, sites et outils tiers mentionnés dans les guides restent la propriété de leurs éditeurs et ayants droit respectifs. Ce repo ne fait que documenter et référencer leur usage.
+
+<!-- ============================== -->
+<!--    Link & Badge Definitions    -->
+<!-- ============================== -->
+
+<!-- Badges (shields.io images) -->
+[badge_license]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+[badge_doccount]: https://img.shields.io/github/directory-file-count/Data-Spirit/All_Guides?color=informational&label=Docs%20%2F%20Tutos&type=dir
+[badge_repo]: https://img.shields.io/badge/Repo%20%3A-All_Guides-blue?style=flat&logo=github&logoColor=white&logoSize=auto&label=Repo%20%3A&labelColor=grey&color=mediumseagreen
+
+<!-- External URLs (services tiers, hors GitHub) -->
+[url_license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[url_github_docs]: https://docs.github.com/fr/get-started
+[url_emoji_cheatsheet]: https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md
+[url_chooselicense]: https://choosealicense.com/
+[url_shieldsio]: https://shields.io/
+[url_nerdfonts]: https://www.nerdfonts.com/#home
+
+<!-- GitHub links & local repo files -->
+[github_repo]: https://github.com/Data-Spirit/All_Guides
+[github_license]: ./LICENSE.md
+[github_user]: https://github.com/Data-Spirit
+[github_banner]: ./asset/img/banner_02.webp
+<!-- url_lien_absolu: https://raw.githubusercontent.com/Data-Spirit/All_Guides/main/asset/img/banner_02.webp -->
 
 
-
-
-
-
+<!-- Language online guides (GitHub Pages) -->
+[guide_wand_fr]: https://data-spirit.github.io/All_Guides/guide/windows/wand/Guide%20-%20Creer%20WandEnhancer_exe_FR.html
+[guide_Bnet_2fa_fr]: https://github.com/Data-Spirit/All_Guides/blob/main/guide/windows/Battle.Net/BattleNet_2FA_Sync_FR.md
+[guide_Bnet_2fa_en]: https://github.com/Data-Spirit/All_Guides/blob/main/guide/windows/Battle.Net/BattleNet_2FA_Sync_EN.md
+[guide_virtualbox]: ./guide/linux/VirtualBox%2BSecureBoot/guide-VirtualBox%2BSecureBoot.md
+[guide_prompts]: ./prompts
