@@ -1,3 +1,8 @@
+<!-- Version du fichier -->
+
+> **Version : 5.2** \
+> *Dernière modification : 2026-09-25*
+
 <!-- TITRE -->
 <a id="top"></a>
 <h1 align="center">🔐 Synchroniser l'Authenticator Battle.net avec un gestionnaire de mots de passe tiers 🔐</h1>

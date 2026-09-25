@@ -1,3 +1,8 @@
+<!-- Version du fichier -->
+
+> **Version : 1** \
+> *Dernière modification : 2026-09-25*
+
 # VirtualBox + Secureboot
 
 Voici les étapes que j'ai suivies pour activer VirtualBox sur mon ordinateur 

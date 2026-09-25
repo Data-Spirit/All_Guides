@@ -1,3 +1,8 @@
+<!-- File Version -->
+
+> **Version : 5.2** \
+> *Last modification : 2026-09-25*
+
 <!-- TITLE -->
 <a id="top"></a>
 <h1 align="center">🔐 Syncing the Battle.net Authenticator with a Third-Party Password Manager 🔐</h1>
