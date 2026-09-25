@@ -1,7 +1,7 @@
-<!-- Version du fichier -->
-
-> **Version : 5.2** \
-> *Dernière modification : 2026-09-25*
+<!-- Version du fichier 
+> Version : 5.2
+> Dernière modification : 2026-09-25
+-->
 
 <!-- TITRE -->
 <a id="top"></a>

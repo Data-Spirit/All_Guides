@@ -1,5 +1,5 @@
 <!-- Version du fichier 
-> Version : 1.0
+> Version : 1.5
 > Dernière modification : 2026-09-25
 -->
 

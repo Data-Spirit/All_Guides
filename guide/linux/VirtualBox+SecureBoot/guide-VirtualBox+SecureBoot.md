@@ -1,7 +1,7 @@
-<!-- Version du fichier -->
-
-> **Version : 1** \
-> *Dernière modification : 2026-09-25*
+<!-- Version du fichier 
+> Version : 1.0
+> Dernière modification : 2026-09-25
+-->
 
 # VirtualBox + Secureboot
 
