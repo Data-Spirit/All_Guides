@@ -410,29 +410,17 @@ Ce qui change avec un outil à format propre :
 
 La liste utilisée ici est la liste Diceware française de **Matthieu Weber** : **7776 mots**, un par ligne, dans l'ordre des lancers de dés.
 
-- Source : <http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc>
+- Source originale : <http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc>
 
-> [!WARNING]
-> 🚧 **À trancher avant publication (retirer ce cadre ensuite) :** licence et hébergement de la liste. Les sources consultées ne concordent (l'auteur ne précise pas de licence sur la page d'origine ; certains dépôts la classent sous GPL). En attendant, ce guide **n'héberge pas** la liste : il fournit le lien officiel, la recette de nettoyage et l'empreinte du résultat attendu.
+**Téléchargement direct (prêt à l'emploi).** Pour vous éviter la manipulation de nettoyage ci-dessous, une version déjà nettoyée (7776 mots, sans numéros) est fournie avec ce guide :
 
-Le fichier original contient, devant chaque mot, un **numéro à cinq chiffres** (le résultat des dés), et éventuellement des lignes d'en-tête ou de signature. KeePassXC attend une liste **simple : un mot par ligne, sans numéro**.
+- Fichier : [`francais.wordlist.txt`](https://ma_futur_url/francais.wordlist.txt)
+- Détail de la licence et de l'attribution de ce fichier : [`francais.wordlist_licence.txt`](https://ma_futur_url/francais.wordlist_licence.txt)
 
-**Recette de nettoyage (avec Notepad++)**
+> [!NOTE]
+> Ce fichier reste une version nettoyée de la liste de Matthieu Weber : la mention de licence et d'attribution complète se trouve dans le fichier `_licence` ci-dessus, pas dans la liste elle-même (voir plus bas pourquoi).
 
-1. Ouvrez le fichier téléchargé dans Notepad++.
-2. Supprimez les éventuelles lignes d'en-tête et de pied (signature PGP).
-3. *Recherche → Remplacer* (Ctrl + H), mode de recherche **Expression régulière** :
-   - Rechercher : `^\d+\s+`
-   - Remplacer par : *(vide)*
-   - Cliquez sur **Remplacer tout**.
-4. Enregistrez sous `francais.wordlist.txt`.
-
-> [!TIP]
-> Vous pouvez aussi utiliser la sélection en colonne (Alt + glisser) pour effacer la colonne des numéros. Le résultat doit être le même.
-
-**Vérifier que votre fichier est correct**
-
-Dans PowerShell, dans le dossier du fichier :
+**Vérifier le fichier téléchargé.** Dans PowerShell, dans le dossier où vous l'avez enregistré :
 
 ```powershell
 # Nombre de lignes : doit afficher 7776
@@ -454,7 +442,29 @@ L'empreinte de la version de référence de ce guide (7776 mots, **sans numéros
 > Si votre empreinte diffère, la cause la plus fréquente est un détail d'enregistrement (fins de ligne CRLF au lieu de LF, ligne vide finale, en-tête restant). Le **nombre de lignes (7776)** et l'**absence de doublons** sont les vérifications essentielles pour la sécurité : un fichier qui en diffère fausserait le tirage. Cette recette n'a pas encore été reproduite par une seconde personne à partir du fichier original.
 
 > [!IMPORTANT]
-> **Ne modifiez pas le contenu de la liste** (n'ajoutez pas d'en-tête, de commentaire ou de ligne vide) : KeePassXC traiterait chaque ligne comme un mot, ce qui fausserait le compte de 7776 et donc l'équiprobabilité. Les mentions de licence se placent dans un fichier séparé.
+> **Ne modifiez pas le contenu de la liste** (n'ajoutez pas d'en-tête, de commentaire ou de ligne vide) : KeePassXC traiterait chaque ligne comme un mot, ce qui fausserait le compte de 7776 et donc l'équiprobabilité. C'est pour cette raison que la licence et l'attribution vivent dans un fichier séparé plutôt que dans la liste elle-même.
+
+<details>
+<summary>Vous préférez ne pas nous faire confiance et fabriquer vous-même le fichier ? Dépliez cette section.</summary>
+
+Le fichier original de Matthieu Weber contient, devant chaque mot, un **numéro à cinq chiffres** (le résultat des dés), et éventuellement des lignes d'en-tête ou de signature. KeePassXC attend une liste **simple : un mot par ligne, sans numéro**.
+
+**Recette de nettoyage (avec Notepad++)**
+
+1. Téléchargez le fichier depuis la source originale ci-dessus.
+2. Ouvrez-le dans Notepad++.
+3. Supprimez les éventuelles lignes d'en-tête et de pied (signature PGP).
+4. *Recherche → Remplacer* (Ctrl + H), mode de recherche **Expression régulière** :
+   - Rechercher : `^\d+\s+`
+   - Remplacer par : *(vide)*
+   - Cliquez sur **Remplacer tout**.
+5. Enregistrez sous `francais.wordlist.txt`.
+6. Vérifiez le résultat avec les commandes PowerShell ci-dessus, et comparez l'empreinte à celle donnée plus haut : elle doit correspondre exactement à la version fournie avec ce guide.
+
+> [!TIP]
+> Vous pouvez aussi utiliser la sélection en colonne (Alt + glisser) dans Notepad++ pour effacer la colonne des numéros. Le résultat doit être le même.
+
+</details>
 
 ### 6.4 Importer la liste dans KeePassXC
 
@@ -467,16 +477,15 @@ Les libellés exacts peuvent varier selon la version et la langue de KeePassXC.
 
 ### 6.5 Générer la passphrase
 
-Réglages recommandés :
+Réglages suggérés :
 
 | Réglage | Valeur | Remarque |
 |---|---|---|
 | **Nombre de mots** | **7** (6 au minimum) | 8 pour des secrets de très longue durée |
-| **Séparateur** | Un caractère (tiret, espace, point…) | Facilite la lecture et évite certains refus de politique de mot de passe (voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)) |
+| **Séparateur** | Un caractère (tiret, espace, point…) | Facilite la lecture. Kleopatra exige au moins un caractère non alphabétique dans la passphrase (voir [7.2](#72-régler-la-sécurité-avant-usage)) ; un séparateur suffit à le satisfaire |
 | **Casse** | Au choix | Une transformation **déterministe** (tout en minuscules, majuscule initiale…) **n'ajoute pas d'entropie** ; elle sert seulement à respecter les règles d'un site |
 
-> [!IMPORTANT]
-> **Fixez vos règles avant de tirer, et n'en changez pas selon le résultat.** Règle recommandée : **un seul tirage**, que vous acceptez tel quel. Voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage).
+**Comment décider quand relancer le générateur.** Le plus simple est d'accepter le tout premier tirage, tel quel. Vous pouvez aussi préférer un tirage composé uniquement de vrais mots (sans les entrées de remplissage de la liste, voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)) : c'est parfaitement défendable, et le coût en sécurité est négligeable. Ce qui compte, c'est de **choisir votre critère avant de regarder le résultat**, et de vous y tenir une fois qu'un tirage le satisfait — sans relancer ensuite parce qu'un mot particulier vous plaît plus ou moins.
 
 L'indicateur d'entropie de KeePassXC doit afficher environ **90 bits** pour 7 mots tirés dans une liste de 7776 mots.
 
@@ -489,7 +498,7 @@ Une passphrase tirée au hasard n'a pas de sens : le cerveau la retient mal **si
 3. **La mémoire musculaire.** Après quelques jours d'usage réel, les doigts la « connaissent », comme un code de carte bancaire.
 
 > [!TIP]
-> Ne craignez pas d'oublier à tout jamais : votre **copie papier de secours** (voir [partie 8](#8-stockage-et-sauvegardes)) est là pour ça. Cette sécurité permet de choisir une passphrase robuste sans céder à la tentation de « simplifier ».
+> Ne craignez pas d'oublier à tout jamais : votre **copie papier de secours** (voir [partie 8](#8-stockage-et-sauvegardes)) est là pour ça. Cette sécurité permet de choisir une passphrase robuste sans céder à la tentation de « simplifier ». Et si un tirage composé uniquement de vrais mots vous aide à la mémoriser plus vite, c'est un choix tout à fait légitime (voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)).
 
 ---
 
@@ -587,15 +596,27 @@ Mesures sur la liste de référence de ce guide :
 - longueur de **1 à 6 caractères**, **4,76 caractères en moyenne** ;
 - **201 entrées sont des nombres** et **240 ne contiennent aucune lettre** (par exemple `=`, `:-)`, `!!!`), soit environ 3 % de la liste.
 
-**Conséquence.** Environ **une passphrase de 7 mots sur cinq** (19,7 %) contient au moins une entrée sans lettre (17,1 % pour 6 mots). C'est parfaitement normal.
+**Conséquence.** Environ **une passphrase de 7 mots sur cinq** (19,7 %) contient au moins une entrée sans lettre (17,1 % pour 6 mots). C'est parfaitement normal, et **ce n'est pas un défaut à corriger à tout prix** : c'est vous qui décidez si ça vous convient.
 
-**Faut-il relancer si le résultat déplaît ?** Deux cas très différents :
+**Peut-on relancer le générateur ? Oui, à une condition : que ce soit sur un critère de catégorie, jamais sur le contenu.**
 
-- **Une règle fixée à l'avance, appliquée mécaniquement** (par exemple « je refuse une passphrase de moins de 30 caractères ») fait perdre très peu : refuser environ 20 % des tirages coûte de l'ordre de **0,3 bit** sur 90.
-- **Le re-tirage à volonté, « jusqu'à ce que ça me plaise »**, n'a aucune limite : à chaque relance, vous sélectionnez selon vos goûts, ce qui réintroduit le biais du cas pratique 1.
+Il y a une différence essentielle entre ces deux attitudes, même si, de l'extérieur, personne ne peut jamais savoir laquelle vous avez suivie :
+
+- **Un critère de catégorie**, décidé avant de regarder le tirage et appliqué à l'identique quel que soit le résultat : « je ne veux aucune entrée dépourvue de lettre », « je ne veux que des mots purement alphabétiques (sans chiffre ni symbole) », « je refuse une passphrase de moins de 30 caractères ». Le coût de ce genre de filtre est calculable et, dans tous les cas ci-dessous, négligeable.
+- **Un critère de contenu**, qui juge un mot particulier une fois qu'on l'a sous les yeux : « celui-ci ne me plaît pas », « cette suite ne sonne pas bien ». Là, aucune limite : chaque relance vous rapproche un peu plus du sous-ensemble de mots qui vous est personnellement agréable, exactement le biais décrit au [cas pratique 1](#cas-pratique-1-puis-je-choisir-moi-même-mes-mots-dans-la-liste). Et comme ce choix reste invisible de l'extérieur, c'est à vous seul de vous y tenir honnêtement.
+
+**Ce que coûtent, en pratique, les filtres de catégorie les plus courants** (mesuré sur la liste de ce guide, pour 7 mots) :
+
+| Filtre appliqué | Entrées conservées | Entropie résultante | Coût par rapport à 90,47 bits |
+|---|---|---|---|
+| Aucun (tirage brut) | 7776 | 90,47 bits | — |
+| Exclure les entrées sans aucune lettre (`=`, `:-)`, `!!!`…) | 7536 | 90,16 bits | ≈ 0,32 bit |
+| Exclure toute entrée contenant un chiffre ou un symbole (mots purement alphabétiques) | 7436 | 90,02 bits | ≈ 0,45 bit |
+
+Un mot de passe qui doit être **mémorisé au quotidien** (votre mot de passe maître, par exemple) est précisément le cas où ce genre de filtre a le plus de sens : il rend chaque mot plus facile à lire, à épeler et à retaper, pour un coût de sécurité qui reste très inférieur à l'imprécision de nos propres estimations. Pour une passphrase **uniquement destinée à être recopiée depuis du papier** (le fichier maître, [partie 3.6](#36-deux-usages-deux-exigences)), le tirage brut, sans aucun filtre, est tout aussi bien adapté.
 
 > [!IMPORTANT]
-> **Règle d'or : décidez avant de tirer, appliquez sans discuter.** Le plus simple est de ne tirer **qu'une seule fois**.
+> **Le critère qui compte n'est pas « ai-je relancé », mais « sur quoi ».** Une règle de catégorie, fixée avant de regarder le résultat et appliquée telle quelle, ne coûte presque rien. Juger le contenu une fois qu'on l'a sous les yeux, même un peu, rouvre une porte sans fond.
 
 **Attention à la longueur minimale.** Certains réglages (par exemple celui de Kleopatra, voir [7.2](#72-régler-la-sécurité-avant-usage)) refusent une passphrase trop courte **en nombre de caractères**, sans tenir compte de l'entropie. Comme les mots de la liste sont courts, une passphrase de 6 mots peut être valide (77 bits) mais jugée « trop courte ». Simulation sur cette liste, pour un minimum de 30 caractères :
 
@@ -636,6 +657,7 @@ D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longu
 | **ne pas autoriser l'utilisation de cache de mot de passe externe** | Coché | 🟡 Conseillé | `no-allow-external-cache` |
 | **interdire à l'appelant de remplacer le PIN-entry** | Coché | 🟡 Conseillé | `no-allow-loopback-pinentry` |
 | **définir la taille minimale des nouvelles phrases secrètes à N** | 30 (voir remarque) | 🟡 Conseillé | `min-passphrase-len 30` |
+| **nécessiter au moins N caractères non alphabétiques pour les nouvelles phrases secrètes** | 1 (valeur par défaut) | 🟢 Optionnel | *(non écrit tel quel dans `gpg-agent.conf` sur la configuration testée ; réglage propre à Kleopatra)* |
 | **laisser la saisie du code personnel capturer le clavier et la souris** | Au choix | 🟢 Optionnel | — |
 
 Cliquez ensuite sur **Appliquer** puis **OK**. Kleopatra recharge la configuration de l'agent : inutile de redémarrer.
@@ -646,6 +668,10 @@ Cliquez ensuite sur **Appliquer** puis **OK**. Kleopatra recharge la configurati
 - 🟡 **Cache externe refusé.** Empêche un autre logiciel de fournir une passphrase déjà en cache à l'agent.
 - 🟡 **Remplacement du PIN-entry interdit.** Empêche un programme d'afficher sa propre fenêtre de saisie à la place de la vraie, ce qui pourrait permettre de voler la passphrase.
 - 🟡 **Longueur minimale.** Un filet de sécurité contre une passphrase trop courte saisie par fatigue ou précipitation.
+- 🟢 **Caractères non alphabétiques.** Ce réglage, visible dans la même fenêtre, **appartient à Kleopatra lui-même** : c'est votre installation, sur votre machine, qui refuse de créer une nouvelle passphrase composée uniquement de lettres, sans espace, tiret ou chiffre. Ce n'est ni un site web, ni un service en ligne : c'est un garde-fou local. Réglé sur 1 par défaut, il passe inaperçu dès que vous utilisez un séparateur entre les mots (un tiret ou un espace le satisfait), et ne concerne donc en pratique que les passphrases collées sans aucune séparation.
+
+> [!WARNING]
+> **Ces deux réglages sont locaux à votre installation de Kleopatra, pas des règles d'un site externe.** Un service en ligne (banque, messagerie…) impose ses propres règles de mot de passe, indépendantes de ces paramètres, et ce guide ne peut pas les anticiper.
 
 > [!WARNING]
 > **La longueur minimale compte des caractères, pas de l'entropie.** Les mots Diceware sont courts : 6 mots peuvent faire moins de 30 caractères tout en valant 77 bits. Avec **7 mots et un séparateur**, le risque de refus est d'environ 0,4 % (voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)). Adaptez la valeur au nombre de mots que vous utilisez.
@@ -660,7 +686,7 @@ Cliquez ensuite sur **Appliquer** puis **OK**. Kleopatra recharge la configurati
 
 **Méthode alternative : le fichier `gpg-agent.conf`**
 
-Kleopatra écrit ces réglages dans le fichier `gpg-agent.conf`, situé dans le dossier de configuration de GnuPG. Pour trouver ce dossier :
+Kleopatra écrit ces réglages dans le fichier `gpg-agent.conf`, situé dans le dossier de configuration de GnuPG. Pour trouver ce dossier, dans PowerShell :
 
 ```powershell
 gpgconf --list-dirs homedir
@@ -708,7 +734,7 @@ Pour transformer votre passphrase en clé, GnuPG utilise par défaut le mode **S
 
 #### Mesurer
 
-**1. Le nombre d'itérations calibré par votre machine**
+**1. Le nombre d'itérations calibré par votre machine.** Dans PowerShell :
 
 ```powershell
 gpg-connect-agent "GETINFO s2k_count" /bye
@@ -718,7 +744,7 @@ Exemple de résultat : `D 95868928`. GnuPG calibre ce nombre pour qu'une dériva
 
 **2. Ce que GnuPG a réellement utilisé, sur un fichier de test**
 
-Chiffrez un petit fichier **sans importance** avec Kleopatra (voir 7.4), puis :
+Chiffrez un petit fichier **sans importance** avec Kleopatra (voir 7.4), puis, dans PowerShell :
 
 ```powershell
 gpg --list-packets .\fichier-test.gpg
@@ -770,7 +796,12 @@ gpg: chiffré avec 1 phrase secrète
 
 #### Appliquer : créer un fichier `gpg.conf`
 
-1. Trouvez le dossier de configuration : `gpgconf --list-dirs homedir`.
+1. Trouvez le dossier de configuration. Dans PowerShell :
+
+   ```powershell
+   gpgconf --list-dirs homedir
+   ```
+
 2. Dans ce dossier, créez un fichier texte nommé exactement **`gpg.conf`** (il n'existe pas par défaut).
 
 > [!WARNING]
@@ -791,7 +822,12 @@ Aucun redémarrage n'est nécessaire : `gpg` relit ses fichiers de configuration
 #### Tester
 
 1. Chiffrez un **nouveau** fichier de test avec Kleopatra.
-2. Lancez `gpg --list-packets` dessus.
+2. Dans PowerShell, dans le dossier de ce fichier :
+
+   ```powershell
+   gpg --list-packets .\fichier-test.gpg
+   ```
+
 3. Vous devez lire `hash 10` (SHA-512).
 
 **Résultat de nos tests** (Windows 11, Gpg4win 5.x, GnuPG 2.5.24) : avec le fichier `gpg.conf`, `hash 10` ; sans lui, retour à `hash 8`. Kleopatra applique donc bien ce fichier.
@@ -811,7 +847,10 @@ Aucun redémarrage n'est nécessaire : `gpg` relit ses fichiers de configuration
 
 **Avant de commencer :** les réglages de 7.2 sont faits, et votre passphrase a été générée (partie 6) et copiée.
 
-1. **Ouvrez le menu du clic droit.** Sous Windows 11, le menu de Gpg4win se trouve dans l'ancien menu contextuel : faites un clic droit sur le fichier ou le dossier, puis **« Afficher d'autres options »**. 💡 *Astuce : **Maj + clic droit** (ou **Maj + F10** sur l'élément sélectionné) ouvre directement l'ancien menu complet.*
+1. **Ouvrez le menu du clic droit.** Sous Windows 11, le menu de Gpg4win se trouve dans l'ancien menu contextuel : faites un clic droit sur le fichier ou le dossier, puis **« Afficher d'autres options »**.
+
+   > [!TIP]
+   > **Maj + clic droit** (ou **Maj + F10** sur l'élément sélectionné) ouvre directement l'ancien menu complet.
 
 2. Choisissez **« Signer et chiffrer »** (entrée directe, avec une icône de cadenas), ou **« Plus d'options GpgEX » → « Chiffrer »**.
 3. Dans la fenêtre **« Signer / chiffrer des fichiers – Kleopatra »** :
@@ -1030,28 +1069,24 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 
 - 🟡 Lorsque le projet publie une **empreinte SHA-256**, calculez celle de votre fichier et comparez :
   - avec **NanaZip** : clic droit sur le fichier → sous-menu des sommes de contrôle → SHA-256 ;
-  - ou en PowerShell : `Get-FileHash -Algorithm SHA256 .\fichier`.
+  - ou dans PowerShell :
+
+    ```powershell
+    Get-FileHash -Algorithm SHA256 .\fichier
+    ```
 - 🟡 Lorsque le projet publie une **signature PGP**, Kleopatra sait la vérifier (« Vérifier » dans le menu GpgEX).
 - Deux empreintes identiques prouvent que le fichier est identique à celui de l'éditeur, **à condition que l'empreinte elle-même provienne du site officiel**.
 
-### 10.3 Recouper ses sources, assistants IA compris
-
-Les articles, les forums et les assistants IA (**y compris celui qui a aidé à rédiger ce guide**) peuvent se tromper. Trois corrections ont été nécessaires pendant l'écriture même de ce guide :
-
-1. **Un raccourci sur l'avenir de GnuPG.** L'idée que le support d'Argon2 « arriverait progressivement » dans GnuPG était fausse : GnuPG suit LibrePGP, pas la RFC 9580 (voir [7.7](#77-limites-et-pourquoi-pas-argon2)).
-2. **Une valeur par défaut prise dans un manuel.** Le manuel indique SHA-1 pour le hash du S2K ; la mesure sur l'installation testée donne SHA-256 (voir [7.3](#73-durcissement-optionnel-du-s2k-mesurer-avant-de-modifier)).
-3. **Un outil de test trop optimiste.** Un testeur de force de mot de passe a jugé « fort » des phrases françaises devinables, parce que ses dictionnaires sont surtout anglophones (voir [cas pratique 2](#cas-pratique-2-une-phrase-personnelle-ou-une-citation-cest-mieux-non)).
-
-> [!IMPORTANT]
-> **Le réflexe qui a permis de corriger ces erreurs : tester soi-même.** Une commande de vérification, un fichier de test, une comparaison avec la documentation officielle valent mieux que dix affirmations, y compris les nôtres.
-
-### 10.4 Tester avant de faire confiance
+### 10.3 Tester avant de faire confiance
 
 - Utilisez toujours un **fichier de test** pour valider une configuration avant de l'appliquer à un fichier important.
 - **Testez la restauration** : un chiffrement que vous ne savez pas défaire ne protège rien.
 - Posez-vous les questions **piégeuses** : « et si je perds ceci ? », « et si ce logiciel disparaît ? », « et si quelqu'un lit cette note ? ». C'est ainsi que sont nées les précautions de ce guide.
 
-### 10.5 Dater et tenir à jour
+> [!IMPORTANT]
+> **Recoupez toujours vos sources**, y compris les articles, les forums et les assistants IA : tous peuvent se tromper, y compris sur des points techniques précis. Une commande de vérification, un fichier de test ou la documentation officielle de l'outil valent mieux qu'une seule affirmation, la nôtre y compris.
+
+### 10.4 Dater et tenir à jour
 
 - Notez la **date** et la **version** des outils que vous avez testés.
 - Quand un outil est mis à jour de façon majeure, **refaites vos tests** (partie 7.3 et 7.6).
