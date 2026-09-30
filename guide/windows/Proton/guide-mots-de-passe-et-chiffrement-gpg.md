@@ -1,6 +1,6 @@
 # 🔐 Protéger ses secrets critiques : mots de passe, passphrases et chiffrement de fichiers sous Windows
 
-> **Guide V1** · dernière mise à jour : 28 septembre 2026
+> **Guide V3** · dernière mise à jour : 29 septembre 2026
 >
 > **Configuration testée :** Windows 11 · Gpg4win 5.x (GnuPG 2.5.24) · KeePassXC · NanaZip
 >
@@ -50,6 +50,9 @@ Le guide suit un chemin linéaire : **comprendre → choisir ses outils → conf
 
 > [!WARNING]
 > Piège fréquent ou erreur classique.
+
+> [!CAUTION]
+> Point qui, mal compris, peut fausser le résultat ou la sécurité obtenue.
 
 > [!NOTE]
 > Précision, nuance ou contexte supplémentaire.
@@ -293,7 +296,7 @@ On peut très bien utiliser **un outil de chaque famille** : un archiveur confor
 - Il peut parfaitement cohabiter avec WinRAR.
 
 > [!TIP]
-> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#10-méthode-et-réflexes)). Dans NanaZip, il se trouve dans le sous-menu du clic droit dédié aux sommes de contrôle (« CRC SHA » dans 7-Zip ; le libellé exact peut varier selon la version).
+> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#10-méthode-et-réflexes)). Dans NanaZip, il se trouve dans le sous-menu du clic droit dédié aux sommes de contrôle (`CRC SHA` dans 7-Zip ; le libellé exact peut varier selon la version).
 
 ### 4.2 Les outils de chiffrement
 
@@ -444,25 +447,29 @@ L'empreinte de la version de référence de ce guide (7776 mots, **sans numéros
 > [!IMPORTANT]
 > **Ne modifiez pas le contenu de la liste** (n'ajoutez pas d'en-tête, de commentaire ou de ligne vide) : KeePassXC traiterait chaque ligne comme un mot, ce qui fausserait le compte de 7776 et donc l'équiprobabilité. C'est pour cette raison que la licence et l'attribution vivent dans un fichier séparé plutôt que dans la liste elle-même.
 
+> [!CAUTION]
+> Le fichier original de Matthieu Weber contient, devant chaque mot, un **numéro à cinq chiffres** (le résultat des dés), et éventuellement des lignes d'en-tête ou de signature. KeePassXC attend une liste **simple : un mot par ligne, sans numéro**. C'est ce nettoyage que fait déjà la version proposée au téléchargement ci-dessus.
+
 <details>
 <summary>Vous préférez ne pas nous faire confiance et fabriquer vous-même le fichier ? Dépliez cette section.</summary>
-
-Le fichier original de Matthieu Weber contient, devant chaque mot, un **numéro à cinq chiffres** (le résultat des dés), et éventuellement des lignes d'en-tête ou de signature. KeePassXC attend une liste **simple : un mot par ligne, sans numéro**.
 
 **Recette de nettoyage (avec Notepad++)**
 
 1. Téléchargez le fichier depuis la source originale ci-dessus.
 2. Ouvrez-le dans Notepad++.
 3. Supprimez les éventuelles lignes d'en-tête et de pied (signature PGP).
-4. *Recherche → Remplacer* (Ctrl + H), mode de recherche **Expression régulière** :
+4. `Recherche` → `Remplacer` (Ctrl + H), mode de recherche `Expression régulière` :
    - Rechercher : `^\d+\s+`
    - Remplacer par : *(vide)*
-   - Cliquez sur **Remplacer tout**.
+   - Cliquez sur `Remplacer tout`.
 5. Enregistrez sous `francais.wordlist.txt`.
 6. Vérifiez le résultat avec les commandes PowerShell ci-dessus, et comparez l'empreinte à celle donnée plus haut : elle doit correspondre exactement à la version fournie avec ce guide.
 
-> [!TIP]
-> Vous pouvez aussi utiliser la sélection en colonne (Alt + glisser) dans Notepad++ pour effacer la colonne des numéros. Le résultat doit être le même.
+<table><tr><td>
+
+💡 **Astuce.** Vous pouvez aussi utiliser la sélection en colonne (Alt + glisser) dans Notepad++ pour effacer la colonne des numéros. Le résultat doit être le même.
+
+</td></tr></table>
 
 </details>
 
@@ -470,10 +477,13 @@ Le fichier original de Matthieu Weber contient, devant chaque mot, un **numéro 
 
 Les libellés exacts peuvent varier selon la version et la langue de KeePassXC.
 
-1. Ouvrez KeePassXC (sans base de données ouverte, le générateur reste accessible depuis le menu *Outils*).
-2. Ouvrez le **Générateur de mots de passe**.
-3. Choisissez l'onglet **Phrase de passe** (*Passphrase*).
-4. À côté du menu déroulant de la liste de mots, cliquez sur le bouton **« + »** pour ajouter une liste personnalisée, puis sélectionnez `francais.wordlist.txt`.
+1. Ouvrez KeePassXC (sans base de données ouverte, le générateur reste accessible depuis le menu `Outils`).
+2. Ouvrez le `Générateur de mots de passe`.
+3. Choisissez l'onglet `Phrase de passe` (*Passphrase*).
+4. À côté du menu déroulant de la liste de mots, cliquez sur le bouton `+` pour ajouter une liste personnalisée, puis sélectionnez `francais.wordlist.txt`.
+
+> [!TIP]
+> Si le fichier n'apparaît pas ou semble vide une fois sélectionné, vérifiez deux choses : qu'il ne s'appelle pas en réalité `francais.wordlist.txt.txt` (extensions cachées par Windows), et qu'il a bien été enregistré en texte brut (pas au format `.rtf` ou `.docx`).
 
 ### 6.5 Générer la passphrase
 
@@ -648,19 +658,19 @@ D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longu
 
 ### 7.2 Régler la sécurité avant usage
 
-**Où ?** Dans Kleopatra : menu **Paramètres → Configurer Kleopatra → Système GnuPG**, onglet **Clefs privées** (section « Options contrôlant la sécurité »).
+**Où ?** Dans Kleopatra : `Paramètres` → `Configurer Kleopatra` → `Système GnuPG`, onglet `Clefs privées` (section « Options contrôlant la sécurité »).
 
 | Réglage (libellé français) | Valeur conseillée | Niveau | Ligne écrite dans `gpg-agent.conf` |
 |---|---|---|---|
-| **oublier les codes personnels après N secondes** | **1** | 🔴 Impératif | `default-cache-ttl 1` |
-| **définir la durée maximale du cache de code personnel à N secondes** | **1** | 🟡 Conseillé | `max-cache-ttl 1` |
-| **ne pas autoriser l'utilisation de cache de mot de passe externe** | Coché | 🟡 Conseillé | `no-allow-external-cache` |
-| **interdire à l'appelant de remplacer le PIN-entry** | Coché | 🟡 Conseillé | `no-allow-loopback-pinentry` |
-| **définir la taille minimale des nouvelles phrases secrètes à N** | 30 (voir remarque) | 🟡 Conseillé | `min-passphrase-len 30` |
-| **nécessiter au moins N caractères non alphabétiques pour les nouvelles phrases secrètes** | 1 (valeur par défaut) | 🟢 Optionnel | *(non écrit tel quel dans `gpg-agent.conf` sur la configuration testée ; réglage propre à Kleopatra)* |
-| **laisser la saisie du code personnel capturer le clavier et la souris** | Au choix | 🟢 Optionnel | — |
+| `oublier les codes personnels après N secondes` | **1** | 🔴 Impératif | `default-cache-ttl 1` |
+| `définir la durée maximale du cache de code personnel à N secondes` | **1** | 🟡 Conseillé | `max-cache-ttl 1` |
+| `ne pas autoriser l'utilisation de cache de mot de passe externe` | Coché | 🟡 Conseillé | `no-allow-external-cache` |
+| `interdire à l'appelant de remplacer le PIN-entry` | Coché | 🟡 Conseillé | `no-allow-loopback-pinentry` |
+| `définir la taille minimale des nouvelles phrases secrètes à N` | 30 (voir remarque) | 🟡 Conseillé | `min-passphrase-len 30` |
+| `nécessiter au moins N caractères non alphabétiques pour les nouvelles phrases secrètes` | 1 (valeur par défaut) | 🟢 Optionnel | *(non écrit tel quel dans `gpg-agent.conf` sur la configuration testée ; réglage propre à Kleopatra)* |
+| `laisser la saisie du code personnel capturer le clavier et la souris` | Au choix | 🟢 Optionnel | — |
 
-Cliquez ensuite sur **Appliquer** puis **OK**. Kleopatra recharge la configuration de l'agent : inutile de redémarrer.
+Cliquez ensuite sur `Appliquer` puis `OK`. Kleopatra recharge la configuration de l'agent : inutile de redémarrer.
 
 **Pourquoi chaque réglage ?**
 
@@ -715,7 +725,7 @@ no-allow-loopback-pinentry
 | Fichier | Rôle | Existe par défaut ? |
 |---|---|---|
 | `gpg-agent.conf` | Réglages de l'**agent** : cache de passphrase, règles de saisie | Créé par Kleopatra lorsque vous réglez ces options |
-| `gpg.conf` | Options de **chiffrement de `gpg`** (dérivation de clé, algorithme…) | **Non** : à créer soi-même (voir 7.3) |
+| `gpg.conf` | Options de **chiffrement de `gpg`** (dérivation de clé, algorithme…) | **Non** : à créer soi-même (voir [7.3](#73-durcissement-optionnel-du-s2k-mesurer-avant-de-modifier)) |
 | `common.conf` | Options communes à plusieurs composants | Oui : à laisser tel quel |
 
 ---
@@ -805,7 +815,7 @@ gpg: chiffré avec 1 phrase secrète
 2. Dans ce dossier, créez un fichier texte nommé exactement **`gpg.conf`** (il n'existe pas par défaut).
 
 > [!WARNING]
-> **Piège classique sous Windows : le fichier créé s'appelle `gpg.conf.txt`** sans que l'Explorateur l'affiche. Activez *Afficher → Afficher → Extensions de nom de fichier*, ou enregistrez depuis Notepad++ avec le type « Tous les types ».
+> **Piège classique sous Windows : le fichier créé s'appelle `gpg.conf.txt`** sans que l'Explorateur l'affiche. Activez `Afficher` → `Afficher` → `Extensions de nom de fichier`, ou enregistrez depuis Notepad++ avec le type `Tous les types`.
 
 3. Écrivez dedans :
 
@@ -847,22 +857,22 @@ Aucun redémarrage n'est nécessaire : `gpg` relit ses fichiers de configuration
 
 **Avant de commencer :** les réglages de 7.2 sont faits, et votre passphrase a été générée (partie 6) et copiée.
 
-1. **Ouvrez le menu du clic droit.** Sous Windows 11, le menu de Gpg4win se trouve dans l'ancien menu contextuel : faites un clic droit sur le fichier ou le dossier, puis **« Afficher d'autres options »**.
+1. **Ouvrez le menu du clic droit.** Sous Windows 11, le menu de Gpg4win se trouve dans l'ancien menu contextuel : faites un clic droit sur le fichier ou le dossier, puis `Afficher d'autres options`.
 
-   > [!TIP]
-   > **Maj + clic droit** (ou **Maj + F10** sur l'élément sélectionné) ouvre directement l'ancien menu complet.
+> [!TIP]
+> **Maj + clic droit** (ou **Maj + F10** sur l'élément sélectionné) ouvre directement l'ancien menu complet.
 
-2. Choisissez **« Signer et chiffrer »** (entrée directe, avec une icône de cadenas), ou **« Plus d'options GpgEX » → « Chiffrer »**.
-3. Dans la fenêtre **« Signer / chiffrer des fichiers – Kleopatra »** :
-   - Cochez **« Chiffrer avec mot de passe »**. Le texte d'aide précise : *« Quiconque avec qui vous partagez le mot de passe peut lire les données. »*
-   - Les options **« Signer en tant que »**, **« Chiffrer pour moi »** et **« Chiffrer pour d'autres »** sont grisées si vous n'avez aucune clé : ignorez-les.
-   - Sous **« Fichiers et dossier de sortie »**, le nom proposé est celui du fichier d'origine suivi de `.gpg`, dans le même dossier. Vérifiez-le.
-4. Cliquez sur **« Chiffrer »**.
-5. La fenêtre de saisie **« Entrez la phrase secrète »** apparaît (composant *pinentry*), avec deux champs : **« Phrase secrète »** et **« Répéter »**.
+2. Choisissez `Signer et chiffrer` (entrée directe, avec une icône de cadenas), ou `Plus d'options GpgEX` → `Chiffrer`.
+3. Dans la fenêtre `Signer / chiffrer des fichiers – Kleopatra` :
+   - Cochez `Chiffrer avec mot de passe`. Le texte d'aide précise : *« Quiconque avec qui vous partagez le mot de passe peut lire les données. »*
+   - Les options `Signer en tant que`, `Chiffrer pour moi` et `Chiffrer pour d'autres` sont grisées si vous n'avez aucune clé : ignorez-les.
+   - Sous `Fichiers et dossier de sortie`, le nom proposé est celui du fichier d'origine suivi de `.gpg`, dans le même dossier. Vérifiez-le.
+4. Cliquez sur `Chiffrer`.
+5. La fenêtre de saisie `Entrez la phrase secrète` apparaît (composant *pinentry*), avec deux champs : `Phrase secrète` et `Répéter`.
    - Collez la passphrase dans les deux champs.
    - L'icône **œil** affiche temporairement la saisie : utile pour contrôler ce que vous avez collé.
    - L'icône **baguette** génère une phrase secrète : **ne l'utilisez pas** (elle ne propose pas de liste de mots).
-6. Validez avec **OK**. Une fenêtre **« Résultats »** confirme l'opération ; fermez-la avec **« Terminer »**.
+6. Validez avec `OK`. Une fenêtre `Résultats` confirme l'opération ; fermez-la avec `Terminer`.
 7. 🔴 **Testez immédiatement le déchiffrement** (voir 7.5) avant toute suppression.
 8. Seulement ensuite, supprimez l'original en clair et videz la corbeille.
 
@@ -874,7 +884,7 @@ Aucun redémarrage n'est nécessaire : `gpg` relit ses fichiers de configuration
 
 ### 7.5 Déchiffrer et vérifier des fichiers
 
-**Déchiffrer.** Clic droit sur le fichier `.gpg` → « Afficher d'autres options » → **« Plus d'options GpgEX » → « Déchiffrer »**. Kleopatra détecte qu'il est protégé par mot de passe et vous demande la passphrase. Le fichier déchiffré apparaît à côté.
+**Déchiffrer.** Clic droit sur le fichier `.gpg` → `Afficher d'autres options` → `Plus d'options GpgEX` → `Déchiffrer`. Kleopatra détecte qu'il est protégé par mot de passe et vous demande la passphrase. Le fichier déchiffré apparaît à côté.
 
 Entrées disponibles dans le sous-menu GpgEX : *Déchiffrer, Vérifier, Déchiffrer et vérifier, Chiffrer, Signer, Signer et chiffrer, Importer des clés, Créer des sommes de contrôle, Vérifier les sommes de contrôle.*
 
@@ -911,9 +921,10 @@ Le test décrit en 7.3 (`gpg --list-packets`) sert aussi à **vérifier n'import
 | Symptôme | Cause probable | Solution |
 |---|---|---|
 | La passphrase est refusée à la saisie | Politique de longueur minimale (`min-passphrase-len`) ou de caractères non alphabétiques | Ajoutez un séparateur, utilisez 7 mots, ou adaptez la longueur minimale (7.2) |
-| Le menu Gpg4win n'apparaît pas | Menu contextuel simplifié de Windows 11 | « Afficher d'autres options » ou Maj + clic droit |
-| Kleopatra réclame une clé ou un destinataire | « Chiffrer avec mot de passe » non coché | Cochez la case |
+| Le menu Gpg4win n'apparaît pas | Menu contextuel simplifié de Windows 11 | `Afficher d'autres options` ou Maj + clic droit |
+| Kleopatra réclame une clé ou un destinataire | `Chiffrer avec mot de passe` non coché | Cochez la case |
 | Le réglage `gpg.conf` n'a aucun effet | Fichier nommé `gpg.conf.txt`, ou mauvais dossier | Voir 7.3 (extensions visibles, `gpgconf --list-dirs homedir`) |
+| L'installateur ou `gpg.exe` est bloqué ou mis en quarantaine | Faux positif d'un antivirus, fréquent sur les outils en ligne de commande | Vérifiez que le fichier provient bien du site officiel (partie 10), puis autorisez-le explicitement dans votre antivirus |
 | Passphrase oubliée | Il n'existe **aucun moyen de récupération** | Consultez votre copie papier (partie 8) |
 
 ---
@@ -1011,7 +1022,13 @@ Le mot de passe maître de votre gestionnaire de mots de passe (par exemple **Pr
 
 ### 9.1 Ne pas ranger la clé dans le coffre qu'elle ouvre
 
-🔴 **Ne stockez pas le mot de passe maître dans le gestionnaire qu'il protège.** Si vous perdez l'accès au coffre, vous perdez aussi le mot de passe qui permettrait de le rouvrir : c'est un raisonnement circulaire. Conservez-le **sur papier** (partie 8.2) et **en mémoire**.
+🔴 **La seule copie du mot de passe maître ne doit jamais être dans le gestionnaire qu'il protège.** Si vous perdez l'accès au coffre, vous perdez aussi le mot de passe qui permettrait de le rouvrir : c'est un raisonnement circulaire. Conservez-le **sur papier** (partie 8.2) et **en mémoire**.
+
+🟢 **Ajouter, en plus, une copie de confort dans le coffre est une décision possible, mais pas neutre.** Certaines personnes choisissent d'y ajouter une entrée contenant le mot de passe maître, pour ne pas avoir à le retaper (au-delà du déverrouillage par PIN ou biométrie de la partie 9.2). Ce n'est pas la même chose que de n'avoir *que* cette copie : le papier et la mémoire restent la référence, et cette entrée n'est qu'un doublon.
+
+Le risque précis à connaître avant de faire ce choix : le PIN et la biométrie (9.2) sont volontairement **plus faibles** que le mot de passe maître, c'est ce qui les rend pratiques au quotidien. Sans doublon dans le coffre, quelqu'un qui contourne cette barrière faible (téléphone déverrouillé volé, PIN observé) accède au contenu du coffre, mais pas au mot de passe maître lui-même : il ne peut donc pas se connecter à votre compte **depuis un autre appareil**. Avec un doublon, il le peut. Concrètement, ajouter cette copie **ramène la protection réelle du compte au niveau de votre PIN**, pour toute personne ayant un accès physique à un appareil déverrouillé — ce n'est pas un risque à distance, uniquement un risque de proximité.
+
+Le confort et la sécurité entrent ici en tension directe, comme souvent : gagner l'un coûte presque toujours un peu de l'autre. Il n'y a pas de réponse universelle ; c'est un compromis à faire en connaissance de cause.
 
 ### 9.2 Confort au quotidien sans affaiblir la sécurité
 
@@ -1022,6 +1039,9 @@ Vous n'avez pas à saisir un long mot de passe tous les jours. Les gestionnaires
 
 > [!NOTE]
 > Il est normal que le mot de passe maître soit **redemandé de temps en temps** (nouvel appareil, action sensible). Dans une architecture « à connaissance nulle », ce mot de passe sert à dériver la clé qui protège vos données : il ne peut pas être remplacé simplement par un autre mécanisme. Ce n'est pas un défaut à contourner.
+
+> [!NOTE]
+> **Faut-il changer son mot de passe maître régulièrement ?** Non : la recommandation actuelle (notamment du NIST, l'organisme américain de référence sur le sujet) est de **ne pas** imposer de changement périodique sans raison. Un mot de passe robuste, changé « pour la forme » tous les trois mois, finit souvent par être affaibli ou noté n'importe où par lassitude. Ne le changez qu'en cas de compromission avérée ou soupçonnée (fuite de données, appareil volé, partage accidentel).
 
 ### 9.3 La double authentification (2FA) du compte
 
@@ -1035,18 +1055,23 @@ Deux options, qui peuvent se cumuler :
 | **Clé de sécurité physique (FIDO2/U2F)** | Un petit boîtier à brancher ou approcher | Meilleure protection contre l'hameçonnage ; nécessite d'acheter la clé |
 
 > [!WARNING]
-> **Ne stockez pas le secret TOTP du gestionnaire dans le gestionnaire lui-même** : c'est la même circularité qu'en 9.1.
+> **La seule copie du secret TOTP du compte du gestionnaire ne doit pas être dans le gestionnaire lui-même** : c'est la même circularité qu'en 9.1, avec le même arbitrage possible (et les mêmes réserves) si vous choisissez malgré tout d'y ajouter une copie de confort.
 
 > [!NOTE]
 > **Passkey et clé de sécurité physique ne sont pas la même chose.** Une *passkey* est une clé d'accès enregistrée sur un appareil ou un service (téléphone, gestionnaire) ; une *clé de sécurité physique* est un objet matériel distinct. Activer une passkey sur un site ne signifie pas que vous possédez une clé physique.
 
-🔴 **Codes de secours.** À l'activation de la 2FA, des codes de secours sont générés : notez-les **sur papier**, avec la phrase de récupération (partie 8.2). Ce sont des secrets de même niveau de criticité que le mot de passe maître.
+🔴 **Codes de secours du compte du gestionnaire.** À l'activation de la 2FA **sur le compte du gestionnaire lui-même** (ou sur tout autre service vraiment critique : banque, messagerie principale), des codes de secours sont générés : notez-les **sur papier**, avec la phrase de récupération (partie 8.2). Ce sont des secrets de même niveau de criticité que le mot de passe maître.
 
-### 9.4 Les codes TOTP conservés dans le coffre
+### 9.4 Les informations de récupération de vos autres comptes
 
-Les secrets TOTP de vos **autres** comptes peuvent raisonnablement rester dans le gestionnaire : ils sont sauvegardés avec le coffre, et si vous pouvez récupérer le coffre, vous les récupérez.
+Pour la plupart des services du quotidien (hors gestionnaire lui-même et comptes vraiment critiques), la règle est plus souple.
 
-- Pour les comptes **vraiment critiques** (banque, messagerie principale), ajoutez une **copie papier** des codes de secours : elle vous protège d'un scénario différent, celui où le gestionnaire lui-même est indisponible, compromis ou inaccessible.
+Les secrets **TOTP** de vos autres comptes peuvent raisonnablement rester dans le gestionnaire : ils sont sauvegardés avec le coffre, et si vous pouvez récupérer le coffre, vous les récupérez.
+
+🟢 **Regrouper les informations de récupération dans une note sécurisée est une pratique confortable.** Pour un service donné, vous pouvez centraliser dans une note sécurisée (idéalement **séparée** de l'entrée du mot de passe elle-même, au cas où vous partageriez un jour ce mot de passe via une fonction de partage) : la phrase ou les codes de récupération du compte, les numéros de série, et la clé de récupération du TOTP. Tout au même endroit, facile à retrouver en cas de besoin.
+
+- Pour les comptes **vraiment critiques** (banque, messagerie principale, le gestionnaire lui-même), rien ne remplace une **copie papier** en plus (voir 9.3) : elle protège d'un scénario différent, celui où le gestionnaire lui-même est indisponible, compromis ou inaccessible.
+- Pour les autres services, une copie papier reste toujours possible si vous le souhaitez, mais une note sécurisée regroupée dans le gestionnaire est déjà une nette amélioration par rapport à ne rien noter du tout.
 
 ### 9.5 Sauvegarder aussi son coffre
 
@@ -1059,7 +1084,7 @@ Les secrets TOTP de vos **autres** comptes peuvent raisonnablement rester dans l
 
 Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copie, ou si l'on croit une information sans la vérifier. Quatre réflexes valent la peine d'être pris.
 
-### 10.1 N'utiliser que les sources officielles
+### 10.1 🔴 N'utiliser que les sources officielles
 
 - Passez par les **liens officiels** (voir [annexe A](#a-liens-officiels)) ou par la page du projet sur GitHub, jamais par un moteur de recherche « au hasard ».
 - Méfiez-vous des **publicités** qui apparaissent avant les vrais résultats, des sites miroirs et des sites qui imitent un nom de logiciel.
@@ -1129,7 +1154,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 
 | Besoin | Outil / méthode | Pourquoi | Partie |
 |---|---|---|---|
-| Générer un mot de passe ou une passphrase | KeePassXC + liste Diceware, **7 mots**, un seul tirage | Hasard mécanique, ≈ 90 bits | 6 |
+| Générer un mot de passe ou une passphrase | KeePassXC + liste Diceware, **7 mots**, tirage mécanique (pas de choix sur le contenu) | Hasard mécanique, ≈ 90 bits | 6 |
 | Chiffrer un fichier ou dossier critique | Gpg4win / Kleopatra, mode mot de passe | Format ouvert, référence, pérenne | 5, 7 |
 | Régler le logiciel | Cache de passphrase à 1 s, options de sécurité | Empêche la mémorisation et le détournement | 7.2 |
 | Vérifier ce qui a été fait | `gpg --list-packets` sur un fichier de test | Mesure plutôt que supposition | 7.3, 7.6 |
@@ -1141,95 +1166,53 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 
 ### C. Glossaire
 
-**3-2-1 (règle)** : 3 copies, sur 2 types de supports, dont 1 hors du lieu principal.
-
-**AEAD** : *Authenticated Encryption with Associated Data*. Mode de chiffrement qui garantit à la fois la confidentialité et l'intégrité des données (par exemple AES-GCM, AES-OCB).
-
-**AES (AES-128, -192, -256)** : algorithme de chiffrement symétrique standard, avec des clés de 128, 192 ou 256 bits.
-
-**Algorithme de chiffrement** : mécanisme mathématique qui transforme des données lisibles en données illisibles à l'aide d'une clé.
-
-**Argon2 / Argon2id** : fonction de dérivation de clé moderne, conçue pour être coûteuse en mémoire et en calcul, donc particulièrement résistante aux attaques par matériel spécialisé.
-
-**Asymétrique** : chiffrement à paire de clés (publique et privée), par exemple RSA.
-
-**Bit** : unité d'information. Chaque bit d'entropie supplémentaire double le nombre de possibilités.
-
-**Camellia** : algorithme de chiffrement symétrique (clés de 128, 192 ou 256 bits).
-
-**CFB** : mode de fonctionnement d'un chiffrement par blocs, utilisé par défaut par GnuPG en chiffrement symétrique, associé à un contrôle d'intégrité (MDC).
-
-**ChaCha20 / XChaCha20** : algorithmes de chiffrement en flux modernes, à clé de 256 bits.
-
-**Cache de passphrase** : mémorisation temporaire de la passphrase par `gpg-agent`, pour éviter de la redemander.
-
-**Count (S2K)** : nombre d'octets hachés lors de la dérivation de clé itérée ; plus il est grand, plus chaque tentative d'attaque est lente. Maximum encodable : 65 011 712.
-
-**CSPRNG** : générateur de nombres pseudo-aléatoires cryptographiquement sûr ; source de hasard fiable pour tirer des mots.
-
-**Diceware** : méthode qui consiste à tirer des mots au hasard dans une liste de 7776 mots, avec des dés ou un générateur aléatoire.
-
-**Dérivation de clé (KDF)** : fonction qui transforme un mot de passe en clé cryptographique, en ralentissant volontairement chaque essai.
-
-**Entropie** : mesure, en bits, du nombre de possibilités équiprobables qu'un attaquant doit explorer. Ne peut être calculée que pour un secret tiré au hasard selon un procédé connu.
-
-**Équiprobabilité** : propriété d'un tirage où chaque possibilité a exactement la même chance d'être choisie.
-
-**Force brute** : attaque qui essaie systématiquement toutes les possibilités.
-
-**FIDO2 / U2F** : standards d'authentification par clé de sécurité physique.
-
-**GnuPG (GPG)** : logiciel libre de référence pour OpenPGP.
-
-**gpg-agent** : composant de GnuPG qui gère les passphrases et leur mise en cache.
-
-**gpg.conf / gpg-agent.conf** : fichiers de configuration de GnuPG et de son agent.
-
-**Gpg4win / Kleopatra / GpgEX** : distribution de GnuPG pour Windows, son interface graphique, et son intégration au menu contextuel.
-
-**Grover (algorithme de)** : algorithme quantique qui accélère la recherche exhaustive d'un facteur racine carrée.
-
-**Hash (fonction de hachage)** : fonction qui produit une empreinte de taille fixe (SHA-1, SHA-256, SHA-512…).
-
-**Itéré (S2K)** : dérivation qui répète le hachage un grand nombre de fois pour ralentir l'attaquant.
-
-**Keyfile (fichier-clé)** : fichier utilisé comme second facteur, en complément du mot de passe.
-
-**Kerckhoffs (principe de)** : la sécurité d'un système ne doit reposer que sur le secret de la clé, pas sur le secret de la méthode.
-
-**LibrePGP** : spécification OpenPGP suivie par GnuPG, distincte de la RFC 9580.
-
-**MDC** : *Modification Detection Code*, contrôle d'intégrité inclus dans les fichiers OpenPGP.
-
-**OCB** : mode de chiffrement authentifié.
-
-**OpenPGP** : standard ouvert de chiffrement et de signature, dont les fichiers portent souvent l'extension `.gpg`.
-
-**Passkey** : clé d'accès enregistrée sur un appareil ou un service, qui remplace le mot de passe pour certaines connexions (à ne pas confondre avec une clé de sécurité physique).
-
-**Passphrase** : mot de passe composé de plusieurs mots.
-
-**PIN-entry / pinentry** : fenêtre de saisie de la passphrase utilisée par GnuPG.
-
-**RFC 4880 / RFC 9580** : documents de spécification d'OpenPGP (ancienne et nouvelle version).
-
-**RSA** : algorithme de chiffrement asymétrique.
-
-**S2K (*string-to-key*)** : dérivation de clé du monde OpenPGP.
-
-**Salage / sel** : valeur aléatoire mélangée au mot de passe avant la dérivation, pour que deux mots de passe identiques donnent des clés différentes et pour rendre inutiles les tables précalculées.
-
-**Serpent, Twofish** : algorithmes de chiffrement symétrique.
-
-**SHA-1, SHA-256, SHA-512** : fonctions de hachage de la famille SHA.
-
-**Symétrique** : chiffrement à clé unique, ici dérivée d'un mot de passe.
-
-**tar** : format d'archive qui regroupe des fichiers sans compression.
-
-**TOTP** : mot de passe à usage unique basé sur l'heure (code à 6 chiffres qui change toutes les 30 secondes).
-
-**Zéro connaissance (*zero-knowledge*)** : architecture où le fournisseur ne connaît pas la clé qui protège vos données.
+| Terme | Définition |
+|---|---|
+| **3-2-1 (règle)** | 3 copies, sur 2 types de supports, dont 1 hors du lieu principal. |
+| **AEAD** | *Authenticated Encryption with Associated Data*. Mode de chiffrement qui garantit à la fois la confidentialité et l'intégrité des données (par exemple AES-GCM, AES-OCB). |
+| **AES (AES-128, -192, -256)** | algorithme de chiffrement symétrique standard, avec des clés de 128, 192 ou 256 bits. |
+| **Algorithme de chiffrement** | mécanisme mathématique qui transforme des données lisibles en données illisibles à l'aide d'une clé. |
+| **Argon2 / Argon2id** | fonction de dérivation de clé moderne, conçue pour être coûteuse en mémoire et en calcul, donc particulièrement résistante aux attaques par matériel spécialisé. |
+| **Asymétrique** | chiffrement à paire de clés (publique et privée), par exemple RSA. |
+| **Bit** | unité d'information. Chaque bit d'entropie supplémentaire double le nombre de possibilités. |
+| **Camellia** | algorithme de chiffrement symétrique (clés de 128, 192 ou 256 bits). |
+| **CFB** | mode de fonctionnement d'un chiffrement par blocs, utilisé par défaut par GnuPG en chiffrement symétrique, associé à un contrôle d'intégrité (MDC). |
+| **ChaCha20 / XChaCha20** | algorithmes de chiffrement en flux modernes, à clé de 256 bits. |
+| **Cache de passphrase** | mémorisation temporaire de la passphrase par `gpg-agent`, pour éviter de la redemander. |
+| **Count (S2K)** | nombre d'octets hachés lors de la dérivation de clé itérée ; plus il est grand, plus chaque tentative d'attaque est lente. Maximum encodable : 65 011 712. |
+| **CSPRNG** | générateur de nombres pseudo-aléatoires cryptographiquement sûr ; source de hasard fiable pour tirer des mots. |
+| **Diceware** | méthode qui consiste à tirer des mots au hasard dans une liste de 7776 mots, avec des dés ou un générateur aléatoire. |
+| **Dérivation de clé (KDF)** | fonction qui transforme un mot de passe en clé cryptographique, en ralentissant volontairement chaque essai. |
+| **Entropie** | mesure, en bits, du nombre de possibilités équiprobables qu'un attaquant doit explorer. Ne peut être calculée que pour un secret tiré au hasard selon un procédé connu. |
+| **Équiprobabilité** | propriété d'un tirage où chaque possibilité a exactement la même chance d'être choisie. |
+| **Force brute** | attaque qui essaie systématiquement toutes les possibilités. |
+| **FIDO2 / U2F** | standards d'authentification par clé de sécurité physique. |
+| **GnuPG (GPG)** | logiciel libre de référence pour OpenPGP. |
+| **gpg-agent** | composant de GnuPG qui gère les passphrases et leur mise en cache. |
+| **gpg.conf / gpg-agent.conf** | fichiers de configuration de GnuPG et de son agent. |
+| **Gpg4win / Kleopatra / GpgEX** | distribution de GnuPG pour Windows, son interface graphique, et son intégration au menu contextuel. |
+| **Grover (algorithme de)** | algorithme quantique qui accélère la recherche exhaustive d'un facteur racine carrée. |
+| **Hash (fonction de hachage)** | fonction qui produit une empreinte de taille fixe (SHA-1, SHA-256, SHA-512…). |
+| **Itéré (S2K)** | dérivation qui répète le hachage un grand nombre de fois pour ralentir l'attaquant. |
+| **Keyfile (fichier-clé)** | fichier utilisé comme second facteur, en complément du mot de passe. |
+| **Kerckhoffs (principe de)** | la sécurité d'un système ne doit reposer que sur le secret de la clé, pas sur le secret de la méthode. |
+| **LibrePGP** | spécification OpenPGP suivie par GnuPG, distincte de la RFC 9580. |
+| **MDC** | *Modification Detection Code*, contrôle d'intégrité inclus dans les fichiers OpenPGP. |
+| **OCB** | mode de chiffrement authentifié. |
+| **OpenPGP** | standard ouvert de chiffrement et de signature, dont les fichiers portent souvent l'extension `.gpg`. |
+| **Passkey** | clé d'accès enregistrée sur un appareil ou un service, qui remplace le mot de passe pour certaines connexions (à ne pas confondre avec une clé de sécurité physique). |
+| **Passphrase** | mot de passe composé de plusieurs mots. |
+| **PIN-entry / pinentry** | fenêtre de saisie de la passphrase utilisée par GnuPG. |
+| **RFC 4880 / RFC 9580** | documents de spécification d'OpenPGP (ancienne et nouvelle version). |
+| **RSA** | algorithme de chiffrement asymétrique. |
+| **S2K (*string-to-key*)** | dérivation de clé du monde OpenPGP. |
+| **Salage / sel** | valeur aléatoire mélangée au mot de passe avant la dérivation, pour que deux mots de passe identiques donnent des clés différentes et pour rendre inutiles les tables précalculées. |
+| **Serpent, Twofish** | algorithmes de chiffrement symétrique. |
+| **SHA-1, SHA-256, SHA-512** | fonctions de hachage de la famille SHA. |
+| **Symétrique** | chiffrement à clé unique, ici dérivée d'un mot de passe. |
+| **tar** | format d'archive qui regroupe des fichiers sans compression. |
+| **TOTP** | mot de passe à usage unique basé sur l'heure (code à 6 chiffres qui change toutes les 30 secondes). |
+| **Zéro connaissance (*zero-knowledge*)** | architecture où le fournisseur ne connaît pas la clé qui protège vos données. |
 
 ### D. Checklist finale
 
@@ -1238,7 +1221,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - [ ] J'ai vérifié l'**empreinte** lorsqu'elle était publiée.
 
 **Passphrase**
-- [ ] Ma passphrase a été **tirée au hasard** (7 mots, un seul tirage) et non inventée.
+- [ ] Ma passphrase a été **tirée au hasard** (7 mots), sans jamais choisir le contenu selon mes goûts.
 - [ ] Je l'ai **mémorisée** avec une image mentale et de la répétition (mot de passe maître).
 - [ ] Je l'ai **notée sur papier** dans un lieu sûr.
 
@@ -1275,6 +1258,8 @@ Ce guide est publié sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.
 | Version | Date | Modifications |
 |---|---|---|
 | V1 | 28/09/2026 | Première version complète |
+| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en `<details>`) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
+| V3 | 29/09/2026 | Chemins de menus systématiquement en `code` ; alerte `[!CAUTION]` (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un `<details>`) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
 
 <!--
 TODO V2 (invisible sur GitHub, à traiter avant publication) :
