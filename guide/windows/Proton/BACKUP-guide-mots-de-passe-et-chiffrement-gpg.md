@@ -1,71 +1,30 @@
-<!--
-Version : 5.0
-Date : 30/09/2026
+# 🔐 Protéger ses secrets critiques : mots de passe, passphrases et chiffrement de fichiers sous Windows
 
-Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs) :
-
-| Version | Date | Modifications |
-|---|---|---|
-| V1 | 28/09/2026 | Première version complète |
-| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en <details>) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
-| V3 | 29/09/2026 | Chemins de menus systématiquement en code ; alerte [!CAUTION] (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un <details>) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
-| V4 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
-| V5 | 30/09/2026 | Habillage visuel complet (prompt_upgrade_MD_visual) : versioning entièrement caché (repère + historique regroupés ici, en tête) avec seule la date visible sous le H1 ; sommaire replié en <details open> ; ancres explicites (#sec-N) et emoji sur les 11 grandes parties uniquement (pas les sous-parties) ; lien de retour en haut en fin de chaque grande partie ; badges sur deux lignes (licence/guide/Proton puis NanaZip/KeePassXC/Gpg4win) ; annexe A reformatée en liens propres avec justification ; pied de page aligné sur le gabarit du prompt |
-
-Reste à vérifier avant publication :
-- Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
-- Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle), et la version de KeePassXC testée.
-- Revérifier tous les liens de l'annexe A (age, theworld.com/~reinhold, eff.org/dice, rarlab.com n'ont pas été rouverts lors de la rédaction).
-- Citer une ou deux sources officielles sur l'historique et l'examen du code de GnuPG (section 5.2), sans ajouter d'affirmation d'audit non vérifiée.
-- Vérifier qu'aucun logo simple-icons plus récent n'existe pour KeePassXC et NanaZip (absents au moment de la rédaction ; badges sans logo en attendant).
-- Ajouter éventuellement des captures d'écran (masquer le nom d'utilisateur Windows).
-- Lier le futur guide Proton Pass (partie 9) une fois publié.
--->
-<a id="top"></a>
-
-<!-- BADGES -->
-<h1 align="center">🔐 Protéger ses secrets critiques : mots de passe, passphrases et chiffrement de fichiers sous Windows</h1>
-
-<p align="center"><sub>Dernière mise à jour : 30 septembre 2026</sub></p>
-
-<p align="center">
-  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence CC BY-NC-SA 4.0" src="https://img.shields.io/badge/Licence-CC%20BY--NC--SA%204.0-lightgrey"></a>
-  <a href="https://github.com/Data-Spirit"><img alt="Guide : Sécurité et chiffrement" src="https://img.shields.io/badge/Guide-S%C3%A9curit%C3%A9%20et%20chiffrement-blue?logo=github&logoColor=white"></a>
-  <a href="https://proton.me/pass"><img alt="Proton Pass" src="https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=protonmail&logoColor=white"></a>
-</p>
-<p align="center">
-  <a href="https://github.com/M2Team/NanaZip"><img alt="NanaZip" src="https://img.shields.io/badge/NanaZip-Archiveur-8A2BE2"></a>
-  <a href="https://keepassxc.org"><img alt="KeePassXC" src="https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f"></a>
-  <a href="https://www.gpg4win.org/"><img alt="Gpg4win / Kleopatra" src="https://img.shields.io/badge/Gpg4win-Kleopatra-0093DD?logo=gnuprivacyguard&logoColor=white"></a>
-</p>
-
+> **Guide V4** · dernière mise à jour : 30 septembre 2026
+>
 > **Configuration testée :** Windows 11 · Gpg4win 5.x (GnuPG 2.5.24) · KeePassXC · NanaZip
 >
 > **Public visé :** toute personne qui veut protéger un mot de passe maître, des phrases de récupération ou des sauvegardes sensibles, sans être experte en cryptographie. Aucune connaissance préalable n'est nécessaire : les termes techniques sont expliqués au fil du texte et dans le [glossaire](#c-glossaire).
 
 ---
 
-<!-- SOMMAIRE -->
-<details open>
-<summary><b>📑 Sommaire</b></summary>
+## Sommaire
 
-1. [Introduction](#sec-1)
-2. [Les notions de base (et les mythes)](#sec-2)
-3. [Le mot de passe, les principes](#sec-3)
-4. [Panorama des outils](#sec-4)
-5. [Notre choix, Gpg4win et Kleopatra](#sec-5)
-6. [Générer sa passphrase avec KeePassXC](#sec-6)
-7. [Chiffrer avec Kleopatra](#sec-7)
-8. [Stockage et sauvegardes](#sec-8)
-9. [Hygiène du mot de passe maître et du compte](#sec-9)
-10. [Méthode et réflexes](#sec-10)
-11. [Annexes](#sec-11)
+1. [Introduction](#1-introduction)
+2. [Les notions de base (et les mythes)](#2-les-notions-de-base-et-les-mythes)
+3. [Le mot de passe, les principes](#3-le-mot-de-passe-les-principes)
+4. [Panorama des outils](#4-panorama-des-outils)
+5. [Notre choix, Gpg4win et Kleopatra](#5-notre-choix-gpg4win-et-kleopatra)
+6. [Générer sa passphrase avec KeePassXC](#6-générer-sa-passphrase-avec-keepassxc)
+7. [Chiffrer avec Kleopatra](#7-chiffrer-avec-kleopatra)
+8. [Stockage et sauvegardes](#8-stockage-et-sauvegardes)
+9. [Hygiène du mot de passe maître et du compte](#9-hygiène-du-mot-de-passe-maître-et-du-compte)
+10. [Méthode et réflexes](#10-méthode-et-réflexes)
+11. [Annexes](#11-annexes)
     - [A. Liens officiels](#a-liens-officiels)
     - [B. Tableau de synthèse](#b-tableau-de-synthèse)
     - [C. Glossaire](#c-glossaire)
     - [D. Checklist finale](#d-checklist-finale)
-
-</details>
 
 ---
 
@@ -75,7 +34,7 @@ Le guide suit un chemin linéaire : **comprendre → choisir ses outils → conf
 
 **Niveaux de recommandation**, indiqués devant chaque réglage ou étape :
 
-| 🚦 Niveau | Signification |
+| Niveau | Signification |
 |---|---|
 | 🔴 **Impératif** | À faire absolument : sans cela, la protection est nettement affaiblie. |
 | 🟡 **Conseillé** | Recommandé pour un usage sensible ; peu coûteux à mettre en place. |
@@ -106,19 +65,17 @@ Le guide suit un chemin linéaire : **comprendre → choisir ses outils → conf
 
 ## Le chemin en bref
 
-1. **Comprendre** que la solidité d'un fichier chiffré dépend surtout du mot de passe (parties [2](#sec-2) et [3](#sec-3)).
-2. **Générer la passphrase par un tirage mécanique** (méthode Diceware, 7 mots) avec KeePassXC, sans jamais l'inventer (partie [6](#sec-6)).
+1. **Comprendre** que la solidité d'un fichier chiffré dépend surtout du mot de passe (parties [2](#2-les-notions-de-base-et-les-mythes) et [3](#3-le-mot-de-passe-les-principes)).
+2. **Générer la passphrase par un tirage mécanique** (méthode Diceware, 7 mots) avec KeePassXC, sans jamais l'inventer (partie [6](#6-générer-sa-passphrase-avec-keepassxc)).
 3. **Configurer Kleopatra avant de l'utiliser**, en commençant par désactiver le cache de passphrase (partie [7.2](#72-régler-la-sécurité-avant-usage)).
 4. **Chiffrer, puis tester le déchiffrement**, et seulement ensuite supprimer l'original en clair (partie [7.4](#74-chiffrer-un-fichier-ou-un-dossier)).
-5. **Sauvegarder à froid** et conserver la passphrase critique sur **papier** (partie [8](#sec-8)).
-6. **Protéger le compte du gestionnaire de mots de passe** : mot de passe maître robuste, double authentification, codes de secours (partie [9](#sec-9)).
-7. **Vérifier vos outils et vos sources** : liens officiels, empreintes, tests (partie [10](#sec-10)).
+5. **Sauvegarder à froid** et conserver la passphrase critique sur **papier** (partie [8](#8-stockage-et-sauvegardes)).
+6. **Protéger le compte du gestionnaire de mots de passe** : mot de passe maître robuste, double authentification, codes de secours (partie [9](#9-hygiène-du-mot-de-passe-maître-et-du-compte)).
+7. **Vérifier vos outils et vos sources** : liens officiels, empreintes, tests (partie [10](#10-méthode-et-réflexes)).
 
 ---
 
-<a id="sec-1"></a>
-
-## 1. 🧭 Introduction
+## 1. Introduction
 
 ### 1.1 Pourquoi ce guide
 
@@ -147,13 +104,9 @@ Beaucoup de gens protègent leurs fichiers sensibles avec l'option « mot de pas
 > [!NOTE]
 > Ce guide sera complété par un guide dédié au paramétrage de Proton Pass. Les deux se renvoient l'un à l'autre : celui-ci explique *comment fabriquer et protéger* vos secrets, l'autre *comment les utiliser au quotidien*.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-2"></a>
-
-## 2. 🧩 Les notions de base (et les mythes)
+## 2. Les notions de base (et les mythes)
 
 ### 2.1 Les trois maillons d'un fichier chiffré par mot de passe
 
@@ -205,13 +158,13 @@ Un fichier chiffré doit pouvoir être rouvert **dans dix ans**. Deux situations
 - **Format ouvert et standardisé** (par exemple OpenPGP, extension `.gpg`) : plusieurs logiciels indépendants savent le lire. Si l'un disparaît, les autres restent.
 - **Format propre à un logiciel** : si le logiciel n'est plus maintenu, ou change de format entre deux versions, vous risquez de perdre l'accès.
 
-C'est l'un des critères qui a guidé le choix des outils de ce guide (voir [partie 5](#sec-5)).
+C'est l'un des critères qui a guidé le choix des outils de ce guide (voir [partie 5](#5-notre-choix-gpg4win-et-kleopatra)).
 
 ### 2.5 Et l'ordinateur quantique ?
 
 - Contre le chiffrement symétrique, l'algorithme de Grover (la seule attaque quantique connue applicable) **réduit l'effort à la racine carrée** : AES-256 offrirait alors l'équivalent d'une clé de 128 bits, ce qui reste hors de portée.
 - Le même raisonnement s'applique en théorie à la recherche d'un mot de passe : un attaquant quantique explorerait un espace de recherche de taille racine carrée. Chaque tentative reste toutefois coûteuse à calculer (dérivation de clé), et la parallélisation de cette attaque est limitée.
-- **Conséquence pratique** : pour des secrets destinés à durer très longtemps, viser **7 ou 8 mots** plutôt que 6 est une marge de sécurité raisonnable (voir [partie 3](#sec-3)).
+- **Conséquence pratique** : pour des secrets destinés à durer très longtemps, viser **7 ou 8 mots** plutôt que 6 est une marge de sécurité raisonnable (voir [partie 3](#3-le-mot-de-passe-les-principes)).
 
 > [!NOTE]
 > Il s'agit d'un ordre de grandeur, pas d'une garantie. L'informatique quantique évolue ; le principe de précaution est de garder de la marge.
@@ -232,15 +185,11 @@ Cela peut néanmoins être utile pour d'autres raisons :
 
 En cryptographie, aucune garantie n'est absolue. La formulation honnête est la suivante : **personne ne sait casser AES-256 aujourd'hui, et aucune voie n'est prévisible**. Ce que l'on peut maîtriser, ce sont les risques réels : mot de passe faible, mot de passe perdu, logiciel abandonné, sauvegarde unique, erreur de manipulation. C'est l'objet des parties suivantes.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-3"></a>
+## 3. Le mot de passe, les principes
 
-## 3. 🔑 Le mot de passe, les principes
-
-Cette partie pose les principes essentiels. Les subtilités (pièges, cas particuliers, exemples) sont volontairement renvoyées vers les **cas pratiques de la [partie 6](#sec-6)**, là où vous aurez l'outil sous les yeux.
+Cette partie pose les principes essentiels. Les subtilités (pièges, cas particuliers, exemples) sont volontairement renvoyées vers les **cas pratiques de la [partie 6](#6-générer-sa-passphrase-avec-keepassxc)**, là où vous aurez l'outil sous les yeux.
 
 ### 3.1 L'entropie en une phrase
 
@@ -299,20 +248,16 @@ En pratique, la dérivation de clé (la répétition de hachages) ralentit forte
 | | Passphrase du **fichier maître** | **Mot de passe maître** du gestionnaire |
 |---|---|---|
 | **Fréquence de saisie** | Rare | Régulière |
-| **Où est-elle conservée ?** | **Sur papier**, dans un lieu sûr (voir [partie 8](#sec-8)) | **En mémoire** (avec une copie papier de secours) |
+| **Où est-elle conservée ?** | **Sur papier**, dans un lieu sûr (voir [partie 8](#8-stockage-et-sauvegardes)) | **En mémoire** (avec une copie papier de secours) |
 | **Besoin de mémorisation ?** | Non | Oui |
 | **Méthode recommandée** | Tirage Diceware (7 à 8 mots) ou chaîne aléatoire pure | Tirage Diceware (7 mots) mémorisé par image mentale et répétition |
 
 > [!TIP]
 > Pour une passphrase **écrite sur papier**, Diceware reste un très bon choix : les mots sont plus faciles à recopier sans erreur qu'une longue chaîne de symboles.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-4"></a>
-
-## 4. 🧰 Panorama des outils
+## 4. Panorama des outils
 
 Deux familles d'outils interviennent, et il est utile de ne pas les confondre :
 
@@ -351,7 +296,7 @@ On peut très bien utiliser **un outil de chaque famille** : un archiveur confor
 - Il peut parfaitement cohabiter avec WinRAR.
 
 > [!TIP]
-> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#sec-10)). Dans NanaZip, il se trouve dans le sous-menu du clic droit dédié aux sommes de contrôle (`CRC SHA` dans 7-Zip ; le libellé exact peut varier selon la version).
+> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#10-méthode-et-réflexes)). Dans NanaZip, il se trouve dans le sous-menu du clic droit dédié aux sommes de contrôle (`CRC SHA` dans 7-Zip ; le libellé exact peut varier selon la version).
 
 ### 4.2 Les outils de chiffrement
 
@@ -394,13 +339,9 @@ Trois questions à se poser pour chaque outil :
 
 Selon ces critères, les outils à format propre (Picocrypt-NG, Kryptor, age) et ceux qui exigent leur propre logiciel pour monter un volume (VeraCrypt) sont excellents sur certains points, mais moins bien placés sur celui-ci.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-5"></a>
-
-## 5. ✅ Notre choix, Gpg4win et Kleopatra
+## 5. Notre choix, Gpg4win et Kleopatra
 
 ### 5.1 Le choix
 
@@ -448,13 +389,9 @@ Ce qui change avec un outil à format propre :
 - **La compatibilité** : les fichiers ne s'ouvriront qu'avec cet outil (ou ses forks).
 - **Les réglages** se trouvent dans l'outil lui-même : lisez sa documentation officielle.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-6"></a>
-
-## 6. 🎲 Générer sa passphrase avec KeePassXC
+## 6. Générer sa passphrase avec KeePassXC
 
 **KeePassXC** est un gestionnaire de mots de passe libre et gratuit. Ici, nous n'utilisons que son **générateur de passphrase**, qui peut fonctionner avec une liste de mots personnalisée, **hors ligne**, avec un générateur aléatoire cryptographique. Vous n'avez pas besoin de créer une base de données pour cela.
 
@@ -464,7 +401,7 @@ Ce qui change avec un outil à format propre :
 - Dépôt officiel : <https://github.com/keepassxreboot/keepassxc>
 
 > [!WARNING]
-> Des sites tiers proposent de faux installateurs. Téléchargez **uniquement** depuis les liens officiels ci-dessus et vérifiez l'empreinte si elle est publiée (voir [partie 10](#sec-10)).
+> Des sites tiers proposent de faux installateurs. Téléchargez **uniquement** depuis les liens officiels ci-dessus et vérifiez l'empreinte si elle est publiée (voir [partie 10](#10-méthode-et-réflexes)).
 
 ### 6.2 Précautions avant de générer
 
@@ -571,7 +508,7 @@ Une passphrase tirée au hasard n'a pas de sens : le cerveau la retient mal **si
 3. **La mémoire musculaire.** Après quelques jours d'usage réel, les doigts la « connaissent », comme un code de carte bancaire.
 
 > [!TIP]
-> Ne craignez pas d'oublier à tout jamais : votre **copie papier de secours** (voir [partie 8](#sec-8)) est là pour ça. Cette sécurité permet de choisir une passphrase robuste sans céder à la tentation de « simplifier ». Et si un tirage composé uniquement de vrais mots vous aide à la mémoriser plus vite, c'est un choix tout à fait légitime (voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)).
+> Ne craignez pas d'oublier à tout jamais : votre **copie papier de secours** (voir [partie 8](#8-stockage-et-sauvegardes)) est là pour ça. Cette sécurité permet de choisir une passphrase robuste sans céder à la tentation de « simplifier ». Et si un tirage composé uniquement de vrais mots vous aide à la mémoriser plus vite, c'est un choix tout à fait légitime (voir [cas pratique 4](#cas-pratique-4-les-entrées-bizarres-de-la-liste-et-le-re-tirage)).
 
 ---
 
@@ -702,13 +639,9 @@ Un mot de passe qui doit être **mémorisé au quotidien** (votre mot de passe m
 
 D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longueur adapté au nombre de mots.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-7"></a>
-
-## 7. 🔒 Chiffrer avec Kleopatra
+## 7. Chiffrer avec Kleopatra
 
 > [!IMPORTANT]
 > **Ordre à respecter : régler d'abord, utiliser ensuite.** Un logiciel de chiffrement aux réglages par défaut peut mémoriser votre passphrase, en accepter une trop faible ou déléguer sa saisie à d'autres programmes. On commence donc par la configuration (7.2 et 7.3), puis on chiffre (7.4).
@@ -718,7 +651,7 @@ D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longu
 - Site officiel : <https://www.gpg4win.org/>
 - Gpg4win regroupe **GnuPG** (le moteur), **Kleopatra** (l'interface) et **GpgEX** (l'intégration au clic droit de l'Explorateur).
 - Gardez au minimum **Kleopatra**, **GnuPG** et l'intégration à l'Explorateur.
-- 🟡 Si le site publie une empreinte ou une signature du fichier d'installation, **vérifiez-la** avant de l'exécuter (voir [partie 10](#sec-10)).
+- 🟡 Si le site publie une empreinte ou une signature du fichier d'installation, **vérifiez-la** avant de l'exécuter (voir [partie 10](#10-méthode-et-réflexes)).
 
 > [!NOTE]
 > Ce guide a été testé avec Gpg4win 5.x, qui embarque GnuPG 2.5.24. Les menus d'anciennes versions peuvent différer.
@@ -959,7 +892,7 @@ Entrées disponibles dans le sous-menu GpgEX : *Déchiffrer, Vérifier, Déchiff
 
 - **Déchiffrez-le** et ouvrez le contenu : c'est la preuve qu'il est complet et lisible.
 - Le format OpenPGP inclut un contrôle d'intégrité (*MDC*) : un fichier **altéré** ou **tronqué** est en général signalé à l'ouverture.
-- 🟡 Si l'expéditeur vous communique une **empreinte** du fichier, comparez-la (voir [partie 10](#sec-10)).
+- 🟡 Si l'expéditeur vous communique une **empreinte** du fichier, comparez-la (voir [partie 10](#10-méthode-et-réflexes)).
 
 > [!NOTE]
 > Le contrôle d'intégrité prouve que le fichier n'a pas été modifié **depuis le chiffrement**, pas **qui** l'a chiffré. Pour authentifier l'expéditeur, il faut une signature (hors du champ de ce guide).
@@ -994,13 +927,9 @@ Le test décrit en 7.3 (`gpg --list-packets`) sert aussi à **vérifier n'import
 | L'installateur ou `gpg.exe` est bloqué ou mis en quarantaine | Faux positif d'un antivirus, fréquent sur les outils en ligne de commande | Vérifiez que le fichier provient bien du site officiel (partie 10), puis autorisez-le explicitement dans votre antivirus |
 | Passphrase oubliée | Il n'existe **aucun moyen de récupération** | Consultez votre copie papier (partie 8) |
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-8"></a>
-
-## 8. 💾 Stockage et sauvegardes
+## 8. Stockage et sauvegardes
 
 Un fichier chiffré parfaitement robuste ne sert à rien s'il disparaît avec votre ordinateur, ou si vous ne pouvez plus l'ouvrir. Cette partie traite de **ne rien perdre**.
 
@@ -1082,13 +1011,9 @@ Une archive `7z`, `zip` ou `rar` protégée par mot de passe permet **d'ajouter 
 - 🟡 **Gardez une copie de l'installateur** de Gpg4win (avec sa version) auprès de vos sauvegardes : vous pourrez rouvrir vos fichiers même si le site est indisponible ou si les versions changent.
 - 🟡 **Mettez à jour** vos outils, puis refaites la mesure de la partie 7.3.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-9"></a>
-
-## 9. 🛡️ Hygiène du mot de passe maître et du compte
+## 9. Hygiène du mot de passe maître et du compte
 
 Le mot de passe maître de votre gestionnaire de mots de passe (par exemple **Proton Pass**) est la **clé de voûte** de toute votre sécurité : s'il tombe, tout tombe. Cette partie rassemble les bonnes pratiques qui l'entourent. Elle sera détaillée pour Proton Pass dans un guide dédié.
 
@@ -1153,13 +1078,9 @@ Les secrets **TOTP** de vos autres comptes peuvent raisonnablement rester dans l
 - 🟡 Si votre gestionnaire propose un **export chiffré**, conservez-en une copie à froid, protégée comme le fichier maître (parties 7 et 8).
 - 🟡 Conservez la **phrase de récupération** du compte sur papier.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-10"></a>
-
-## 10. 🔍 Méthode et réflexes
+## 10. Méthode et réflexes
 
 Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copie, ou si l'on croit une information sans la vérifier. Quatre réflexes valent la peine d'être pris.
 
@@ -1195,47 +1116,43 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - Notez la **date** et la **version** des outils que vous avez testés.
 - Quand un outil est mis à jour de façon majeure, **refaites vos tests** (partie 7.3 et 7.6).
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-<a id="sec-11"></a>
-
-## 11. 📎 Annexes
+## 11. Annexes
 
 ### A. Liens officiels
 
 > [!WARNING]
 > Utilisez **exclusivement** ces liens pour télécharger. Vérifiez qu'ils sont toujours à jour avant de vous y fier : les adresses et les versions évoluent.
 
-| Élément | Lien | Pourquoi ce lien |
-|---|---|---|
-| **Gpg4win** (Kleopatra) | [gpg4win.org](https://www.gpg4win.org/) | Outil retenu par ce guide (partie 5) |
-| **GnuPG** (projet) | [gnupg.org](https://gnupg.org/) | Moteur derrière Gpg4win |
-| Manuel GnuPG, options OpenPGP | [documentation officielle](https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html) | Référence pour les réglages avancés (partie 7.3) |
-| **KeePassXC** | [keepassxc.org](https://keepassxc.org) · [téléchargement](https://keepassxc.org/download/) · [code source](https://github.com/keepassxreboot/keepassxc) | Générateur de passphrase utilisé (partie 6) |
-| **NanaZip** | [dépôt GitHub](https://github.com/M2Team/NanaZip) · [site](https://nanazip.org) | Archiveur recommandé (partie 4.1) |
-| 7-Zip | [7-zip.org](https://www.7-zip.org/) | Archiveur dont NanaZip dérive |
-| WinRAR | [rarlab.com](https://www.rarlab.com/) | Cité pour le format RAR5 (partie 4.1) |
-| PeaZip | [peazip.github.io](https://peazip.github.io/) · [dépôt GitHub](https://github.com/peazip/PeaZip) | Testé et écarté (partie 4.1), lien fourni pour comparaison |
-| **EncryptPad** | [dépôt GitHub](https://github.com/evpo/encryptpad) | Alternative plus simple à Kleopatra (partie 5.4) |
-| Picocrypt-NG | [dépôt GitHub](https://github.com/picocrypt-ng/Picocrypt-NG) | Alternative moderne écartée (partie 4.2) |
-| Picocrypt (projet original, archivé) | [dépôt GitHub](https://github.com/Picocrypt/Picocrypt) | Projet d'origine, pour mémoire |
-| Kryptor | [kryptor.co.uk](https://www.kryptor.co.uk) · [dépôt GitHub](https://github.com/samuel-lucas6/Kryptor) | Alternative écartée (partie 4.2) |
-| VeraCrypt | [veracrypt.io](https://veracrypt.io) · [code source](https://github.com/veracrypt/VeraCrypt) | Alternative écartée (partie 4.2) |
-| age | [dépôt GitHub](https://github.com/FiloSottile/age) | Alternative moderne en ligne de commande, citée (partie 4.2) |
-| Liste Diceware française (Matthieu Weber) | [fichier source](http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc) | Liste utilisée pour générer les passphrases (partie 6.3) |
-| Diceware (page de référence de l'auteur de la méthode) | [theworld.com/~reinhold](https://theworld.com/~reinhold/diceware.html) | Origine de la méthode (partie 3.2) |
-| Listes de mots de l'EFF | [eff.org/dice](https://www.eff.org/dice) | Listes Diceware alternatives (anglais) |
-| Testeur de mots de passe de Bitwarden (zxcvbn) | [bitwarden.com/password-strength](https://bitwarden.com/password-strength/) | Outil de test mentionné (cas pratique 2) |
-| zxcvbn (bibliothèque) | [dépôt GitHub](https://github.com/dropbox/zxcvbn) | Moteur derrière le testeur Bitwarden |
-| entrocalc (calcul d'entropie théorique) | [dépôt GitHub](https://github.com/acceis/entrocalc) | Outil de calcul mentionné (cas pratique 2) |
-| Standard OpenPGP, RFC 4880 | [rfc-editor.org](https://www.rfc-editor.org/rfc/rfc4880) | Ancien standard suivi par GnuPG |
-| Standard OpenPGP moderne, RFC 9580 | [rfc-editor.org](https://www.rfc-editor.org/rfc/rfc9580) | Nouveau standard, non suivi par GnuPG (partie 7.7) |
+| Élément | Lien |
+|---|---|
+| **Gpg4win** (Kleopatra) | <https://www.gpg4win.org/> |
+| **GnuPG** (projet) | <https://gnupg.org/> |
+| Manuel GnuPG, options OpenPGP | <https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html> |
+| **KeePassXC** | <https://keepassxc.org> · téléchargement : <https://keepassxc.org/download/> · code : <https://github.com/keepassxreboot/keepassxc> |
+| **NanaZip** | <https://github.com/M2Team/NanaZip> · site : <https://nanazip.org> |
+| 7-Zip | <https://www.7-zip.org/> |
+| WinRAR | <https://www.rarlab.com/> |
+| PeaZip | <https://peazip.github.io/> · <https://github.com/peazip/PeaZip> |
+| **EncryptPad** | <https://github.com/evpo/encryptpad> |
+| Picocrypt-NG | <https://github.com/picocrypt-ng/Picocrypt-NG> |
+| Picocrypt (projet original, archivé) | <https://github.com/Picocrypt/Picocrypt> |
+| Kryptor | <https://www.kryptor.co.uk> · <https://github.com/samuel-lucas6/Kryptor> |
+| VeraCrypt | <https://veracrypt.io> · code : <https://github.com/veracrypt/VeraCrypt> |
+| age | <https://github.com/FiloSottile/age> |
+| Liste Diceware française (Matthieu Weber) | <http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc> |
+| Diceware (page de référence de l'auteur de la méthode) | <https://theworld.com/~reinhold/diceware.html> |
+| Listes de mots de l'EFF | <https://www.eff.org/dice> |
+| Testeur de mots de passe de Bitwarden (zxcvbn) | <https://bitwarden.com/password-strength/> |
+| zxcvbn (bibliothèque) | <https://github.com/dropbox/zxcvbn> |
+| entrocalc (calcul d'entropie théorique) | <https://github.com/acceis/entrocalc> |
+| Standard OpenPGP, RFC 4880 | <https://www.rfc-editor.org/rfc/rfc4880> |
+| Standard OpenPGP moderne, RFC 9580 | <https://www.rfc-editor.org/rfc/rfc9580> |
 
 ### B. Tableau de synthèse
 
-| 🎯 Besoin | 🛠️ Outil / méthode | 💡 Pourquoi | Partie |
+| Besoin | Outil / méthode | Pourquoi | Partie |
 |---|---|---|---|
 | Générer un mot de passe ou une passphrase | KeePassXC + liste Diceware, **7 mots**, tirage mécanique (pas de choix sur le contenu) | Hasard mécanique, ≈ 90 bits | 6 |
 | Chiffrer un fichier ou dossier critique | Gpg4win / Kleopatra, mode mot de passe | Format ouvert, référence, pérenne | 5, 7 |
@@ -1328,14 +1245,28 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - [ ] Le mot de passe maître n'est **pas** rangé dans le coffre.
 - [ ] La **2FA** est activée, avec les codes de secours sur papier.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
-
 ---
 
-## 📄 Licence
+## Licence
 
-Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Ce guide est publié sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 > Les logiciels, listes de mots et documents cités restent soumis à **leurs propres licences**, distinctes de celle de ce guide.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<!-- Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs)
+
+| Version | Date | Modifications |
+|---|---|---|
+| V1 | 28/09/2026 | Première version complète |
+| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en <details>) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
+| V3 | 29/09/2026 | Chemins de menus systématiquement en code ; alerte [!CAUTION] (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un <details>) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
+| V4 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
+
+Reste à vérifier avant publication :
+- Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
+- Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle), et la version de KeePassXC testée.
+- Revérifier tous les liens de l'annexe A (age, theworld.com/~reinhold, eff.org/dice, rarlab.com n'ont pas été rouverts lors de la rédaction).
+- Citer une ou deux sources officielles sur l'historique et l'examen du code de GnuPG (section 5.2), sans ajouter d'affirmation d'audit non vérifiée.
+- Ajouter éventuellement des captures d'écran (masquer le nom d'utilisateur Windows).
+- Lier le futur guide Proton Pass (partie 9) une fois publié.
+-->
