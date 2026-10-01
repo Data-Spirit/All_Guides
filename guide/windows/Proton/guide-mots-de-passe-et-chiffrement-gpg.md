@@ -1,6 +1,6 @@
 # 🔐 Protéger ses secrets critiques : mots de passe, passphrases et chiffrement de fichiers sous Windows
 
-> **Guide V3** · dernière mise à jour : 29 septembre 2026
+> **Guide V4** · dernière mise à jour : 30 septembre 2026
 >
 > **Configuration testée :** Windows 11 · Gpg4win 5.x (GnuPG 2.5.24) · KeePassXC · NanaZip
 >
@@ -877,7 +877,7 @@ Aucun redémarrage n'est nécessaire : `gpg` relit ses fichiers de configuration
 8. Seulement ensuite, supprimez l'original en clair et videz la corbeille.
 
 > [!NOTE]
-> **Un dossier.** Si vous sélectionnez un dossier, Kleopatra le regroupe d'abord dans une archive (format `tar`), puis chiffre cette archive : cela vous évite de passer par un archiveur. Vérifiez le nom de sortie proposé dans la fenêtre.
+> **Un dossier.** Si vous sélectionnez un dossier qui n'est pas déjà une archive, Kleopatra le regroupe d'abord dans une archive (format `tar`), puis chiffre cette archive : cela vous évite de passer par un archiveur. Le fichier obtenu s'appelle `nom_du_dossier.tar.gpg` (*testé*).
 
 > [!WARNING]
 > **Supprimer un fichier ne l'efface pas physiquement.** Une suppression ordinaire laisse les données récupérables tant que l'espace n'est pas réécrit, et l'effacement sécurisé n'est pas fiable sur un SSD. Pour un fichier ultra-sensible, **limitez le temps passé en clair** et évitez de le copier ailleurs.
@@ -1041,7 +1041,7 @@ Vous n'avez pas à saisir un long mot de passe tous les jours. Les gestionnaires
 > Il est normal que le mot de passe maître soit **redemandé de temps en temps** (nouvel appareil, action sensible). Dans une architecture « à connaissance nulle », ce mot de passe sert à dériver la clé qui protège vos données : il ne peut pas être remplacé simplement par un autre mécanisme. Ce n'est pas un défaut à contourner.
 
 > [!NOTE]
-> **Faut-il changer son mot de passe maître régulièrement ?** Non : la recommandation actuelle (notamment du NIST, l'organisme américain de référence sur le sujet) est de **ne pas** imposer de changement périodique sans raison. Un mot de passe robuste, changé « pour la forme » tous les trois mois, finit souvent par être affaibli ou noté n'importe où par lassitude. Ne le changez qu'en cas de compromission avérée ou soupçonnée (fuite de données, appareil volé, partage accidentel).
+> **Faut-il changer son mot de passe maître régulièrement ?** Pas besoin. Le NIST (l'organisme américain de référence sur le sujet), dans la révision 4 de son guide SP 800-63B, va même jusqu'à écarter ce changement périodique en l'absence de preuve de compromission — un avis désormais tranché de sa part, qui rejoint ce que l'expérience montre : un mot de passe robuste, changé « pour la forme » tous les trois mois, finit souvent par être affaibli ou noté n'importe où par lassitude. Retenez surtout ceci : changez-le en cas de compromission avérée ou soupçonnée (fuite de données, appareil volé, partage accidentel), pas selon un calendrier.
 
 ### 9.3 La double authentification (2FA) du compte
 
@@ -1159,7 +1159,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 | Régler le logiciel | Cache de passphrase à 1 s, options de sécurité | Empêche la mémorisation et le détournement | 7.2 |
 | Vérifier ce qui a été fait | `gpg --list-packets` sur un fichier de test | Mesure plutôt que supposition | 7.3, 7.6 |
 | Archiver au quotidien | NanaZip (7z avec noms chiffrés) | Intégration Windows, hash en un clic | 4.1 |
-| Ouvrir un fichier `.gpg` reçu | Kleopatra → Déchiffrer | Format standard | 7.5 |
+| Ouvrir un fichier `.gpg` reçu | `Kleopatra` → `Déchiffrer` | Format standard | 7.5 |
 | Ne rien perdre | Copies à froid + carnet papier | Règle 3-2-1, secours analogique | 8 |
 | Protéger le compte du gestionnaire | Mot de passe maître Diceware, PIN/biométrie, 2FA, codes de secours sur papier | Clé de voûte | 9 |
 | Vérifier un téléchargement | Liens officiels + empreinte SHA-256 | Éviter les fausses copies | 10 |
@@ -1231,7 +1231,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - [ ] *(Optionnel)* J'ai mesuré mon `s2k_count` et mon `hash` avec un fichier de test (7.3).
 
 **Chiffrement**
-- [ ] J'ai chiffré avec « Chiffrer avec mot de passe ».
+- [ ] J'ai chiffré avec `Chiffrer avec mot de passe`.
 - [ ] J'ai **testé le déchiffrement** avant de supprimer l'original.
 - [ ] J'ai supprimé l'original en clair et vidé la corbeille.
 
@@ -1253,23 +1253,20 @@ Ce guide est publié sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.
 
 > Les logiciels, listes de mots et documents cités restent soumis à **leurs propres licences**, distinctes de celle de ce guide.
 
-## Historique des versions
+<!-- Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs)
 
 | Version | Date | Modifications |
 |---|---|---|
 | V1 | 28/09/2026 | Première version complète |
-| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en `<details>`) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
-| V3 | 29/09/2026 | Chemins de menus systématiquement en `code` ; alerte `[!CAUTION]` (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un `<details>`) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
+| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en <details>) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
+| V3 | 29/09/2026 | Chemins de menus systématiquement en code ; alerte [!CAUTION] (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un <details>) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
+| V4 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
 
-<!--
-TODO V2 (invisible sur GitHub, à traiter avant publication) :
-- Trancher licence / hébergement de la liste Diceware (cadre « À trancher » en 6.3), retirer le cadre ensuite.
-- Reproduire indépendamment la recette de nettoyage à partir du fichier original et comparer l'empreinte.
-- Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle).
-- Confirmer la version de KeePassXC utilisée pour les tests.
-- Revérifier tous les liens de l'annexe A (certains, comme age, theworld.com/~reinhold, eff.org/dice, rarlab.com, n'ont pas été rouverts lors de la rédaction).
-- Vérifier le nom du fichier produit par Kleopatra pour un dossier (tar).
+Reste à vérifier avant publication :
+- Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
+- Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle), et la version de KeePassXC testée.
+- Revérifier tous les liens de l'annexe A (age, theworld.com/~reinhold, eff.org/dice, rarlab.com n'ont pas été rouverts lors de la rédaction).
 - Citer une ou deux sources officielles sur l'historique et l'examen du code de GnuPG (section 5.2), sans ajouter d'affirmation d'audit non vérifiée.
-- Ajouter éventuellement des captures d'écran (pensez à masquer le nom d'utilisateur Windows).
-- Lier le futur guide Proton Pass (9).
+- Ajouter éventuellement des captures d'écran (masquer le nom d'utilisateur Windows).
+- Lier le futur guide Proton Pass (partie 9) une fois publié.
 -->
