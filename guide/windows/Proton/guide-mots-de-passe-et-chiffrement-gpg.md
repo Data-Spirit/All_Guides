@@ -33,7 +33,7 @@ Reste à vérifier avant publication :
   <a href="https://proton.me/pass"><img alt="Proton Pass" src="https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=proton&logoColor=white"></a>
 </p>
 <p align="center">
-  <a href="https://github.com/M2Team/NanaZip"><img alt="NanaZip" src="https://img.shields.io/badge/NanaZip-Archiveur-8A2BE2"></a>
+  <a href="https://github.com/M2Team/NanaZip"><img alt="NanaZip" src="https://img.shields.io/badge/NanaZip-Archiveur-8A2BE2?logo=7zip&logoColor=white"></a>
   <a href="https://keepassxc.org"><img alt="KeePassXC" src="https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f?logo=keepassxc&logoColor=white"></a>
   <a href="https://www.gpg4win.org/"><img alt="Gpg4win / Kleopatra" src="https://img.shields.io/badge/Gpg4win-Kleopatra-0093DD?logo=gnuprivacyguard&logoColor=white"></a>
 </p>
