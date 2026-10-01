@@ -148,7 +148,7 @@ Beaucoup de gens protègent leurs fichiers sensibles avec l'option « mot de pas
 > [!NOTE]
 > Ce guide sera complété par un guide dédié au paramétrage de Proton Pass. Les deux se renvoient l'un à l'autre : celui-ci explique *comment fabriquer et protéger* vos secrets, l'autre *comment les utiliser au quotidien*.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -233,7 +233,7 @@ Cela peut néanmoins être utile pour d'autres raisons :
 
 En cryptographie, aucune garantie n'est absolue. La formulation honnête est la suivante : **personne ne sait casser AES-256 aujourd'hui, et aucune voie n'est prévisible**. Ce que l'on peut maîtriser, ce sont les risques réels : mot de passe faible, mot de passe perdu, logiciel abandonné, sauvegarde unique, erreur de manipulation. C'est l'objet des parties suivantes.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -307,7 +307,7 @@ En pratique, la dérivation de clé (la répétition de hachages) ralentit forte
 > [!TIP]
 > Pour une passphrase **écrite sur papier**, Diceware reste un très bon choix : les mots sont plus faciles à recopier sans erreur qu'une longue chaîne de symboles.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -395,7 +395,7 @@ Trois questions à se poser pour chaque outil :
 
 Selon ces critères, les outils à format propre (Picocrypt-NG, Kryptor, age) et ceux qui exigent leur propre logiciel pour monter un volume (VeraCrypt) sont excellents sur certains points, mais moins bien placés sur celui-ci.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -449,7 +449,7 @@ Ce qui change avec un outil à format propre :
 - **La compatibilité** : les fichiers ne s'ouvriront qu'avec cet outil (ou ses forks).
 - **Les réglages** se trouvent dans l'outil lui-même : lisez sa documentation officielle.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -703,7 +703,7 @@ Un mot de passe qui doit être **mémorisé au quotidien** (votre mot de passe m
 
 D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longueur adapté au nombre de mots.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -995,7 +995,7 @@ Le test décrit en 7.3 (`gpg --list-packets`) sert aussi à **vérifier n'import
 | L'installateur ou `gpg.exe` est bloqué ou mis en quarantaine | Faux positif d'un antivirus, fréquent sur les outils en ligne de commande | Vérifiez que le fichier provient bien du site officiel (partie 10), puis autorisez-le explicitement dans votre antivirus |
 | Passphrase oubliée | Il n'existe **aucun moyen de récupération** | Consultez votre copie papier (partie 8) |
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -1083,7 +1083,7 @@ Une archive `7z`, `zip` ou `rar` protégée par mot de passe permet **d'ajouter 
 - 🟡 **Gardez une copie de l'installateur** de Gpg4win (avec sa version) auprès de vos sauvegardes : vous pourrez rouvrir vos fichiers même si le site est indisponible ou si les versions changent.
 - 🟡 **Mettez à jour** vos outils, puis refaites la mesure de la partie 7.3.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -1154,7 +1154,7 @@ Les secrets **TOTP** de vos autres comptes peuvent raisonnablement rester dans l
 - 🟡 Si votre gestionnaire propose un **export chiffré**, conservez-en une copie à froid, protégée comme le fichier maître (parties 7 et 8).
 - 🟡 Conservez la **phrase de récupération** du compte sur papier.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -1196,7 +1196,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - Notez la **date** et la **version** des outils que vous avez testés.
 - Quand un outil est mis à jour de façon majeure, **refaites vos tests** (partie 7.3 et 7.6).
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -1329,7 +1329,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 - [ ] Le mot de passe maître n'est **pas** rangé dans le coffre.
 - [ ] La **2FA** est activée, avec les codes de secours sur papier.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
 
 ---
 
@@ -1339,4 +1339,4 @@ Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**](https://creativecommo
 
 > Les logiciels, listes de mots et documents cités restent soumis à **leurs propres licences**, distinctes de celle de ce guide.
 
-<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
