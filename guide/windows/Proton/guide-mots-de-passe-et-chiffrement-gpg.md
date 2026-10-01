@@ -21,6 +21,7 @@ Reste à vérifier avant publication :
 - Ajouter éventuellement des captures d'écran (masquer le nom d'utilisateur Windows).
 - Lier le futur guide Proton Pass (partie 9) une fois publié.
 -->
+
 <a id="top"></a>
 
 <!-- BADGES -->
@@ -31,11 +32,11 @@ Reste à vérifier avant publication :
 <p align="center">
   <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence CC BY-NC-SA 4.0" src="https://img.shields.io/badge/Licence-CC%20BY--NC--SA%204.0-lightgrey"></a>
   <a href="https://github.com/Data-Spirit"><img alt="Guide : Sécurité et chiffrement" src="https://img.shields.io/badge/Guide-S%C3%A9curit%C3%A9%20et%20chiffrement-blue?logo=github&logoColor=white"></a>
-  <a href="https://proton.me/pass"><img alt="Proton Pass" src="https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=protonmail&logoColor=white"></a>
+  <a href="https://proton.me/pass"><img alt="Proton Pass" src="https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=proton&logoColor=white"></a>
 </p>
 <p align="center">
   <a href="https://github.com/M2Team/NanaZip"><img alt="NanaZip" src="https://img.shields.io/badge/NanaZip-Archiveur-8A2BE2"></a>
-  <a href="https://keepassxc.org"><img alt="KeePassXC" src="https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f"></a>
+  <a href="https://keepassxc.org"><img alt="KeePassXC" src="https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f?logo=keepassxc&logoColor=white"></a>
   <a href="https://www.gpg4win.org/"><img alt="Gpg4win / Kleopatra" src="https://img.shields.io/badge/Gpg4win-Kleopatra-0093DD?logo=gnuprivacyguard&logoColor=white"></a>
 </p>
 
