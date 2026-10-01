@@ -1,24 +1,22 @@
 <!--
-Version : 5.0
+Version : 5.3
 Date : 30/09/2026
 
 Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs) :
 
 | Version | Date | Modifications |
 |---|---|---|
-| V1 | 28/09/2026 | Première version complète |
-| V2 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en <details>) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
-| V3 | 29/09/2026 | Chemins de menus systématiquement en code ; alerte [!CAUTION] (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un <details>) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
-| V4 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
-| V5 | 30/09/2026 | Habillage visuel complet (prompt_upgrade_MD_visual) : versioning entièrement caché (repère + historique regroupés ici, en tête) avec seule la date visible sous le H1 ; sommaire replié en <details open> ; ancres explicites (#sec-N) et emoji sur les 11 grandes parties uniquement (pas les sous-parties) ; lien de retour en haut en fin de chaque grande partie ; badges sur deux lignes (licence/guide/Proton puis NanaZip/KeePassXC/Gpg4win) ; annexe A reformatée en liens propres avec justification ; pied de page aligné sur le gabarit du prompt |
+| V1.0 | 28/09/2026 | Première version complète |
+| V2.0 | 28/09/2026 | Retrait de la mention de l'assistant IA (ancienne 10.3) ; restructuration de la liste Diceware (fichier téléchargeable par défaut, licence séparée, recette manuelle en <details>) ; toutes les commandes en bloc de code avec mention explicite de PowerShell ; assouplissement du ton et du fond sur le re-tirage d'une passphrase (distinction critère de catégorie / critère de contenu) ; clarification du réglage « caractères non alphabétiques » de Kleopatra |
+| V3.0 | 29/09/2026 | Chemins de menus systématiquement en code ; alerte [!CAUTION] (nouvelle catégorie) ; glossaire mis en tableau ; correction de deux encadrés qui ne s'affichaient pas (dans une liste, dans un <details>) ; nuance sur le doublon du mot de passe maître dans le coffre (9.1) ; note sur la rotation du mot de passe maître ; note sur les notes sécurisées groupées pour les services courants (9.4) ; note sur l'antivirus ; dépannage KeePassXC ; corrections de cohérence (annexes B et D, lien vers 7.3) |
+| V4.0 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
+| V5.0 | 30/09/2026 | Habillage visuel complet (prompt_upgrade_MD_visual) : versioning entièrement caché (repère + historique regroupés ici, en tête) avec seule la date visible sous le H1 ; sommaire replié en <details open> ; ancres explicites (#sec-N) et emoji sur les 11 grandes parties uniquement (pas les sous-parties) ; lien de retour en haut en fin de chaque grande partie ; badges sur deux lignes (licence/guide/Proton puis NanaZip/KeePassXC/Gpg4win) ; annexe A reformatée en liens propres avec justification ; pied de page aligné sur le gabarit du prompt |
+| V5.3 | 01/10/2026 | Ajustements visuels ; correction des badges shield.io avec les bons logos ; verifications des liens en Annexe A ; épuration de la liste des verifications |
 
 Reste à vérifier avant publication :
 - Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
 - Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle), et la version de KeePassXC testée.
-- Revérifier tous les liens de l'annexe A (age, theworld.com/~reinhold, eff.org/dice, rarlab.com n'ont pas été rouverts lors de la rédaction).
 - Citer une ou deux sources officielles sur l'historique et l'examen du code de GnuPG (section 5.2), sans ajouter d'affirmation d'audit non vérifiée.
-- Vérifier qu'aucun logo simple-icons plus récent n'existe pour KeePassXC et NanaZip (absents au moment de la rédaction ; badges sans logo en attendant).
-- Ajouter éventuellement des captures d'écran (masquer le nom d'utilisateur Windows).
 - Lier le futur guide Proton Pass (partie 9) une fois publié.
 -->
 
