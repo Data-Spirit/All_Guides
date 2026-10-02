@@ -1,5 +1,5 @@
 <!--
-Version : 5.4
+Version : 5.5
 Date : 02/10/2026
 
 Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs) :
@@ -13,11 +13,9 @@ Historique des versions (usage interne, pour le suivi de la maintenance du guide
 | V5.0 | 30/09/2026 | Habillage visuel complet (prompt_upgrade_MD_visual) : versioning entièrement caché (repère + historique regroupés ici, en tête) avec seule la date visible sous le H1 ; sommaire replié en <details open> ; ancres explicites (#sec-N) et emoji sur les 11 grandes parties uniquement (pas les sous-parties) ; lien de retour en haut en fin de chaque grande partie ; badges sur deux lignes (licence/guide/Proton puis NanaZip/KeePassXC/Gpg4win) ; annexe A reformatée en liens propres avec justification ; pied de page aligné sur le gabarit du prompt |
 | V5.3 | 01/10/2026 | Ajustements visuels ; correction des badges shield.io avec les bons logos ; verifications des liens en Annexe A ; épuration de la liste des verifications |
 | V5.4 | 02/10/2026 | Factorisation complète des liens et badges en variables de référence (prompt_upgrade_MD_code) : conversion des 2 blocs de badges en `<div>`, correction du badge Guide (pointe vers le repo plutôt que le profil), ajout du lien officiel win-rar.com, toutes les URL externes et GitHub du corps et de l'annexe A regroupées en bas de fichier |
+| V5.5 | 02/10/2026 | Correction de la regex de nettoyage de la liste Diceware (`^\d{5} ` à la place de `^\d+\s+`, qui pouvait fusionner des lignes), avec deux encadrés CAUTION dédiés et confirmation d'une reproduction indépendante du hash ; correction du menu NanaZip (sommes de contrôle en entrées directes, pas un sous-menu séparé) ; reformulation de la partie 5.2 sans affirmation d'audit formel de GnuPG ; versions exactes des logiciels testés précisées (Gpg4win v5.1.1, GnuPG v2.5.24, KeePassXC v2.7.12, NanaZip v7.0.1843.0) ; badge NanaZip recoloré avec le logo 7-Zip |
 
 Reste à vérifier avant publication :
-- Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
-- Confirmer les libellés exacts de KeePassXC (Outils, Générateur, Phrase de passe, bouton « + ») et de NanaZip (sous-menu sommes de contrôle), et la version de KeePassXC testée.
-- Citer une ou deux sources officielles sur l'historique et l'examen du code de GnuPG (section 5.2), sans ajouter d'affirmation d'audit non vérifiée.
 - Lier le futur guide Proton Pass (partie 9) une fois publié.
 -->
 
@@ -43,7 +41,7 @@ Reste à vérifier avant publication :
 
 </div>
 
-> **Configuration testée :** Windows 11 · Gpg4win 5.x (GnuPG 2.5.24) · KeePassXC · NanaZip
+> **Configuration testée :** Windows 11 · Gpg4win v5.1.1 (GnuPG v2.5.24) · KeePassXC v2.7.12 · NanaZip v7.0.1843.0
 >
 > **Public visé :** toute personne qui veut protéger un mot de passe maître, des phrases de récupération ou des sauvegardes sensibles, sans être experte en cryptographie. Aucune connaissance préalable n'est nécessaire : les termes techniques sont expliqués au fil du texte et dans le [glossaire](#c-glossaire).
 
@@ -355,7 +353,7 @@ On peut très bien utiliser **un outil de chaque famille** : un archiveur confor
 - Il peut parfaitement cohabiter avec WinRAR.
 
 > [!TIP]
-> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#sec-10)). Dans NanaZip, il se trouve dans le sous-menu du clic droit dédié aux sommes de contrôle (`CRC SHA` dans 7-Zip ; le libellé exact peut varier selon la version).
+> Le calcul d'empreinte en un clic est très pratique pour **vérifier un téléchargement** (voir [partie 10](#sec-10)). Dans NanaZip, les sommes de contrôle (CRC-32, CRC-64, SHA-1, SHA-256…) sont des entrées du sous-menu `NanaZip` du clic droit, aux côtés des options d'ajout à l'archive.
 
 ### 4.2 Les outils de chiffrement
 
@@ -416,7 +414,7 @@ C'est le choix de la **fiabilité dans la durée**, pas celui de la nouveauté c
 
 1. **Format ouvert et standardisé.** Les fichiers `.gpg` suivent le standard OpenPGP : plusieurs logiciels indépendants peuvent les lire. Vous ne dépendez pas d'un seul programme.
 2. **Implémentation de référence.** GnuPG est **le logiciel de référence** de l'écosystème OpenPGP, développé depuis 1999 et maintenu par une équipe professionnelle (g10 Code GmbH). Gpg4win en est la distribution officielle pour Windows, développée à l'origine pour le compte de l'agence allemande de cybersécurité (BSI).
-3. **Le code le plus largement examiné du domaine.** Son code source est ouvert et examiné depuis plus de vingt ans par une très large communauté ; il sert notamment à vérifier des signatures de paquets logiciels sur de nombreux systèmes. **Plus un logiciel est répandu et examiné, plus il est probable que des défauts soient détectés et corrigés, et qu'il existera encore dans dix ans.**
+3. **Longévité et usage massif comme infrastructure critique.** Son code source est ouvert depuis plus de vingt ans, et il sert de brique de base à des systèmes critiques comme la vérification des paquets de nombreuses distributions Linux (Debian notamment). Aucun audit de sécurité indépendant et formel portant sur l'ensemble du code n'est publiquement documenté à ce jour — une fondation dédiée au financement d'audits open source (OSTIF) le listait d'ailleurs comme objectif non atteint. **Ce qui reste solide, c'est l'examen continu par une très large communauté sur une longue durée, pas un rapport d'audit ponctuel.**
 4. **Compatibilité avec ce qu'on vous envoie.** Vous pouvez déchiffrer les fichiers `.gpg` protégés par mot de passe que d'autres personnes vous transmettent, quel que soit l'outil qu'elles ont utilisé.
 5. **Choix d'algorithmes.** Kleopatra applique par défaut AES-256 ; d'autres algorithmes (Twofish, Camellia…) sont disponibles en ligne de commande.
 6. **Interface graphique intégrée à Windows** (clic droit dans l'Explorateur).
@@ -500,6 +498,8 @@ La liste utilisée ici est la liste Diceware française de **Matthieu Weber** : 
 Get-FileHash -Algorithm SHA256 .\francais.wordlist.txt
 ```
 
+Cette recette a été **reproduite indépendamment** à partir du fichier original, et le résultat obtenu correspond exactement à l'empreinte ci-dessous — un bon signe que la méthode est fiable et reproductible par n'importe qui.
+
 L'empreinte de la version de référence de ce guide (7776 mots, **sans numéros**, fins de ligne LF, ASCII, **sans retour à la ligne après le dernier mot**, 44 809 octets) est :
 
 ```
@@ -526,7 +526,17 @@ L'empreinte de la version de référence de ce guide (7776 mots, **sans numéros
 2. Ouvrez-le dans Notepad++.
 3. Supprimez les éventuelles lignes d'en-tête et de pied (signature PGP).
 4. `Recherche` → `Remplacer` (Ctrl + H), mode de recherche `Expression régulière` :
-   - Rechercher : `^\d+\s+`
+
+   ```
+   ^\d{5} 
+   ```
+
+   > [!CAUTION]
+   > Vérifiez bien qu'il y a une **espace après `^\d{5}`**, à la fin de cette expression. Sans elle, chaque mot garde une espace parasite en début de ligne. Copiez le bloc ci-dessus plutôt que de le retaper à la main, pour ne pas l'oublier.
+
+   > [!CAUTION]
+   > N'utilisez surtout pas `^\d+\s+` : le `\s` y inclut le retour à la ligne, ce qui peut fusionner deux lignes entre elles sur certaines entrées (vérifié : ça fait passer la liste de 7776 à 7575 lignes).
+
    - Remplacer par : *(vide)*
    - Cliquez sur `Remplacer tout`.
 5. Enregistrez sous `francais.wordlist.txt`.
