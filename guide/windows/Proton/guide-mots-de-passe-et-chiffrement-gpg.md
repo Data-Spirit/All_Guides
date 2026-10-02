@@ -534,13 +534,13 @@ SHA-256 : 9f6e8d4845ff178cdfe8215976adeaab9e9ebaa88ab2e8ca4de14cc7a1e1989c
 
 <table><tr><td>
 ⚠️ <b>Attention :</b> <br>
-Vérifiez bien qu'il y a un **espace après `^\d{5}`**, à la fin de cette expression. Sans lui, chaque mot garde un espace parasite en début de ligne. <br>
+Vérifiez bien qu'il y a un <b>espace après <code>^\d{5}</code></b>, à la fin de cette expression. Sans lui, chaque mot garde un espace parasite en début de ligne. <br>
 Copiez le bloc ci-dessus plutôt que de le retaper à la main, pour ne pas l'oublier.
 </td></tr></table>
 
 <table><tr><td>
 ⚠️ <b>Attention :</b> <br>
-N'utilisez surtout pas `^\d+\s+` : le `\s` y inclut le retour à la ligne, ce qui peut fusionner deux lignes entre elles sur certaines entrées <br>
+N'utilisez surtout pas <code>^\d+\s+</code> : le <code>\s</code> y inclut le retour à la ligne, ce qui peut fusionner deux lignes entre elles sur certaines entrées <br>
 (vérifié : ça fait passer la liste de 7776 à 7575 lignes).
 </td></tr></table>
 
