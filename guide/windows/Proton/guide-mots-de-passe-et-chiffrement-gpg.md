@@ -504,7 +504,7 @@ Cette recette a été **reproduite indépendamment** à partir du fichier origin
 L'empreinte de la version de référence de ce guide (7776 mots, **sans numéros**, fins de ligne LF, ASCII, **sans retour à la ligne après le dernier mot**, 44 809 octets) est :
 
 ```
-SHA256 : 9f6e8d4845ff178cdfe8215976adeaab9e9ebaa88ab2e8ca4de14cc7a1e1989c
+SHA-256 : 9f6e8d4845ff178cdfe8215976adeaab9e9ebaa88ab2e8ca4de14cc7a1e1989c
 ```
 
 (PowerShell affiche l'empreinte en majuscules : la comparaison ne tient pas compte de la casse.)
