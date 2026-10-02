@@ -479,6 +479,7 @@ Ce qui change avec un outil à format propre :
 La liste utilisée ici est la liste Diceware française de **Matthieu Weber** : **7776 mots**, un par ligne, dans l'ordre des lancers de dés.
 
 - Source originale : <http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc>
+- Fichier : [`francais.wordlist.asc`][github_diceware_fr_asc]
 
 **Téléchargement direct (prêt à l'emploi).** Pour vous éviter la manipulation de nettoyage ci-dessous, une version déjà nettoyée (7776 mots, sans numéros) est fournie avec ce guide :
 
@@ -1401,5 +1402,6 @@ Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**][url_license].
 [github_age]: https://github.com/FiloSottile/age
 [github_zxcvbn]: https://github.com/dropbox/zxcvbn
 [github_entrocalc]: https://github.com/acceis/entrocalc
+[github_diceware_fr_asc]: ./francais.wordlist.asc
 [github_diceware_fr]: ./francais.wordlist.txt
 [github_diceware_fr_licence]: ./francais.wordlist_licence.txt
