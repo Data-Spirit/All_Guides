@@ -742,7 +742,7 @@ D'où la recommandation : **7 mots avec un séparateur**, ou un minimum de longu
 - 🟡 Si le site publie une empreinte ou une signature du fichier d'installation, **vérifiez-la** avant de l'exécuter (voir [partie 10](#sec-10)).
 
 > [!NOTE]
-> Ce guide a été testé avec Gpg4win 5.x, qui embarque GnuPG 2.5.24. Les menus d'anciennes versions peuvent différer.
+> Ce guide a été testé avec Gpg4win v5.1.1, qui embarque GnuPG 2.5.24. Les menus d'anciennes versions peuvent différer.
 
 ### 7.2 Régler la sécurité avant usage
 
@@ -1193,7 +1193,7 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 ### 10.2 Vérifier ce que l'on a téléchargé
 
 - 🟡 Lorsque le projet publie une **empreinte SHA-256**, calculez celle de votre fichier et comparez :
-  - avec **NanaZip** : clic droit sur le fichier → sous-menu des sommes de contrôle → SHA-256 ;
+  - avec **NanaZip** : clic droit sur le fichier → `NanaZip` → `SHA-256` ;
   - ou dans PowerShell :
 
     ```powershell
