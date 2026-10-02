@@ -1,6 +1,6 @@
 <!--
-Version : 5.3
-Date : 30/09/2026
+Version : 5.4
+Date : 02/10/2026
 
 Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs) :
 
@@ -12,6 +12,7 @@ Historique des versions (usage interne, pour le suivi de la maintenance du guide
 | V4.0 | 30/09/2026 | Deux dernières incohérences de style corrigées (annexe B, checklist) ; note sur la rotation du mot de passe reformulée en ton conseil, avec la révision 4 du NIST SP 800-63B ; nom de fichier confirmé pour le chiffrement d'un dossier (nom_du_dossier.tar.gpg, testé) ; retrait du bloc TODO ; historique des versions déplacé en commentaire caché |
 | V5.0 | 30/09/2026 | Habillage visuel complet (prompt_upgrade_MD_visual) : versioning entièrement caché (repère + historique regroupés ici, en tête) avec seule la date visible sous le H1 ; sommaire replié en <details open> ; ancres explicites (#sec-N) et emoji sur les 11 grandes parties uniquement (pas les sous-parties) ; lien de retour en haut en fin de chaque grande partie ; badges sur deux lignes (licence/guide/Proton puis NanaZip/KeePassXC/Gpg4win) ; annexe A reformatée en liens propres avec justification ; pied de page aligné sur le gabarit du prompt |
 | V5.3 | 01/10/2026 | Ajustements visuels ; correction des badges shield.io avec les bons logos ; verifications des liens en Annexe A ; épuration de la liste des verifications |
+| V5.4 | 02/10/2026 | Factorisation complète des liens et badges en variables de référence (prompt_upgrade_MD_code) : conversion des 2 blocs de badges en `<div>`, correction du badge Guide (pointe vers le repo plutôt que le profil), ajout du lien officiel win-rar.com, toutes les URL externes et GitHub du corps et de l'annexe A regroupées en bas de fichier |
 
 Reste à vérifier avant publication :
 - Reproduire indépendamment la recette de nettoyage de la liste Diceware à partir du fichier original et comparer l'empreinte.
@@ -25,18 +26,22 @@ Reste à vérifier avant publication :
 <!-- BADGES -->
 <h1 align="center">🔐 Protéger ses secrets critiques : mots de passe, passphrases et chiffrement de fichiers sous Windows</h1>
 
-<p align="center"><sub>Dernière mise à jour : 30 septembre 2026</sub></p>
+<p align="center"><sub>Dernière mise à jour : 2 octobre 2026</sub></p>
 
-<p align="center">
-  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Licence CC BY-NC-SA 4.0" src="https://img.shields.io/badge/Licence-CC%20BY--NC--SA%204.0-lightgrey"></a>
-  <a href="https://github.com/Data-Spirit"><img alt="Guide : Sécurité et chiffrement" src="https://img.shields.io/badge/Guide-S%C3%A9curit%C3%A9%20et%20chiffrement-blue?logo=github&logoColor=white"></a>
-  <a href="https://proton.me/pass"><img alt="Proton Pass" src="https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=proton&logoColor=white"></a>
-</p>
-<p align="center">
-  <a href="https://github.com/M2Team/NanaZip"><img alt="NanaZip" src="https://img.shields.io/badge/NanaZip-Archiveur-036ed0?logo=7zip&logoColor=white"></a>
-  <a href="https://keepassxc.org"><img alt="KeePassXC" src="https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f?logo=keepassxc&logoColor=white"></a>
-  <a href="https://www.gpg4win.org/"><img alt="Gpg4win / Kleopatra" src="https://img.shields.io/badge/Gpg4win-Kleopatra-0093DD?logo=gnuprivacyguard&logoColor=white"></a>
-</p>
+<div align="center">
+
+[![Licence CC BY-NC-SA 4.0][badge_license]][url_license]
+[![Guide : Sécurité et chiffrement][badge_guide]][github_repo]
+[![Proton Pass][badge_proton]][url_proton]
+
+</div>
+<div align="center">
+
+[![NanaZip][badge_nanazip]][github_nanazip]
+[![KeePassXC][badge_keepassxc]][url_keepassxc]
+[![Gpg4win / Kleopatra][badge_gpg4win]][url_gpg4win]
+
+</div>
 
 > **Configuration testée :** Windows 11 · Gpg4win 5.x (GnuPG 2.5.24) · KeePassXC · NanaZip
 >
@@ -479,8 +484,8 @@ La liste utilisée ici est la liste Diceware française de **Matthieu Weber** : 
 
 **Téléchargement direct (prêt à l'emploi).** Pour vous éviter la manipulation de nettoyage ci-dessous, une version déjà nettoyée (7776 mots, sans numéros) est fournie avec ce guide :
 
-- Fichier : [`francais.wordlist.txt`](https://ma_futur_url/francais.wordlist.txt)
-- Détail de la licence et de l'attribution de ce fichier : [`francais.wordlist_licence.txt`](https://ma_futur_url/francais.wordlist_licence.txt)
+- Fichier : [`francais.wordlist.txt`][github_diceware_fr]
+- Détail de la licence et de l'attribution de ce fichier : [`francais.wordlist_licence.txt`][github_diceware_fr_licence]
 
 > [!NOTE]
 > Ce fichier reste une version nettoyée de la liste de Matthieu Weber : la mention de licence et d'attribution complète se trouve dans le fichier `_licence` ci-dessus, pas dans la liste elle-même (voir plus bas pourquoi).
@@ -1209,28 +1214,28 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 
 | Élément | Lien | Pourquoi ce lien |
 |---|---|---|
-| **Gpg4win** (Kleopatra) | [gpg4win.org](https://www.gpg4win.org/) | Outil retenu par ce guide (partie 5) |
-| **GnuPG** (projet) | [gnupg.org](https://gnupg.org/) | Moteur derrière Gpg4win |
-| Manuel GnuPG, options OpenPGP | [documentation officielle](https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html) | Référence pour les réglages avancés (partie 7.3) |
-| **KeePassXC** | [keepassxc.org](https://keepassxc.org) · [téléchargement](https://keepassxc.org/download/) · [code source](https://github.com/keepassxreboot/keepassxc) | Générateur de passphrase utilisé (partie 6) |
-| **NanaZip** | [dépôt GitHub](https://github.com/M2Team/NanaZip) · [site](https://nanazip.org) | Archiveur recommandé (partie 4.1) |
-| 7-Zip | [7-zip.org](https://www.7-zip.org/) | Archiveur dont NanaZip dérive |
-| WinRAR | [rarlab.com](https://www.rarlab.com/) | Cité pour le format RAR5 (partie 4.1) |
-| PeaZip | [peazip.github.io](https://peazip.github.io/) · [dépôt GitHub](https://github.com/peazip/PeaZip) | Testé et écarté (partie 4.1), lien fourni pour comparaison |
-| **EncryptPad** | [dépôt GitHub](https://github.com/evpo/encryptpad) | Alternative plus simple à Kleopatra (partie 5.4) |
-| Picocrypt-NG | [dépôt GitHub](https://github.com/picocrypt-ng/Picocrypt-NG) | Alternative moderne écartée (partie 4.2) |
-| Picocrypt (projet original, archivé) | [dépôt GitHub](https://github.com/Picocrypt/Picocrypt) | Projet d'origine, pour mémoire |
-| Kryptor | [kryptor.co.uk](https://www.kryptor.co.uk) · [dépôt GitHub](https://github.com/samuel-lucas6/Kryptor) | Alternative écartée (partie 4.2) |
-| VeraCrypt | [veracrypt.io](https://veracrypt.io) · [code source](https://github.com/veracrypt/VeraCrypt) | Alternative écartée (partie 4.2) |
-| age | [dépôt GitHub](https://github.com/FiloSottile/age) | Alternative moderne en ligne de commande, citée (partie 4.2) |
-| Liste Diceware française (Matthieu Weber) | [fichier source](http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc) | Liste utilisée pour générer les passphrases (partie 6.3) |
-| Diceware (page de référence de l'auteur de la méthode) | [theworld.com/~reinhold](https://theworld.com/~reinhold/diceware.html) | Origine de la méthode (partie 3.2) |
-| Listes de mots de l'EFF | [eff.org/dice](https://www.eff.org/dice) | Listes Diceware alternatives (anglais) |
-| Testeur de mots de passe de Bitwarden (zxcvbn) | [bitwarden.com/password-strength](https://bitwarden.com/password-strength/) | Outil de test mentionné (cas pratique 2) |
-| zxcvbn (bibliothèque) | [dépôt GitHub](https://github.com/dropbox/zxcvbn) | Moteur derrière le testeur Bitwarden |
-| entrocalc (calcul d'entropie théorique) | [dépôt GitHub](https://github.com/acceis/entrocalc) | Outil de calcul mentionné (cas pratique 2) |
-| Standard OpenPGP, RFC 4880 | [rfc-editor.org](https://www.rfc-editor.org/rfc/rfc4880) | Ancien standard suivi par GnuPG |
-| Standard OpenPGP moderne, RFC 9580 | [rfc-editor.org](https://www.rfc-editor.org/rfc/rfc9580) | Nouveau standard, non suivi par GnuPG (partie 7.7) |
+| **Gpg4win** (Kleopatra) | [gpg4win.org][url_gpg4win] | Outil retenu par ce guide (partie 5) |
+| **GnuPG** (projet) | [gnupg.org][url_gnupg] | Moteur derrière Gpg4win |
+| Manuel GnuPG, options OpenPGP | [documentation officielle][url_gnupg_manual] | Référence pour les réglages avancés (partie 7.3) |
+| **KeePassXC** | [keepassxc.org][url_keepassxc] · [téléchargement][url_keepassxc_download] · [code source][github_keepassxc] | Générateur de passphrase utilisé (partie 6) |
+| **NanaZip** | [dépôt GitHub][github_nanazip] · [site][url_nanazip_site] | Archiveur recommandé (partie 4.1) |
+| 7-Zip | [7-zip.org][url_7zip] | Archiveur dont NanaZip dérive |
+| WinRAR | [RARLab][url_rarlab] · [win-rar.com][url_winrar] | Cité pour le format RAR5 (partie 4.1) |
+| PeaZip | [peazip.github.io][url_peazip] · [dépôt GitHub][github_peazip] | Testé et écarté (partie 4.1), lien fourni pour comparaison |
+| **EncryptPad** | [dépôt GitHub][github_encryptpad] | Alternative plus simple à Kleopatra (partie 5.4) |
+| Picocrypt-NG | [dépôt GitHub][github_picocrypt_ng] | Alternative moderne écartée (partie 4.2) |
+| Picocrypt (projet original, archivé) | [dépôt GitHub][github_picocrypt_original] | Projet d'origine, pour mémoire |
+| Kryptor | [kryptor.co.uk][url_kryptor_site] · [dépôt GitHub][github_kryptor] | Alternative écartée (partie 4.2) |
+| VeraCrypt | [veracrypt.io][url_veracrypt] · [code source][github_veracrypt] | Alternative écartée (partie 4.2) |
+| age | [dépôt GitHub][github_age] | Alternative moderne en ligne de commande, citée (partie 4.2) |
+| Liste Diceware française (Matthieu Weber) | [fichier source][url_diceware_fr] | Liste utilisée pour générer les passphrases (partie 6.3) |
+| Diceware (page de référence de l'auteur de la méthode) | [theworld.com/~reinhold][url_diceware_reinhold] | Origine de la méthode (partie 3.2) |
+| Listes de mots de l'EFF | [eff.org/dice][url_eff_dice] | Listes Diceware alternatives (anglais) |
+| Testeur de mots de passe de Bitwarden (zxcvbn) | [bitwarden.com/password-strength][url_bitwarden_strength] | Outil de test mentionné (cas pratique 2) |
+| zxcvbn (bibliothèque) | [dépôt GitHub][github_zxcvbn] | Moteur derrière le testeur Bitwarden |
+| entrocalc (calcul d'entropie théorique) | [dépôt GitHub][github_entrocalc] | Outil de calcul mentionné (cas pratique 2) |
+| Standard OpenPGP, RFC 4880 | [rfc-editor.org][url_rfc4880] | Ancien standard suivi par GnuPG |
+| Standard OpenPGP moderne, RFC 9580 | [rfc-editor.org][url_rfc9580] | Nouveau standard, non suivi par GnuPG (partie 7.7) |
 
 ### B. Tableau de synthèse
 
@@ -1333,8 +1338,58 @@ Les meilleurs outils perdent leur intérêt si l'on télécharge une fausse copi
 
 ## 📄 Licence
 
-Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**][url_license].
 
 > Les logiciels, listes de mots et documents cités restent soumis à **leurs propres licences**, distinctes de celle de ce guide.
 
 <p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
+<!-- ============================== -->
+<!--    Link & Badge Definitions    -->
+<!-- ============================== -->
+
+<!-- Badges (shields.io images) -->
+[badge_license]: https://img.shields.io/badge/Licence-CC%20BY--NC--SA%204.0-lightgrey
+[badge_guide]: https://img.shields.io/badge/Guide-S%C3%A9curit%C3%A9%20et%20chiffrement-blue?logo=github&logoColor=white
+[badge_proton]: https://img.shields.io/badge/Proton-Pass-6D4AFF?logo=proton&logoColor=white
+[badge_nanazip]: https://img.shields.io/badge/NanaZip-Archiveur-036ed0?logo=7zip&logoColor=white
+[badge_keepassxc]: https://img.shields.io/badge/KeePassXC-Passphrases-2ea44f?logo=keepassxc&logoColor=white
+[badge_gpg4win]: https://img.shields.io/badge/Gpg4win-Kleopatra-0093DD?logo=gnuprivacyguard&logoColor=white
+
+<!-- External URLs (services tiers, hors GitHub) -->
+[url_license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[url_proton]: https://proton.me/pass
+[url_nanazip_site]: https://nanazip.org
+[url_keepassxc]: https://keepassxc.org
+[url_keepassxc_download]: https://keepassxc.org/download/
+[url_gpg4win]: https://www.gpg4win.org/
+[url_gnupg]: https://gnupg.org/
+[url_gnupg_manual]: https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Options.html
+[url_7zip]: https://www.7-zip.org/
+[url_rarlab]: https://www.rarlab.com/
+[url_winrar]: https://www.win-rar.com/
+[url_peazip]: https://peazip.github.io/
+[url_kryptor_site]: https://www.kryptor.co.uk
+[url_veracrypt]: https://veracrypt.io
+[url_diceware_fr]: http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc
+[url_diceware_reinhold]: https://theworld.com/~reinhold/diceware.html
+[url_eff_dice]: https://www.eff.org/dice
+[url_bitwarden_strength]: https://bitwarden.com/password-strength/
+[url_rfc4880]: https://www.rfc-editor.org/rfc/rfc4880
+[url_rfc9580]: https://www.rfc-editor.org/rfc/rfc9580
+
+<!-- GitHub links & local repo files -->
+[github_repo]: https://github.com/Data-Spirit/All_Guides
+[github_nanazip]: https://github.com/M2Team/NanaZip
+[github_keepassxc]: https://github.com/keepassxreboot/keepassxc
+[github_peazip]: https://github.com/peazip/PeaZip
+[github_encryptpad]: https://github.com/evpo/encryptpad
+[github_picocrypt_ng]: https://github.com/picocrypt-ng/Picocrypt-NG
+[github_picocrypt_original]: https://github.com/Picocrypt/Picocrypt
+[github_kryptor]: https://github.com/samuel-lucas6/Kryptor
+[github_veracrypt]: https://github.com/veracrypt/VeraCrypt
+[github_age]: https://github.com/FiloSottile/age
+[github_zxcvbn]: https://github.com/dropbox/zxcvbn
+[github_entrocalc]: https://github.com/acceis/entrocalc
+[github_diceware_fr]: https://URL_FICHIER_MOTS_KEEPASS
+[github_diceware_fr_licence]: https://URL_FICHIER_MOTS_KEEPASS_LICENCE
