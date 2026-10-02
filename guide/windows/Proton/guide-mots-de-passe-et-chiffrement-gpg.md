@@ -532,11 +532,17 @@ SHA-256 : 9f6e8d4845ff178cdfe8215976adeaab9e9ebaa88ab2e8ca4de14cc7a1e1989c
    ^\d{5} 
    ```
 
-   > [!CAUTION]
-   > Vérifiez bien qu'il y a une **espace après `^\d{5}`**, à la fin de cette expression. Sans elle, chaque mot garde une espace parasite en début de ligne. Copiez le bloc ci-dessus plutôt que de le retaper à la main, pour ne pas l'oublier.
+<table><tr><td>
+⚠️ **Attention :** <br>
+Vérifiez bien qu'il y a un **espace après `^\d{5}`**, à la fin de cette expression. Sans lui, chaque mot garde un espace parasite en début de ligne. <br>
+Copiez le bloc ci-dessus plutôt que de le retaper à la main, pour ne pas l'oublier.
+</td></tr></table>
 
-   > [!CAUTION]
-   > N'utilisez surtout pas `^\d+\s+` : le `\s` y inclut le retour à la ligne, ce qui peut fusionner deux lignes entre elles sur certaines entrées (vérifié : ça fait passer la liste de 7776 à 7575 lignes).
+<table><tr><td>
+⚠️ **Attention :** <br>
+N'utilisez surtout pas `^\d+\s+` : le `\s` y inclut le retour à la ligne, ce qui peut fusionner deux lignes entre elles sur certaines entrées <br>
+(vérifié : ça fait passer la liste de 7776 à 7575 lignes).
+</td></tr></table>
 
    - Remplacer par : *(vide)*
    - Cliquez sur `Remplacer tout`.
