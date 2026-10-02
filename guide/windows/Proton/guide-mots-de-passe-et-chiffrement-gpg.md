@@ -1401,5 +1401,5 @@ Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**][url_license].
 [github_age]: https://github.com/FiloSottile/age
 [github_zxcvbn]: https://github.com/dropbox/zxcvbn
 [github_entrocalc]: https://github.com/acceis/entrocalc
-[github_diceware_fr]: https://URL_FICHIER_MOTS_KEEPASS
-[github_diceware_fr_licence]: https://URL_FICHIER_MOTS_KEEPASS_LICENCE
+[github_diceware_fr]: ./francais.wordlist.txt
+[github_diceware_fr_licence]: ./francais.wordlist_licence.txt
