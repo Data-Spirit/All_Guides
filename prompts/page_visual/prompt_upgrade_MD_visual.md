@@ -1,6 +1,6 @@
 <!-- Version du fichier
-> Version : 4.2
-> Dernière modification : 2026-09-25
+> Version : 4.3
+> Dernière modification : 2026-10-03
 -->
 
 <!-- TITRE -->
@@ -16,22 +16,40 @@ Ce prompt fonctionne en **complément** de `translation_prompt_4allguides.md`
 variables de référence) : celui-ci ne traduit rien, ne réécrit rien sur le
 fond, et ne touche à aucun lien — il ne fait qu'embellir la forme d'un guide
 déjà rédigé, dans n'importe quelle langue. **Si le même guide est aussi passé
-au prompt de factorisation**, voir la note de compatibilité §M (règle 36ter)
-sur le choix `<div>` vs `<p>` pour les blocs centrés contenant des liens.
+au prompt de factorisation**, voir la note de compatibilité §M (règle
+36quater) sur le choix `<div>` vs `<p>` pour les blocs centrés contenant
+des liens.
 
 Pour une nouvelle passe de mise en page : copier ce fichier, remplir le bloc
-`TARGET`, et donner ce fichier + le guide source à Claude.
+`TARGET`, et donner ce fichier + le guide source à Claude. **Le bloc peut
+aussi être rempli collaborativement avec Claude** plutôt que seul au
+préalable — voir T0 ci-dessous.
 
 ---
 
 ## TARGET
 
+T0. **Lorsque Claude propose ou remplit les champs de ce bloc pour
+    l'utilisateur** (plutôt que de les recevoir déjà complétés), **chaque
+    champ, sans exception**, doit être accompagné : (1) d'une explication
+    de son rôle et de son impact sur le rendu final, contextualisée au
+    guide en cours — pas un rappel générique du prompt, mais appliqué au
+    cas précis traité — et (2) d'une **valeur suggérée** cohérente avec ce
+    guide, à titre de point de départ. L'utilisateur valide chaque valeur
+    telle quelle, la corrige, ou tranche lui-même si le champ s'y prête —
+    mais ne part jamais d'un champ vide sans proposition, ni d'une valeur
+    sans explication. Objectif : qu'on puisse remplir ce bloc correctement
+    même longtemps après avoir lu ce prompt pour la dernière fois, sans
+    avoir à le rouvrir pour se souvenir de ce que fait chaque champ.
+
 ```yaml
 source_file: mon_guide.md
 output_filename: mon_guide.md         # peut être identique si mise à jour en place
 guide_title: "Créer un badge Shields.io custom via un Endpoint JSON"
-guide_short_title: "Badge_JSON"       # texte affiché sur le badge 2 — texte pur,
-                                       # SANS extension de fichier (voir
+guide_short_title: "Badge_JSON"       # texte affiché sur le badge 2, APRÈS le label
+                                       # fixe "Guide :" déjà intégré au gabarit — ne
+                                       # jamais réécrire "Guide :" dans cette valeur ;
+                                       # texte pur, SANS extension de fichier (voir
                                        # output_filename pour le nom de fichier),
                                        # voir §M
 main_source_type: repo                # repo / site / game — source du sujet ET/OU
@@ -42,8 +60,16 @@ author_github_url: "https://github.com/Data-Spirit"
 license_name: "CC BY-NC-SA 4.0"
 license_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 
-# — Optionnel : uniquement si la source du sujet ET l'outil/marque central du
-#   guide sont deux entités clairement distinctes (voir §M, règle 36bis) —
+subject_equals_tool: true             # true si la source du sujet ET l'outil/marque
+                                       # central du guide sont LA MÊME entité (ex :
+                                       # un guide Proton Pass qui utilise Proton Pass
+                                       # comme gestionnaire) ; false si ce sont deux
+                                       # entités distinctes et indépendantes (ex : un
+                                       # guide Battle.net qui s'appuie sur Proton Pass
+                                       # comme outil tiers) — détermine si Badge 4 est
+                                       # nécessaire, voir §M règles 36/36bis
+
+# — Rempli seulement si subject_equals_tool: false (voir §M, règle 36bis) —
 badge4_name: ""                       # nom court affiché sur le badge 4
 badge4_url: ""                        # redirection du badge 4
 badge4_logo: ""                       # slug simple-icons si disponible, sinon vide
@@ -206,6 +232,9 @@ V7bis. **Les règles V3 à V7 s'appliquent à l'identique, que le gabarit
 3. **Retour en haut minimaliste** : `<p align="right"><sub><a href="#top">⬆️</a></sub></p>`
    (icône seule, sans texte) en fin de chaque section — le texte répété à
    chaque occurrence devient du bruit visuel une fois le pattern compris.
+
+   ❌ `<p align="right"><sub><a href="#top">⬆️ Retour en haut</a></sub></p>`
+   ✅ `<p align="right"><sub><a href="#top">⬆️</a></sub></p>`
 4. Séparateurs `---` uniformisés entre toutes les sections de même niveau.
 4bis. **Un seul `---` entre deux sections, jamais deux à la suite.** Si la
    section d'origine se terminait déjà par son propre `---`, le retirer
@@ -435,13 +464,15 @@ V7bis. **Les règles V3 à V7 s'appliquent à l'identique, que le gabarit
 35. **Titre général du guide (H1) toujours centré.**
 
 36. **Au minimum 3 badges centrés, sur la même ligne, juste sous le
-    titre** — ce nombre est un plancher, pas un total figé : d'autres
-    badges peuvent s'ajouter selon les besoins spécifiques du guide (voir
-    36bis). Chaque badge a son propre gabarit d'apparence **fixe et
-    unique** — seul `style=flat` est commun à tous ; les couleurs et le
-    reste de l'apparence de chaque badge ne changent jamais, seuls
-    certains paramètres de contenu (texte affiché, logo) sont adaptés au
-    guide en cours. Détail des gabarits ci-dessous.
+    titre** — ce nombre est un plancher, pas un total figé : un 4ᵉ badge
+    (et suivants) s'ajoute selon les besoins spécifiques du guide (voir
+    36bis). Les Badges 1 et 2 ont un gabarit d'apparence **entièrement
+    fixe** — seuls certains paramètres de contenu changent (texte,
+    destination). **Les Badges 3 et 4 suivent une logique conditionnelle
+    propre au "mode marque" (36ter)** : le gabarit neutre `mediumseagreen`
+    décrit plus bas n'est **pas** une constante absolue mais un **état de
+    repli**, appliqué seulement quand aucune des conditions du mode marque
+    n'est remplie. Détail des gabarits ci-dessous.
 
 **Badge 1 — Licence.** URL entièrement figée, jamais modifiée :
 
@@ -464,40 +495,86 @@ Redirige toujours vers `{{author_github_url}}` (la page d'accueil
 GitHub de l'auteur, jamais vers un repo précis — l'auteur doit être
 identifiable depuis n'importe quel guide).
 
-**Badge 3 — Source / Outil / Marque.** Représente la source du sujet
-traité par le guide (site officiel, repo, jeu documenté) **et/ou**
-l'outil, le service ou la marque central(e) utilisé(e) dans la procédure
-du guide — dans la grande majorité des cas, ces deux notions désignent
-la même chose et partagent donc un seul badge en 3ᵉ position. Gabarit
-fixe (`style=flat`, `logoColor=white`, `logoSize=auto`, `labelColor=grey`,
-`color=mediumseagreen`) — changent : le message (nom du site/repo/outil,
-raccourci si trop long pour rester condensé), le label (`Repo :` si
-`main_source_type: repo`, `Site :` sinon), et `logo` (logo GitHub si
-c'est un repo, logo de la marque si présent sur simple-icons, sinon
-aucun logo) :
+**Badge 3 — Source du sujet et/ou Outil central.** Représente la source
+du sujet traité par le guide (site officiel, repo, jeu documenté)
+**et/ou** l'outil, le service ou la marque central(e) utilisé(e) dans la
+procédure du guide. Si `subject_equals_tool: true` (voir TARGET), ces
+deux notions désignent la même entité et partagent ce seul badge. Si
+`subject_equals_tool: false`, ce badge ne représente **que** la source du
+sujet — l'outil distinct est couvert par le Badge 4 (36bis). Dans les
+deux cas, l'apparence de ce badge suit le **mode marque unifié (36ter)**.
 
-```
-https://img.shields.io/badge/{{label_adaptatif}}-{{main_source_name}}-blue?style=flat&logo={{logo_adaptatif}}&logoColor=white&logoSize=auto&label={{label_adaptatif}}&labelColor=grey&color=mediumseagreen
-```
+36bis. **Badge 4 (et suivants) — uniquement si `subject_equals_tool:
+false`**, c'est-à-dire quand la source du sujet et l'outil/marque central
+sont deux entités clairement distinctes et indépendantes (ex : un guide
+qui documente un jeu précis mais s'appuie sur un outil tiers totalement
+indépendant pour la procédure décrite — voir exemple ci-dessous). Dans ce
+cas, le Badge 3 représente la source du sujet, et le Badge 4 représente
+l'outil/la marque central(e) de la procédure, chacun suivant
+indépendamment le **mode marque unifié (36ter)**. Champs `badge4_*` du
+bloc `TARGET`. **Ne jamais ajouter un badge supplémentaire par
+automatisme** si le sujet et l'outil se recoupent déjà dans le Badge 3
+(`subject_equals_tool: true`) — un badge en trop dilue l'identité visuelle
+autant qu'un badge manquant la floute.
 
-Redirige vers `{{main_source_url}}` — le repo du projet si le guide en
-documente un, le site officiel si le guide traite d'un outil/service
-précis (ex: shields.io), le site officiel d'un jeu si le guide en
-documente un système.
+> **Exemple — sujet = outil (`subject_equals_tool: true`)** : un guide
+> documentant Proton Pass et utilisant Proton Pass comme gestionnaire —
+> les deux notions coïncident, un seul badge (3) suffit, en mode marque.
+>
+> **Exemple — sujet ≠ outil (`subject_equals_tool: false`)** : un guide
+> documentant la synchronisation de l'authenticator Battle.net, qui
+> s'appuie sur Proton Pass comme outil tiers indépendant de Blizzard pour
+> la procédure — Badge 3 représente Battle.net/Blizzard (le sujet), Badge
+> 4 représente Proton Pass (l'outil), chacun en mode marque séparément.
 
-36bis. **Badge 4 (et suivants) — uniquement si la source du sujet et
-l'outil/marque central sont deux entités clairement distinctes** (ex :
-un guide qui documente un jeu précis mais s'appuie sur un outil tiers
-totalement indépendant pour la procédure décrite). Dans ce cas, garder
-le Badge 3 pour l'une des deux entités et ajouter un Badge 4 pour
-l'autre, avec le même gabarit que le Badge 3 (adapté : logo et couleur
-de marque officielle si disponibles sur simple-icons, sinon un gabarit
-neutre). Champs `badge4_*` du bloc `TARGET`. **Ne jamais ajouter un
-badge supplémentaire par automatisme** si le sujet et l'outil se
-recoupent déjà dans le Badge 3 — un badge en trop dilue l'identité
-visuelle autant qu'un badge manquant la floute.
+36ter. **Mode marque unifié — s'applique identiquement au Badge 3 et au
+Badge 4**, chacun étant évalué **indépendamment** (rien n'empêche l'un
+d'être en mode marque complet et l'autre en repli neutre). Logique de
+repli progressif, à appliquer dans cet ordre :
 
-36ter. **Compatibilité avec le prompt de factorisation par variables**
+- **Logo ET couleur officielle identifiables** sur simple-icons → badge
+  "marque" à une seule zone colorée (pas de split label/message gris) :
+
+  ```
+  https://img.shields.io/badge/{{nom_marque}}-{{couleur_officielle_hex}}?style=flat&logo={{slug_simple_icons}}&logoColor=white&logoSize=auto
+  ```
+
+  **Marque à deux couleurs officielles distinctes** (ex : noir + orange) :
+  le badge se scinde en deux zones, une par couleur — `labelColor` porte
+  la première (zone gauche), `color` la seconde (zone droite). Découpage
+  du texte entre les deux zones à proposer en 2 variantes si non évident
+  (règle 31bis), pas de gabarit textuel rigide imposé.
+- **Couleur identifiable, logo absent** de simple-icons → même badge,
+  sans paramètre `logo`.
+- **Logo identifiable, couleur non identifiable** → même badge, couleur
+  de repli `mediumseagreen`.
+- **Ni logo ni couleur identifiables** → repli complet sur le gabarit
+  neutre historique (label adaptatif `Repo :`/`Site :`, `labelColor=grey`,
+  `color=mediumseagreen`) :
+
+  ```
+  https://img.shields.io/badge/{{label_adaptatif}}-{{nom}}-blue?style=flat&logo={{logo_adaptatif}}&logoColor=white&logoSize=auto&label={{label_adaptatif}}&labelColor=grey&color=mediumseagreen
+  ```
+
+Avant de conclure qu'un logo ou une couleur officielle n'existe pas pour
+une marque donnée, **vérifier activement** (recherche dédiée) plutôt que
+de défaulter silencieusement sur leur absence — un badge appauvri par
+erreur d'appréciation plutôt que par absence réelle dilue inutilement
+l'identité visuelle du guide.
+
+**Cas particulier — `main_source_type: repo`** : un repo GitHub n'est pas
+une "marque" au sens propre, c'est le *contenu* du repo qui a une identité
+visuelle, pas la plateforme d'hébergement. Logo **toujours** `github`
+(slug confirmé sur simple-icons : `github`) — jamais de repli "aucun
+logo" pour ce cas précis. Seule la couleur suit le repli : couleur
+officielle du projet si identifiable, sinon `mediumseagreen`.
+
+Le badge (3 ou 4) redirige vers `{{main_source_url}}` ou `{{badge4_url}}`
+selon le cas — le repo du projet si le guide en documente un, le site
+officiel si le guide traite d'un outil/service précis, le site officiel
+d'un jeu si le guide en documente un système.
+
+36quater. **Compatibilité avec le prompt de factorisation par variables**
 (`prompt_upgrade_MD_code`) : si ce même guide est aussi traité par ce
 second prompt, tous les liens/images de badges seront convertis en
 syntaxe de référence (`[texte][id]`). Dans ce cas, le bloc de badges
@@ -563,8 +640,12 @@ Ce guide est distribué sous licence [**{{license_name}}**]({{license_url}}).
 - [ ] Le glossaire visuel des emoji est resté cohérent sur tout le document
       (exceptions justifiées uniquement).
 - [ ] Le H1 est centré, et **au moins 3 badges** (licence/guide/source-ou-
-      outil, + éventuels badges supplémentaires justifiés) sont présents,
-      centrés, sur une même ligne, avec les bons gabarits fixes.
+      outil) sont présents, centrés, sur une même ligne. Badges 1 et 2 au
+      gabarit fixe ; Badges 3 et 4 (si `subject_equals_tool: false`)
+      évalués **chacun indépendamment** selon le repli progressif du mode
+      marque (36ter) — logo+couleur, logo seul, couleur seule, ou repli
+      neutre `mediumseagreen` si aucun des deux n'est identifiable après
+      vérification active (pas par défaut silencieux).
 - [ ] Le bloc de licence en pied de page est présent, **toujours visible
       (non replié)**, juste après la section sources.
 - [ ] Si le guide est aussi factorisé par variables (autre prompt), les
@@ -585,7 +666,8 @@ Ce guide est distribué sous licence [**{{license_name}}**]({{license_url}}).
 ## LIVRABLE ATTENDU
 
 Un unique fichier, au même format que la source, nommé selon
-`output_filename`, visuellement enrichi selon les 37 règles + 7 règles de
-versioning (§A, V1 à V7), et leurs 14 précisions « bis »/« ter »
-ci-dessus, strictement fidèle au contenu et au sens du guide d'origine,
-prêt à être commité dans le dépôt sans retouche supplémentaire.
+`output_filename`, visuellement enrichi selon l'ensemble des règles
+numérotées ci-dessus (§A à §N, versioning V1-V7 inclus, et toutes leurs
+précisions « bis »/« ter »/« quater »), strictement fidèle au contenu et
+au sens du guide d'origine, prêt à être commité dans le dépôt sans
+retouche supplémentaire.
