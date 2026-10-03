@@ -1,15 +1,18 @@
 <!-- Version du fichier
-> Version : 1.0
+> Version : 2.0
 > Dernière modification : 2026-10-03
 -->
 
+<a id="top"></a>
+
+<!-- BADGES -->
 <div align="center">
 
-# 🔐 Sécuriser Proton Pass au maximum
+# 🔐 Guide d'utilisation de Proton Pass
 
-![Guide](https://img.shields.io/badge/type-guide-blue)
-![Outil](https://img.shields.io/badge/source-Proton%20Pass-6D4AFF)
-![Licence](https://img.shields.io/badge/licence-CC%20BY--NC--SA%204.0-lightgrey)
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Guide](https://img.shields.io/badge/Guide%20%3A-Proton%20Pass-blue?style=flat&logo=mdbook&logoColor=white&logoSize=auto&label=Guide%20%3A&labelColor=black&color=darkcyan)](https://github.com/Data-Spirit)
+[![ProtonPass](https://img.shields.io/badge/ProtonPass-6D4AFF?style=flat&logo=proton&logoColor=white&logoSize=auto)](https://proton.me/pass)
 
 *Installation, options par défaut et activation progressive de toutes les fonctionnalités de sécurisation du compte et de l'application.*
 
@@ -17,28 +20,30 @@
 
 ---
 
-<details>
-<summary><strong>📑 Sommaire</strong></summary>
+<!-- SOMMAIRE -->
+<details open>
+<summary><b>📑 Sommaire</b></summary>
 
-- [0. Introduction](#0-introduction)
-- [Partie A — Réglages au niveau du compte Proton](#partie-a--réglages-au-niveau-du-compte-proton)
-  - [1. Création du compte et installation](#1-création-du-compte-et-installation)
-  - [2. Menu « Sécurité et vie privée »](#2-menu--sécurité-et-vie-privée-)
-  - [3. Menu « Récupération »](#3-menu--récupération-)
-    - [3.1 Options de réinitialisation du mot de passe](#31-options-de-réinitialisation-du-mot-de-passe)
-    - [3.2 Options de récupération de données](#32-options-de-récupération-de-données)
-    - [3.3 Options de récupération avancées](#33-options-de-récupération-avancées)
-  - [4. Menu « Compte et mot de passe »](#4-menu--compte-et-mot-de-passe-)
-- [Partie B — Réglages au niveau de Proton Pass lui-même](#partie-b--réglages-au-niveau-de-proton-pass-lui-même)
-  - [5. Verrouillage local](#5-verrouillage-local)
-  - [6. Exporter et sauvegarder le coffre](#6-exporter-et-sauvegarder-le-coffre)
-- [7. Checklist récapitulative](#7-checklist-récapitulative)
+- [🧭 0. Introduction](#sec-0)
+- [🅰️ Partie A — Réglages au niveau du compte Proton](#sec-a)
+  - [🚀 1. Création du compte et installation](#sec-1)
+  - [🛡️ 2. Menu « Sécurité et vie privée »](#sec-2)
+  - [🆘 3. Menu « Récupération »](#sec-3)
+    - [🔄 3.1 Options de réinitialisation du mot de passe](#sec-3-1)
+    - [💾 3.2 Options de récupération de données](#sec-3-2)
+    - [🧩 3.3 Options de récupération avancées](#sec-3-3)
+  - [🔑 4. Menu « Compte et mot de passe »](#sec-4)
+- [🅱️ Partie B — Réglages au niveau de Proton Pass lui-même](#sec-b)
+  - [🔒 5. Verrouillage local](#sec-5)
+  - [📤 6. Exporter et sauvegarder le coffre](#sec-6)
+- [✅ 7. Checklist récapitulative](#sec-7)
 
 </details>
 
 ---
 
-## 0. Introduction
+<a id="sec-0"></a>
+## 🧭 0. Introduction
 
 Ce guide couvre **uniquement Proton Pass** — son installation, ses réglages par défaut, et l'activation progressive de toutes les fonctionnalités disponibles pour une sécurisation maximale du compte et du coffre.
 
@@ -52,11 +57,15 @@ Le guide est découpé en deux grandes parties, qui reflètent une distinction i
 
 Confondre les deux est une source fréquente de réglages mal faits ou oubliés sur une interface sans qu'on s'en rende compte.
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-## Partie A — Réglages au niveau du compte Proton
+<a id="sec-a"></a>
+## 🅰️ Partie A — Réglages au niveau du compte Proton
 
-### 1. Création du compte et installation
+<a id="sec-1"></a>
+### 🚀 1. Création du compte et installation
 
 1. Créez votre compte sur [proton.me](https://proton.me).
 2. Installez Proton Pass selon vos usages :
@@ -69,9 +78,12 @@ Confondre les deux est une source fréquente de réglages mal faits ou oubliés 
 > [!IMPORTANT]
 > Rien n'est activé au-delà du strict minimum à la création du compte — ni le 2FA sur le compte, ni les méthodes de récupération avancées, ni le verrouillage local de Proton Pass. C'est un choix délibéré de Proton (ils préfèrent vous laisser choisir plutôt que présumer), mais ça veut dire que tout ce qui suit demande une action volontaire de votre part.
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-### 2. Menu « Sécurité et vie privée »
+<a id="sec-2"></a>
+### 🛡️ 2. Menu « Sécurité et vie privée »
 
 Accessible depuis `account.proton.me`, ce menu regroupe plusieurs fonctionnalités de surveillance et de contrôle :
 
@@ -83,16 +95,20 @@ Accessible depuis `account.proton.me`, ce menu regroupe plusieurs fonctionnalit�
 > [!TIP]
 > Désactivez la collecte de données dans « Vie privée et collecte de données » si vous souhaitez minimiser ce que Proton collecte sur votre usage. C'est le point le plus souvent oublié de ce menu, et celui qui a le plus d'impact direct sur votre confidentialité.
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-### 3. Menu « Récupération »
+<a id="sec-3"></a>
+### 🆘 3. Menu « Récupération »
 
 Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essentielle — c'est elle qui structure tout ce menu chez Proton.
 
 > [!WARNING]
 > **Réinitialiser le mot de passe** et **récupérer les données** sont deux choses différentes. Réinitialiser le mot de passe vous permet seulement de vous reconnecter. Si vous n'avez aucune méthode de récupération des données en plus, vous perdrez l'accès à tout ce qui était chiffré avant la réinitialisation — tout votre coffre Proton Pass inclus. C'est le piège le plus courant : penser qu'un email de secours suffit, puis découvrir après coup qu'il ne permet que de rouvrir un compte... vide.
 
-#### 3.1 Options de réinitialisation du mot de passe
+<a id="sec-3-1"></a>
+#### 🔄 3.1 Options de réinitialisation du mot de passe
 
 *Permettent de récupérer l'accès à votre compte Proton, mais ne permettent pas de récupérer vos données chiffrées.*
 
@@ -102,7 +118,8 @@ Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essenti
 > [!NOTE]
 > Si l'envoi du SMS échoue alors que le numéro et l'indicatif pays sont corrects, vérifiez qu'un VPN actif n'est pas connecté à un serveur d'un pays différent de celui du numéro — c'est une cause fréquente d'échec silencieux de la vérification.
 
-#### 3.2 Options de récupération de données
+<a id="sec-3-2"></a>
+#### 💾 3.2 Options de récupération de données
 
 *Permettent de déverrouiller vos données chiffrées si vous perdez votre mot de passe.*
 
@@ -110,7 +127,8 @@ Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essenti
 - **Fichier de récupération** — fichier téléchargeable à conserver en lieu sûr, hors ligne.
 - **Contacts de récupération de données** — permet de désigner une personne de confiance pouvant vous aider à récupérer l'accès. Optionnel, pertinent uniquement si vous avez quelqu'un à qui confier ce rôle.
 
-#### 3.3 Options de récupération avancées
+<a id="sec-3-3"></a>
+#### 🧩 3.3 Options de récupération avancées
 
 *Ces méthodes couvrent à la fois la réinitialisation du mot de passe et la récupération des données — ce sont les plus complètes.*
 
@@ -122,9 +140,12 @@ Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essenti
 > [!TIP]
 > La phrase de récupération doit être conservée **en clair, sur papier**, dans un endroit physiquement sûr — pas uniquement dans une archive chiffrée. C'est le seul secret qui, en cas de coup dur, doit rester accessible sans dépendre d'une chaîne de déchiffrement supplémentaire.
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-### 4. Menu « Compte et mot de passe »
+<a id="sec-4"></a>
+### 🔑 4. Menu « Compte et mot de passe »
 
 - **Mode deux mots de passe** — sépare le mot de passe de connexion du mot de passe qui déchiffre les données. Fonctionnalité avancée qui *ajoute* une étape à la connexion : pertinente pour un usage très spécifique, pas pour réduire la friction au quotidien.
 - **Vérification des mots de passe** — rappel périodique pour s'assurer que vous n'avez pas oublié votre mot de passe. N'apporte pas de protection en soi, c'est un filet de sécurité de confort.
@@ -136,15 +157,19 @@ Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essenti
 
 N'oubliez pas de sauvegarder les **codes de secours** générés à l'activation du 2FA — même niveau de criticité que la phrase de récupération, même emplacement physique.
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-## Partie B — Réglages au niveau de Proton Pass lui-même
+<a id="sec-b"></a>
+## 🅱️ Partie B — Réglages au niveau de Proton Pass lui-même
 
-### 5. Verrouillage local
+<a id="sec-5"></a>
+### 🔒 5. Verrouillage local
 
 Proton Pass ne redemande pas systématiquement le mot de passe complet du compte pour un usage quotidien : chaque interface propose son propre verrouillage local, à configurer **séparément sur chacune**.
 
-| Interface | Emplacement | Détails |
+| 💻 Interface | 📍 Emplacement | 📝 Détails |
 |---|---|---|
 | **Extension navigateur** | Menu hamburger (☰) → Paramètres → onglet Sécurité | Cochez Code PIN, saisissez un code à 6 chiffres, choisissez une durée avant verrouillage auto |
 | **Application desktop** | Icône d'engrenage → Sécurité → Code PIN | Même logique que l'extension, réglage indépendant |
@@ -157,17 +182,20 @@ Le PIN est protégé contre le brute-force : après trois tentatives échouées,
 > **Ne stockez jamais votre mot de passe maître Proton à l'intérieur de Proton Pass.** Ça recrée la même circularité que pour le 2FA du compte : la clé qui ouvre le coffre ne doit pas être rangée dans le coffre. Les demandes ponctuelles du mot de passe maître pour des actions sensibles, même avec un PIN bien configuré, sont voulues — c'est une protection, pas un bug à contourner.
 
 <details>
-<summary>⚠️ Point de vigilance — VPN et reconnexions fréquentes</summary>
+<summary><b>⚠️ Point de vigilance — VPN et reconnexions fréquentes</b></summary>
 
-Si vous utilisez un VPN et que l'application (notamment desktop) vous demande de vous reconnecter entièrement et de reconfigurer vos réglages de façon inhabituellement fréquente, une cause plausible est un changement d'adresse IP sortante perçu comme un nouvel appareil/une nouvelle localisation, déclenchant une revalidation complète de session.
-
-**Pour vérifier l'hypothèse** : restez connecté sur un seul pays/serveur VPN pendant quelques jours et observez si le problème disparaît. Ce n'est pas un comportement documenté officiellement à ce jour — à traiter comme hypothèse plausible plutôt que fait confirmé.
+> Si vous utilisez un VPN et que l'application (notamment desktop) vous demande de vous reconnecter entièrement et de reconfigurer vos réglages de façon inhabituellement fréquente, une cause plausible est un changement d'adresse IP sortante perçu comme un nouvel appareil/une nouvelle localisation, déclenchant une revalidation complète de session.
+>
+> **Pour vérifier l'hypothèse** : restez connecté sur un seul pays/serveur VPN pendant quelques jours et observez si le problème disparaît. Ce n'est pas un comportement documenté officiellement à ce jour — à traiter comme hypothèse plausible plutôt que fait confirmé.
 
 </details>
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-### 6. Exporter et sauvegarder le coffre
+<a id="sec-6"></a>
+### 📤 6. Exporter et sauvegarder le coffre
 
 Proton Pass propose un export natif de votre coffre, chiffré au format PGP, directement depuis l'application (pas besoin d'un outil tiers pour cette étape précise).
 
@@ -180,9 +208,12 @@ Proton Pass propose un export natif de votre coffre, chiffré au format PGP, dir
 
 Refaites cet export régulièrement, et à chaque changement significatif (nouveau mot de passe maître, ajout d'entrées importantes).
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-## 7. Checklist récapitulative
+<a id="sec-7"></a>
+## ✅ 7. Checklist récapitulative
 
 - [ ] Compte Proton créé, Proton Pass installé sur les interfaces utilisées
 - [ ] Collecte de données minimisée (Sécurité et vie privée)
@@ -200,10 +231,8 @@ Refaites cet export régulièrement, et à chaque changement significatif (nouve
 - [ ] Mot de passe maître retiré du coffre Proton Pass
 - [ ] Export PGP du coffre réalisé et archivé
 
+<p align="right"><sub><a href="#top">⬆️</a></sub></p>
+
 ---
 
-<div align="center">
-
-*Guide publié sous licence [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr).*
-
-</div>
+Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
