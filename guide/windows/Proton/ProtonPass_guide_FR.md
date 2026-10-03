@@ -1,5 +1,5 @@
 <!-- Version du fichier
-> Version : 2.0
+> Version : 3.0
 > Dernière modification : 2026-10-03
 -->
 
@@ -10,9 +10,9 @@
 
 # 🔐 Guide d'utilisation de Proton Pass
 
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-[![Guide](https://img.shields.io/badge/Guide%20%3A-Proton%20Pass-blue?style=flat&logo=mdbook&logoColor=white&logoSize=auto&label=Guide%20%3A&labelColor=black&color=darkcyan)](https://github.com/Data-Spirit)
-[![ProtonPass](https://img.shields.io/badge/ProtonPass-6D4AFF?style=flat&logo=proton&logoColor=white&logoSize=auto)](https://proton.me/pass)
+[![License][badge_license]][url_license]
+[![Guide][badge_guide]][github_user]
+[![ProtonPass][badge_protonpass]][url_protonpass]
 
 *Installation, options par défaut et activation progressive de toutes les fonctionnalités de sécurisation du compte et de l'application.*
 
@@ -67,7 +67,7 @@ Confondre les deux est une source fréquente de réglages mal faits ou oubliés 
 <a id="sec-1"></a>
 ### 🚀 1. Création du compte et installation
 
-1. Créez votre compte sur [proton.me](https://proton.me).
+1. Créez votre compte sur [proton.me][url_proton].
 2. Installez Proton Pass selon vos usages :
    - **Extension navigateur** (Chrome, Firefox, Edge, Brave, Safari)
    - **Application desktop** (Windows, macOS, Linux)
@@ -235,4 +235,21 @@ Refaites cet export régulièrement, et à chaque changement significatif (nouve
 
 ---
 
-Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**][url_license].
+
+<!-- ============================== -->
+<!--    Link & Badge Definitions    -->
+<!-- ============================== -->
+
+<!-- Badges (shields.io images) -->
+[badge_license]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
+[badge_guide]: https://img.shields.io/badge/Guide%20%3A-Proton%20Pass-blue?style=flat&logo=mdbook&logoColor=white&logoSize=auto&label=Guide%20%3A&labelColor=black&color=darkcyan
+[badge_protonpass]: https://img.shields.io/badge/ProtonPass-6D4AFF?style=flat&logo=proton&logoColor=white&logoSize=auto
+
+<!-- External URLs (services tiers, hors GitHub) -->
+[url_license]: https://creativecommons.org/licenses/by-nc-sa/4.0/
+[url_proton]: https://proton.me
+[url_protonpass]: https://proton.me/pass
+
+<!-- GitHub links & local repo files -->
+[github_user]: https://github.com/Data-Spirit
