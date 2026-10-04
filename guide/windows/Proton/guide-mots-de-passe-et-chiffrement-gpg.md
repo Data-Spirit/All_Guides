@@ -1,5 +1,5 @@
 <!--
-Version : 5.5
+Version : 5.6
 Date : 02/10/2026
 
 Historique des versions (usage interne, pour le suivi de la maintenance du guide — non destiné aux lecteurs) :
@@ -14,9 +14,8 @@ Historique des versions (usage interne, pour le suivi de la maintenance du guide
 | V5.3 | 01/10/2026 | Ajustements visuels ; correction des badges shield.io avec les bons logos ; verifications des liens en Annexe A ; épuration de la liste des verifications |
 | V5.4 | 02/10/2026 | Factorisation complète des liens et badges en variables de référence (prompt_upgrade_MD_code) : conversion des 2 blocs de badges en `<div>`, correction du badge Guide (pointe vers le repo plutôt que le profil), ajout du lien officiel win-rar.com, toutes les URL externes et GitHub du corps et de l'annexe A regroupées en bas de fichier |
 | V5.5 | 02/10/2026 | Correction de la regex de nettoyage de la liste Diceware (`^\d{5} ` à la place de `^\d+\s+`, qui pouvait fusionner des lignes), avec deux encadrés CAUTION dédiés et confirmation d'une reproduction indépendante du hash ; correction du menu NanaZip (sommes de contrôle en entrées directes, pas un sous-menu séparé) ; reformulation de la partie 5.2 sans affirmation d'audit formel de GnuPG ; versions exactes des logiciels testés précisées (Gpg4win v5.1.1, GnuPG v2.5.24, KeePassXC v2.7.12, NanaZip v7.0.1843.0) ; badge NanaZip recoloré avec le logo 7-Zip |
+| V5.6 | 04/10/2026 | Guide ProtonPass fini et ajout de son lien avec ce guide en chapitre 9 ; ajout d'une variable "github_protonpass_guide_fr" pour le liens du guide protonpass ; liens du guide protonpass sous forme de lien relatif |
 
-Reste à vérifier avant publication :
-- Lier le futur guide Proton Pass (partie 9) une fois publié.
 -->
 
 <a id="top"></a>
@@ -1114,7 +1113,7 @@ Une archive `7z`, `zip` ou `rar` protégée par mot de passe permet **d'ajouter 
 Le mot de passe maître de votre gestionnaire de mots de passe (par exemple **Proton Pass**) est la **clé de voûte** de toute votre sécurité : s'il tombe, tout tombe. Cette partie rassemble les bonnes pratiques qui l'entourent. Elle sera détaillée pour Proton Pass dans un guide dédié.
 
 > [!NOTE]
-> 📎 **Guide Proton Pass** : *à venir*. Il détaillera le paramétrage de l'application pour obtenir la meilleure protection.
+> 📎 [**Guide Proton Pass**][github_protonpass_guide_fr] : *Il détaille le paramétrage du service et de l'application ProtonPass pour obtenir la meilleure protection possible.
 
 ### 9.1 Ne pas ranger la clé dans le coffre qu'elle ouvre
 
@@ -1411,3 +1410,4 @@ Ce guide est distribué sous licence [**CC BY-NC-SA 4.0**][url_license].
 [github_diceware_fr_asc]: ./francais.wordlist.asc
 [github_diceware_fr]: ./francais.wordlist.txt
 [github_diceware_fr_licence]: ./francais.wordlist_licence.txt
+[github_protonpass_guide_fr]: ./ProtonPass_guide_FR.md
