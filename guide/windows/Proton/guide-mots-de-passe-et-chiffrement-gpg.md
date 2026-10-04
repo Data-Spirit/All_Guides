@@ -1113,7 +1113,7 @@ Une archive `7z`, `zip` ou `rar` protégée par mot de passe permet **d'ajouter 
 Le mot de passe maître de votre gestionnaire de mots de passe (par exemple **Proton Pass**) est la **clé de voûte** de toute votre sécurité : s'il tombe, tout tombe. Cette partie rassemble les bonnes pratiques qui l'entourent. Elle sera détaillée pour Proton Pass dans un guide dédié.
 
 > [!NOTE]
-> 📎 [**Guide Proton Pass**][github_protonpass_guide_fr] : *Il détaille le paramétrage du service et de l'application ProtonPass pour obtenir la meilleure protection possible.
+> 📎 [**Guide Proton Pass**][github_protonpass_guide_fr] : *Il détaille le paramétrage du service et de l'application ProtonPass pour obtenir la meilleure protection possible.*
 
 ### 9.1 Ne pas ranger la clé dans le coffre qu'elle ouvre
 
