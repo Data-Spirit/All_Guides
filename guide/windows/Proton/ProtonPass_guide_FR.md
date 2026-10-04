@@ -1,6 +1,6 @@
 <!-- Version du fichier
-> Version : 3.0
-> Dernière modification : 2026-10-03
+> Version : 3.1
+> Dernière modification : 2026-10-04
 -->
 
 <a id="top"></a>
@@ -74,6 +74,11 @@ Confondre les deux est une source fréquente de réglages mal faits ou oubliés 
    - **Application mobile** (iOS, Android)
    - **Application web** (`pass.proton.me`), accessible sans rien installer
 3. Avant de toucher à quoi que ce soit, faites un premier tour des paramètres par défaut.
+
+> [!CAUTION]
+> À la création du compte, Proton vous donne une **phrase de récupération**. Notez-la immédiatement quelque part de sûr — ne continuez pas sans l'avoir fait. C'est le seul moyen de rouvrir votre compte si vous oubliez votre mot de passe maître : sans elle, un mot de passe oublié signifie un **compte définitivement perdu**.
+>
+> Vous pourrez y revenir plus tard (menu Récupération, voir partie 3.3) pour la consulter à nouveau ou en générer une nouvelle si besoin — mais ne remettez pas cette précaution à plus tard dès le départ.
 
 > [!IMPORTANT]
 > Rien n'est activé au-delà du strict minimum à la création du compte — ni le 2FA sur le compte, ni les méthodes de récupération avancées, ni le verrouillage local de Proton Pass. C'est un choix délibéré de Proton (ils préfèrent vous laisser choisir plutôt que présumer), mais ça veut dire que tout ce qui suit demande une action volontaire de votre part.
@@ -152,6 +157,9 @@ Avant d'activer quoi que ce soit ici, il faut comprendre une distinction essenti
 - **Application d'authentification (2FA/TOTP)** — c'est ici qu'on sécurise le compte Proton lui-même avec un second facteur. Utilisez une app authenticator **externe** (Aegis, ou équivalent) plutôt que Proton Pass : stocker le 2FA du compte qui protège Proton Pass *dans* Proton Pass recrée exactement le problème de circularité qu'on évite par ailleurs pour le mot de passe maître.
 - **Clé de sécurité (FIDO2/U2F)** — amélioration optionnelle, plus résistante au phishing que le TOTP. Pas indispensable pour démarrer si vous n'avez pas de clé physique sous la main ; l'authenticator app suffit largement comme première étape.
 
+> [!NOTE]
+> Même logique que pour le mot de passe maître (partie 5) : ajouter malgré tout une copie du TOTP du compte dans Proton Pass est un arbitrage possible, pas une faute en soi — avec le même risque de proximité à connaître avant de le faire.
+
 > [!IMPORTANT]
 > C'est le point le plus souvent oublié de toute cette configuration : on sécurise soigneusement tous les comptes *via* Proton Pass, mais on oublie de sécuriser Proton lui-même avec un 2FA. Si ce n'est pas encore fait, c'est la priorité absolue de cette section.
 
@@ -167,19 +175,24 @@ N'oubliez pas de sauvegarder les **codes de secours** générés à l'activation
 <a id="sec-5"></a>
 ### 🔒 5. Verrouillage local
 
-Proton Pass ne redemande pas systématiquement le mot de passe complet du compte pour un usage quotidien : chaque interface propose son propre verrouillage local, à configurer **séparément sur chacune**.
+Proton Pass ne redemande pas systématiquement le mot de passe complet du compte pour un usage quotidien : chaque interface propose son propre verrouillage local, désactivé par défaut après installation, à configurer séparément sur chacune. En bref, si vous souhaitez un code PIN pour vous connecter et faciliter votre utilisation de l'appli (à la place du mot de passe maître), il vous faudra régler ce code PIN sur chaque type d'application différente !
 
 | 💻 Interface | 📍 Emplacement | 📝 Détails |
 |---|---|---|
 | **Extension navigateur** | Menu hamburger (☰) → Paramètres → onglet Sécurité | Cochez Code PIN, saisissez un code à 6 chiffres, choisissez une durée avant verrouillage auto |
 | **Application desktop** | Icône d'engrenage → Sécurité → Code PIN | Même logique que l'extension, réglage indépendant |
 | **Application web** | Proposé automatiquement lors d'une connexion complète avec le mot de passe maître | N'apparaît pas dans un menu persistant — c'est une invite ponctuelle au moment de la connexion |
-| **Applications mobile/desktop** | Biométrie (empreinte, Face ID) | Gérée via les réglages de l'appareil (OS), pas une option Proton Pass dédiée |
+| **Application mobile** *(testé sur Android)* | Icône de profil (bas à droite) → Sécurité → Verrouiller | Code PIN (accepte plus de 6 chiffres, contrairement aux autres interfaces — 8 testé avec succès) ou Biométrie |
 
 Le PIN est protégé contre le brute-force : après trois tentatives échouées, une reconnexion complète est exigée.
 
+> [!IMPORTANT]
+> Chaque réglage de verrouillage local (PIN ou biométrie) est **indépendant des autres interfaces**. Activer un PIN sur l'extension ne l'active pas sur l'app desktop ou mobile — il faut le configurer séparément sur chaque interface utilisée pour être protégé partout.
+
 > [!WARNING]
-> **Ne stockez jamais votre mot de passe maître Proton à l'intérieur de Proton Pass.** Ça recrée la même circularité que pour le 2FA du compte : la clé qui ouvre le coffre ne doit pas être rangée dans le coffre. Les demandes ponctuelles du mot de passe maître pour des actions sensibles, même avec un PIN bien configuré, sont voulues — c'est une protection, pas un bug à contourner.
+> **Par défaut, ne stockez pas votre mot de passe maître Proton à l'intérieur de Proton Pass.** Si vous perdez l'accès au coffre, vous perdez aussi le mot de passe qui permettrait de le rouvrir — raisonnement circulaire. Conservez-le sur papier et en mémoire.
+
+Ajouter malgré tout une copie de confort dans le coffre est une décision possible, mais pas neutre : le PIN et la biométrie sont volontairement plus faibles que le mot de passe maître (c'est ce qui les rend pratiques au quotidien). Sans doublon, quelqu'un qui contourne cette barrière faible accède au contenu du coffre, mais pas au mot de passe maître — il ne peut donc pas se connecter à votre compte depuis un autre appareil. Avec un doublon, il le peut. Concrètement, cette copie ramène la protection réelle du compte au niveau de votre PIN, pour toute personne ayant un accès physique à un appareil déverrouillé — un risque de proximité, pas un risque à distance. C'est un compromis à faire en connaissance de cause, pas une faute.
 
 <details>
 <summary><b>⚠️ Point de vigilance — VPN et reconnexions fréquentes</b></summary>
@@ -226,9 +239,8 @@ Refaites cet export régulièrement, et à chaque changement significatif (nouve
 - [ ] Connexion par QR code activée
 - [ ] Application d'authentification (2FA) activée sur le compte, via un outil externe à Proton Pass
 - [ ] Codes de secours du 2FA sauvegardés sur papier
-- [ ] Code PIN configuré sur chaque interface utilisée (extension, desktop, web)
-- [ ] Biométrie activée sur mobile/desktop si disponible
-- [ ] Mot de passe maître retiré du coffre Proton Pass
+- [ ] Code PIN (ou biométrie) configuré sur chaque interface utilisée (extension, desktop, web, mobile)
+- [ ] Mot de passe maître non stocké dans le coffre par défaut (copie de confort uniquement si arbitrage assumé, voir partie 5)
 - [ ] Export PGP du coffre réalisé et archivé
 
 <p align="right"><sub><a href="#top">⬆️</a></sub></p>
