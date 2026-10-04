@@ -1,5 +1,5 @@
 <!-- Version du fichier
-> Version : 4.3
+> Version : 4.4
 > Dernière modification : 2026-10-03
 -->
 
@@ -56,7 +56,14 @@ main_source_type: repo                # repo / site / game — source du sujet E
                                        # outil/marque central du guide, voir §M badge 3
 main_source_name: "NMS_TC"            # nom court affiché sur le badge 3
 main_source_url: "https://github.com/Data-Spirit/NMS_TC"
-author_github_url: "https://github.com/Data-Spirit"
+guide_repo_url: "https://github.com/Data-Spirit/All_Guides"  # dépôt qui héberge CE
+                                       # guide — destination par défaut du badge 2
+                                       # (voir §M, règle 36), distinct de
+                                       # main_source_url (la source du SUJET traité,
+                                       # potentiellement un tout autre repo)
+author_github_url: "https://github.com/Data-Spirit"  # utilisé seulement si le badge 2
+                                       # doit exceptionnellement rediriger vers le
+                                       # profil plutôt que vers guide_repo_url
 license_name: "CC BY-NC-SA 4.0"
 license_url: "https://creativecommons.org/licenses/by-nc-sa/4.0/"
 
@@ -152,6 +159,24 @@ V1ter. **Deux pièges de syntaxe à éviter systématiquement sur le gabarit
     bloc de citation — sans ce ` \`, Markdown fusionne les deux lignes `>`
     consécutives en un seul paragraphe et les affiche l'une à la suite de
     l'autre sur la même ligne rendue.
+
+V1quater. **Gabarit hybride — date seule visible.** Troisième option,
+    intermédiaire entre le gabarit caché (V1) et le gabarit visible : le
+    numéro de version et l'historique complet restent **entièrement
+    cachés** dans le commentaire HTML (comme V1), mais une ligne de date
+    seule reste **visible** sous le H1, sans le numéro de version :
+
+    ```
+    <p align="center"><sub>Dernière mise à jour : {{date}}</sub></p>
+    ```
+
+    Pertinent pour tout guide où la fraîcheur de l'information compte
+    réellement pour le lecteur (sécurité, outils en évolution rapide,
+    procédures sensibles aux changements de version d'un logiciel tiers)
+    sans vouloir exposer le détail éditorial du versioning. Comme pour le
+    gabarit visible (V1bis), ce choix ne s'applique que sur demande
+    explicite pour un guide précis — le gabarit entièrement caché (V1)
+    reste le comportement par défaut en l'absence de toute précision.
 
 V2. **La balise `<details>` est explicitement écartée** pour ce rôle : son
     contenu est replié par défaut (ou perçu comme "à déplier" même en
@@ -284,6 +309,33 @@ V7bis. **Les règles V3 à V7 s'appliquent à l'identique, que le gabarit
    un enchaînement logique naturel (information → astuce actionnable qui en
    découle) — ne pas hésiter à l'utiliser dès que la situation s'y prête.
 
+9ter. **Deux contextes cassent le rendu d'une alerte GFM (`> [!TYPE]`),
+    silencieusement, sans erreur visible à la relecture du Markdown
+    brut** : à l'intérieur d'une **liste** (numérotée ou à puces), si
+    l'alerte est indentée au même niveau que les items qui l'entourent ;
+    et à l'intérieur d'un **`<details>`**. Ce n'est la faute ni du
+    rédacteur ni du guide — c'est une limite du moteur de rendu Markdown
+    de GitHub, qu'il faut connaître et anticiper systématiquement.
+
+    **Solution, par ordre de préférence :**
+    1. Sortir l'alerte de la liste ou du `<details>` en la plaçant en
+       dehors, au même niveau que le bloc englobant, dès que c'est
+       possible sans nuire à la lecture.
+    2. Si l'alerte doit impérativement rester à l'intérieur d'un
+       `<details>`, la remplacer par un **tableau HTML à une ligne et une
+       colonne** qui imite visuellement l'encadré :
+       ```
+       <table><tr><td>
+
+       💡 **Astuce.** Texte de l'alerte ici.
+
+       </td></tr></table>
+       ```
+       Seul palliatif fiable dans ce contexte précis — le rendu est moins
+       net qu'une vraie alerte GFM, mais le contenu reste visible et
+       distingué du texte courant, ce qu'une alerte cassée ne garantit
+       pas.
+
 10. Citation en bloc simple (`>`, sans mot-clé `[!TYPE]`) comme outil
     intermédiaire entre texte nu et alerte colorée — utile pour isoler
     visuellement une liste illustrative sans lui donner le poids sémantique
@@ -312,6 +364,16 @@ V7bis. **Les règles V3 à V7 s'appliquent à l'identique, que le gabarit
 
 12. Emoji thématique dans chaque titre de section (H2), cohérent avec le
     sujet traité.
+12bis. **Réserver l'emoji de titre (règle 12) et le lien de retour en haut
+    (§B, règle 3) aux titres de premier niveau (grandes parties/chapitres)
+    sur un guide long et profondément structuré** — plusieurs grandes
+    parties, chacune comportant de nombreuses sous-parties — jamais sur
+    les sous-parties, pour éviter la surcharge visuelle que ça créerait à
+    cette échelle. **Sur un guide court, peu profond ou sans véritable
+    hiérarchie de sous-parties**, appliquer les deux à chaque section sans
+    distinction de niveau reste pertinent, et même préférable. Pas de
+    seuil chiffré rigide : la question se pose dès qu'un guide dépasse une
+    poignée de grandes parties comportant chacune plusieurs sous-parties.
 13. Emoji dans les en-têtes de tableau (ex : `🔑 Champ | 📝 Rôle | 💡 Notes`).
 14. Emoji-pointeur en milieu de phrase (👉, ⤵️, etc.) pour guider l'œil du
     lecteur vers un élément qui suit immédiatement (une liste, un choix, un
@@ -346,6 +408,13 @@ V7bis. **Les règles V3 à V7 s'appliquent à l'identique, que le gabarit
     alternatives (ex : 🪟 PowerShell, 🟩 Node.js, 🐍 Python) pour une
     identification instantanée.
 19. `<summary>` toujours en gras (`<summary><b>...</b></summary>`).
+19bis. **Tout chemin de navigation dans l'interface d'un logiciel**
+    (menus, sous-menus, boutons, cases à cocher, onglets — ex :
+    `Paramètres` → `Configurer X` → `Y`) systématiquement en balises de
+    code, chaque élément du chemin dans sa propre balise, séparé par une
+    flèche `→` en texte normal. Distingue visuellement l'action à
+    effectuer du texte explicatif qui l'entoure, et rend chaque étape
+    repérable d'un coup d'œil dans une procédure longue.
 
 ---
 
@@ -491,9 +560,11 @@ ultra-court du guide) change :
 https://img.shields.io/badge/Guide%20%3A-{{guide_short_title}}-blue?style=flat&logo=mdbook&logoColor=white&logoSize=auto&label=Guide%20%3A&labelColor=black&color=darkcyan
 ```
 
-Redirige toujours vers `{{author_github_url}}` (la page d'accueil
-GitHub de l'auteur, jamais vers un repo précis — l'auteur doit être
-identifiable depuis n'importe quel guide).
+Redirige **par défaut** vers `{{guide_repo_url}}`, le dépôt qui héberge
+le guide lui-même — pas le profil de l'auteur. Rediriger vers
+`{{author_github_url}}` (la page d'accueil GitHub de l'auteur) reste
+possible, mais seulement sur demande explicite pour un guide précis ;
+en l'absence d'une telle demande, toujours partir sur `guide_repo_url`.
 
 **Badge 3 — Source du sujet et/ou Outil central.** Représente la source
 du sujet traité par le guide (site officiel, repo, jeu documenté)
@@ -586,6 +657,29 @@ génère la syntaxe de lien référencé, ce qui casse le rendu.
 
 ---
 
+36quinquies. **Nombre d'outils distincts détermine la disposition des
+badges**, au-delà du simple cas Badge 3 / Badge 4 couvert par 36bis :
+
+- **Aucun outil distinct** (`subject_equals_tool: true`) → 3 badges, une
+  seule ligne (inchangé, voir règle 36).
+- **Exactement un outil distinct** (`subject_equals_tool: false`, un seul
+  outil central) → 4 badges, **toujours sur une seule ligne** (cas déjà
+  couvert par 36bis, confirmé ici comme comportement par défaut — jamais
+  un Badge 4 esseulé sur sa propre ligne en dessous).
+- **Deux outils distincts ou plus, chacun réellement important dans
+  l'usage décrit par le guide** → Badges 1 à 3 (identité : licence, guide,
+  source du sujet) sur la première ligne ; **tous** les badges d'outils
+  supplémentaires regroupés sur une **seconde ligne centrée séparée**,
+  chacun suivant indépendamment le mode marque unifié (36ter) — logo
+  officiel simple-icons, couleur officielle, badge monochrome, nom de
+  l'outil. Pas de plafond chiffré strict, mais ne retenir que les outils
+  réellement centraux à la procédure décrite : ne jamais lister par
+  automatisme tout ce qui est simplement *mentionné* en passant dans le
+  guide. Au-delà de 4-5 badges d'outils, envisager plutôt un tableau de
+  synthèse dans le corps du guide pour éviter de surcharger l'en-tête.
+
+---
+
 ## N. Pied de page
 
 37. Toujours terminer le guide par une **ligne de licence** — pas une
@@ -635,6 +729,9 @@ Ce guide est distribué sous licence [**{{license_name}}**]({{license_url}}).
 - [ ] Les mots-clés d'alerte GitHub sont en anglais partout.
 - [ ] Aucune alerte n'est restée vide ou mal typée par rapport à la grille
       sémantique du §C.
+- [ ] **Aucune alerte GFM ne se trouve dans un contexte où elle ne
+      s'affiche pas** (à l'intérieur d'une liste ou d'un `<details>` sans
+      le palliatif prévu — voir §C, règle 9ter).
 - [ ] Aucun `<details>` replié ne contient d'information appartenant au
       chemin de lecture obligatoire.
 - [ ] Le glossaire visuel des emoji est resté cohérent sur tout le document
