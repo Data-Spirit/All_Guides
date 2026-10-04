@@ -1,7 +1,100 @@
+LICENCE ET ATTRIBUTION — francais.wordlist.txt / francais.wordlist.asc
+========================================================================
 
+Ce fichier concerne la liste de mots Diceware en français hébergée dans
+ce dossier (francais.wordlist.asc, version originale, et
+francais.wordlist.txt, version nettoyée des numéros de dés — voir le
+guide pour la méthode de nettoyage). Il ne concerne PAS la licence du
+guide lui-même, distribué séparément sous CC BY-NC-SA 4.0.
 
+------------------------------------------------------------------------
+1. ORIGINE ET ATTRIBUTION
+------------------------------------------------------------------------
 
+Cette liste de mots est distribuée par Matthieu Weber à l'adresse :
+  http://weber.fi.eu.org/software/diceware/src/francais.wordlist.asc
 
+Le document officiel qui l'accompagne (la version mise en page du
+protocole Diceware en français, publiée par Matthieu Weber) porte la
+mention de copyright suivante, reproduite ici à l'identique :
 
+  « Copyright (c) 2004, 2016 by Matthieu Weber pour la mise en page et
+    la traduction. Copyright (c) 1995, 2000 by Arnold Reinhold pour la
+    page de garde. Copyright (c) 2012 by Christophe-Marie Duquesne pour
+    la liste de mots, disponible sur
+    https://github.com/chmduquesne/diceware-fr/, distribuée sous
+    licence CC-BY-3.0. Le document original est disponible sur
+    http://world.std.com/~reinhold/diceware.html. Ce document peut
+    être librement copié et distribué. Les modifications sont
+    autorisées sous réserve que le document original et son auteur
+    soient mentionnés sur la version modifiée. »
 
+En résumé, trois contributions distinctes sont créditées :
 
+  - Arnold G. Reinhold (1995, 2000) — inventeur de la méthode Diceware
+    et auteur du document de référence original (en anglais) :
+    http://world.std.com/~reinhold/diceware.html
+
+  - Christophe-Marie Duquesne (2012) — auteur de la liste de mots
+    française elle-même, publiée sur :
+    https://github.com/chmduquesne/diceware-fr/
+    et distribuée sous licence Creative Commons CC-BY 3.0 :
+    https://creativecommons.org/licenses/by/3.0/
+
+  - Matthieu Weber (2004, 2016) — mise en page et traduction du
+    document d'accompagnement en français, et hébergement de la liste
+    à l'adresse citée plus haut.
+
+------------------------------------------------------------------------
+2. LICENCE APPLICABLE
+------------------------------------------------------------------------
+
+Le contenu de la liste de mots (les mots eux-mêmes) est l'œuvre de
+Christophe-Marie Duquesne et est distribué sous licence :
+
+  Creative Commons Attribution 3.0 Unported (CC-BY 3.0)
+  https://creativecommons.org/licenses/by/3.0/
+
+Cette licence autorise la copie, la redistribution et la modification
+de la liste, y compris à des fins commerciales, à condition de créditer
+les auteurs (voir section 1).
+
+Le document d'accompagnement publié par Matthieu Weber précise par
+ailleurs, indépendamment de la licence CC-BY, que ce document « peut
+être librement copié et distribué », les modifications étant autorisées
+« sous réserve que le document original et son auteur soient
+mentionnés sur la version modifiée ».
+
+------------------------------------------------------------------------
+3. CE QUI A ÉTÉ MODIFIÉ DANS CE DÉPÔT
+------------------------------------------------------------------------
+
+Le fichier francais.wordlist.asc reproduit la liste telle que publiée
+par Matthieu Weber, sans modification.
+
+Le fichier francais.wordlist.txt est une version nettoyée : les
+numéros de dés à 5 chiffres qui précèdent chaque mot dans le fichier
+original ont été retirés, pour ne garder qu'un mot par ligne (voir la
+partie 6.3 du guide pour la méthode exacte de nettoyage et la
+vérification de l'empreinte SHA-256). Aucun mot n'a été ajouté,
+supprimé ou modifié : seule la mise en forme a changé. Cette
+modification reste couverte par les mêmes conditions d'attribution
+que ci-dessus.
+
+------------------------------------------------------------------------
+4. POINT DE VIGILANCE (NON TRANCHÉ AVEC UNE CERTITUDE ABSOLUE)
+------------------------------------------------------------------------
+
+Au moins une source tierce cataloguant diverses listes Diceware
+attribue une licence GPL à la liste française « compilée par Matthieu
+Weber », sans plus de précision. Cette mention semble provenir d'une
+simplification ou d'une confusion de la part de ce catalogue : deux
+sources indépendantes (le document officiel de Weber lui-même, cité en
+section 1, et un projet tiers qui réutilise cette même liste) créditent
+explicitement Christophe-Marie Duquesne comme auteur du contenu, sous
+CC-BY-3.0. C'est cette version, la mieux sourcée et la plus détaillée,
+qui est retenue dans ce fichier.
+
+Ceci n'est pas un avis juridique. En cas de doute ou d'usage sensible,
+vérifiez directement auprès des auteurs cités ou consultez un
+professionnel du droit.
